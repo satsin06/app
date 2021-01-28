@@ -1,7 +1,7 @@
 name: socfony
 description: Socfony is an open source social application, quickly build your own social application.
 version: 0.0.1
-author: Byte Gem<service@bytegem.net>
+author: Byte Gem <service@bytegem.net>
 homepage: https://socfony.com
 
 environment:
@@ -12,10 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^3.24.0
+  graphql: ^4.0.0-beta
+  json_annotation: ^3.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner:
+  json_serializable: ^3.5.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

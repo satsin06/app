@@ -1,5 +1,5 @@
-name: socfony
-description: A new Flutter project.
+name: socfony_app
+description: Socfony example application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -23,7 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  socfony:
+    path: ".."
+  get: ^3.24.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
