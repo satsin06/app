@@ -1,3 +1,3 @@
 library socfony;
 
-export 'src/main.dart';
+export 'src/index.dart';

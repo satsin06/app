@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'user.entity.dart';
@@ -21,8 +20,9 @@ class AuthorizationTokenEntity {
     this.user,
   });
 
-  factory AuthorizationTokenEntity.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizationTokenEntityFromJson(json);
+  factory AuthorizationTokenEntity.fromJson(Map<String, dynamic> json) {
+    return _$AuthorizationTokenEntityFromJson(json);
+  }
 
   Map<String, dynamic> toJson() => _$AuthorizationTokenEntityToJson(this);
 }
