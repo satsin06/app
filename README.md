@@ -1,14 +1,23 @@
-# socfony
+## Socfony
 
-A new Flutter package project.
+Socfony is a full-stack open source software that builds full-platform application with social networking as the core. Socfony plugin mechanism allows more developers or teams to write more functions for it, can help you solve the complexity of developing full-platform software.
 
-## Getting Started
+[![Socfony Website](https://img.shields.io/badge/website-socfony.com-0076D6?style=for-the-badge)](https://socfony.com)
+[![GitHub license](https://img.shields.io/github/license/socfony/socfony?style=for-the-badge)](https://opensource.org/licenses/BSD-3-Clause)
+[![QQ Group: 30568679](https://img.shields.io/badge/qq%20group-30568679-eb1923?logo=tencent-qq&style=for-the-badge)](https://qm.qq.com/cgi-bin/qm/qr?k=yORvTv7AvoAvpsjL3OOHgrNNZplYh1NN&jump_from=webapi)
+[![GitHub stars](https://img.shields.io/github/stars/socfony/socfony-app?color=6100A5&logo=github&style=for-the-badge)](https://github.com/socfony/socfony-app/stargazers)
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+## Ecosystem
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+| Project | Status | Description |
+|---------|--------|-------------|
+| [Socfony GraphQL](https://github.com/socfony/socfony) |  [![Socfony GraphQL](https://img.shields.io/badge/nestjs-wip-0076D6?style=for-the-badge&logo=nestjs)](https://github.com/socfony/socfony) | Socfony GraphQL server with NestJS |
+
+
+## Documentation
+
+No document has been written yet.
+
+## License
+
+Socfony is [BSD-3-Clause licensed](https://opensource.org/licenses/BSD-3-Clause).
