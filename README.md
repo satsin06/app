@@ -11,7 +11,7 @@ Socfony is a full-stack open source software that builds full-platform applicati
 
 | Project | Status | Description |
 |---------|--------|-------------|
-| [Socfony GraphQL](https://github.com/socfony/socfony) |  [![Socfony GraphQL](https://img.shields.io/badge/nestjs-wip-0076D6?style=for-badge&logo=nestjs)](https://github.com/socfony/socfony) | Socfony GraphQL server with NestJS |
+| [Socfony GraphQL](https://github.com/socfony/socfony) |  [![Socfony GraphQL](https://img.shields.io/badge/nestjs-wip-0076D6?style=flat-square&logo=nestjs)](https://github.com/socfony/socfony) | Socfony GraphQL server with NestJS |
 
 
 ## Documentation
