@@ -5,8 +5,9 @@ import 'package:socfony/socfony.dart';
 class SocfonyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Socfony socfony = Get.find<Socfony>();
     return GetMaterialApp(
-      title: 'Socfony',
+      title: socfony.name,
       home: LoginView(),
     );
   }

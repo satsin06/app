@@ -1,20 +1,35 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:graphql/client.dart';
 
-class Socfony {
-  Socfony._({this.endpoint}) {
-    this.graphqlClient = createGraphQLClient(endpoint);
-    Get.put(this, permanent: true);
+class Socfony extends GetxService {
+  /// Server endpoint
+  String endpoint;
+
+  /// GraphQL client
+  GraphQLClient graphqlClient;
+
+  /// App logo
+  Image logo;
+
+  /// App name
+  String name;
+
+  /// Socfony constructor
+  Socfony({
+    @required this.endpoint,
+    this.logo,
+    this.name = 'Socfony',
+  }) {
+    Get.put<Socfony>(this);
   }
 
-  factory Socfony({String endpoint}) {
-    try {
-      return Get.find<Socfony>();
-    } catch (_) {
-      return Socfony._(endpoint: endpoint);
-    }
+  @override
+  onInit() {
+    graphqlClient = createGraphQLClient(endpoint);
+    super.onInit();
   }
 
   static createGraphQLClient(String endpoint, [FutureOr<String> getToken()]) {
@@ -26,7 +41,4 @@ class Socfony {
 
     return GraphQLClient(link: link, cache: GraphQLCache());
   }
-
-  String endpoint;
-  GraphQLClient graphqlClient;
 }
