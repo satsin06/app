@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'controller.dart';
 import 'widgets/agreement.dart';
+import 'widgets/switch.dart';
 
 class SignInView extends GetView<SignInController> {
   @override
@@ -57,12 +58,15 @@ class SignInView extends GetView<SignInController> {
                         alignment: Alignment.centerRight,
                         child: Padding(
                           padding: EdgeInsets.only(right: 24.0),
-                          child: Text(
-                            '获取验证码',
-                            // style: TextStyle(
-                            //   // color: textColorBuilder(context),
-                            // ),
-                          ),
+                          child: Obx(() => Text(
+                                '获取验证码',
+                                style: TextStyle(
+                                  color: controller.account.value.isPhoneNumber
+                                      ? context.theme.primaryColor
+                                      : context.theme.primaryColor
+                                          .withOpacity(0.4),
+                                ),
+                              )),
                         ),
                       ),
                       onTap: () {},
@@ -85,34 +89,9 @@ class SignInView extends GetView<SignInController> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      print(controller.mode);
-                      controller.switchMode(
-                          controller.mode.value == SignInMode.PASSWORD
-                              ? SignInMode.SMS_CODE
-                              : SignInMode.PASSWORD);
-                    },
-                    child: Obx(
-                      () => Text(controller.mode.value == SignInMode.PASSWORD
-                          ? '快速登录'
-                          : '使用密码登录'),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('忘记密码？'),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: SizedBox.shrink(),
+            const SignInSwitchMode(),
+            const Expanded(
+              child: const SizedBox.shrink(),
             ),
             const SignInAgreement(),
           ],
