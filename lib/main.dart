@@ -11,12 +11,11 @@ void main() {
 class Socfony extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(Locale('zh_CN').languageCode);
     return GetMaterialApp(
       locale: ui.window.locale,
       fallbackLocale: Locale('zh', 'CN'),
       translations: Translations(),
-      onGenerateTitle: (_) => 'APP_NAME'.tr,
+      onGenerateTitle: (BuildContext context) => 'APP_NAME'.tr,
       home: MyHomePage(),
     );
   }
