@@ -50,6 +50,12 @@ final BottomNavigationBarThemeData _$bottomNavigationBarTheme =
   selectedItemColor: primaryColor,
 );
 
+final ButtonThemeData _$buttonTheme = ButtonThemeData(
+  buttonColor: primaryColor,
+  textTheme: ButtonTextTheme.primary,
+  shape: const StadiumBorder(),
+);
+
 class SocfonyTheme {
   const SocfonyTheme._();
 
@@ -58,14 +64,17 @@ class SocfonyTheme {
     return ThemeData(
       brightness: Brightness.dark,
       primaryColor: primaryColor,
+      accentColor: primaryColor,
+      buttonColor: primaryColor,
       appBarTheme: AppBarTheme(
         color: Colors.black,
         brightness: Brightness.dark,
         elevation: 0,
         centerTitle: true,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         textTheme: textTheme,
       ),
+      buttonTheme: _$buttonTheme,
       tabBarTheme: _tabBarTheme.copyWith(
         unselectedLabelColor: Colors.white,
       ),
@@ -87,6 +96,8 @@ class SocfonyTheme {
         iconTheme: IconThemeData(color: Colors.black),
         textTheme: textTheme,
       ),
+      buttonColor: primaryColor,
+      buttonTheme: _$buttonTheme,
       tabBarTheme: _tabBarTheme,
       textTheme: textTheme,
       bottomNavigationBarTheme: _$bottomNavigationBarTheme,

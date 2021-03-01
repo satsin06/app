@@ -36,6 +36,7 @@ class SignInSwitchMode extends GetView<SignInController> {
           : 'SIGN_IN_USE_PASSWORD'.tr)));
 
   void onSwitchMode() {
+    Get.focusScope.unfocus();
     controller.switchMode(controller.mode.value == SignInMode.PASSWORD
         ? SignInMode.SMS_CODE
         : SignInMode.PASSWORD);

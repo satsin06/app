@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// Sign in mode types
@@ -8,23 +9,42 @@ enum SignInMode {
 
 class SignInController extends GetxController {
   /// Sign in mode
-  Rx<SignInMode> mode = Rx<SignInMode>(SignInMode.SMS_CODE);
+  final Rx<SignInMode> mode = Rx<SignInMode>(SignInMode.SMS_CODE);
 
   /// Sign in account
-  Rx<String> account = Rx<String>('');
+  final Rx<String> account = Rx<String>('');
+  final TextEditingController accountController = TextEditingController();
 
   /// Security, [mode] == [SignInMode.PASSWORD] is password login,
   /// [mode] == [SignInMode.SMS_CODE] is SMS code register or login.
-  Rx<String> security = Rx<String>('');
+  final Rx<String> security = Rx<String>('');
+  final TextEditingController securityController = TextEditingController();
 
   /// Switch mode.
   ///
   /// [mode] is [SignInMode] values.
   switchMode(SignInMode mode) {
     this.mode.value = mode;
-
-    if (!account.value.isPhoneNumber) {
-      this.account.value = '';
+    if (mode == SignInMode.SMS_CODE && !account.value.isPhoneNumber) {
+      accountController.clear();
     }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    accountController.addListener(() {
+      account.value = accountController.text;
+    });
+    securityController.addListener(() {
+      security.value = securityController.text;
+    });
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    accountController.dispose();
+    securityController.dispose();
   }
 }
