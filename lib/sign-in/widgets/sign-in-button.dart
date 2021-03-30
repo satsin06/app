@@ -12,7 +12,7 @@ class SignInButton extends GetView<SignInController> {
       padding: const EdgeInsets.only(top: 36.0),
       child: SizedBox(
         height: 48,
-        child: RaisedButton(
+        child: ElevatedButton(
           child: buttonText,
           onPressed: onLoginTap,
         ),

@@ -12,7 +12,7 @@ class SignInView extends GetView<SignInController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
         title: Text('SIGN_IN'.tr),
