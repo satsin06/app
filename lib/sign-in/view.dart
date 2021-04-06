@@ -15,9 +15,8 @@ class SignInView extends GetView<SignInController> {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
-        title: Text('SIGN_IN'.tr),
+        // title: Text('SIGN_IN'.tr),
         automaticallyImplyLeading: true,
-        centerTitle: true,
         backgroundColor: context.theme.scaffoldBackgroundColor,
       ),
       body: Container(
@@ -33,12 +32,19 @@ class SignInView extends GetView<SignInController> {
               style: context.textTheme.headline2.copyWith(
                 color: context.theme.primaryColor,
               ),
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.left,
+            ),
+            Text(
+              'SIGN_IN'.tr,
+              style: context.textTheme.headline6.copyWith(
+                color: context.theme.primaryColor,
+              ),
+              textAlign: TextAlign.left,
             ),
             const SignInAccountInput(),
             const SignInSecurity(),
-            const SignInButton(),
             const SignInSwitchMode(),
+            const SignInButton(),
             fill,
             const SignInAgreement(),
           ],

@@ -73,7 +73,12 @@ class SocfonyTheme {
         iconTheme: const IconThemeData(color: Colors.white),
         textTheme: textTheme,
       ),
-      buttonTheme: _$buttonTheme,
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(const StadiumBorder()),
+          backgroundColor: MaterialStateProperty.all<Color>(primaryColor),
+        ),
+      ),
       tabBarTheme: _tabBarTheme.copyWith(
         unselectedLabelColor: Colors.white,
       ),
@@ -95,8 +100,7 @@ class SocfonyTheme {
         iconTheme: IconThemeData(color: Colors.black),
         textTheme: textTheme,
       ),
-      buttonColor: primaryColor,
-      buttonTheme: _$buttonTheme,
+      // buttonTheme: _$buttonTheme,
       tabBarTheme: _tabBarTheme,
       textTheme: textTheme,
       bottomNavigationBarTheme: _$bottomNavigationBarTheme,
