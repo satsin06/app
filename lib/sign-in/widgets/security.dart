@@ -14,7 +14,7 @@ class SignInSecurity extends GetView<SignInController> {
       child: Obx(() => TextField(
             controller: controller.securityController,
             keyboardType: keyboardType,
-            textInputAction: TextInputAction.go,
+            textInputAction: TextInputAction.done,
             obscureText: controller.mode.value == SignInMode.PASSWORD,
             autofocus: false,
             decoration: InputDecoration(
@@ -35,9 +35,9 @@ class SignInSecurity extends GetView<SignInController> {
       ? const SignInGetSecurityCodeButton()
       : null;
 
-  String get labelText => 'INPUT_ENTER'.trParams({
-        'field': controller.mode.value == SignInMode.PASSWORD
-            ? 'PASSWORD'.tr
-            : 'SMS_CODE'.tr,
-      });
+  String get labelText => controller.mode.value == SignInMode.PASSWORD
+      ? 'INPUT_ENTER'.trParams({
+          'field': 'PASSWORD'.tr,
+        })
+      : 'SMS_CODE'.tr;
 }

@@ -11,7 +11,8 @@ class SignInButton extends GetView<SignInController> {
     return Padding(
       padding: const EdgeInsets.only(top: 36.0),
       child: SizedBox(
-        height: 48,
+        width: 200.0,
+        height: 44.0,
         child: ElevatedButton(
           child: buttonText,
           onPressed: onLoginTap,
@@ -25,6 +26,4 @@ class SignInButton extends GetView<SignInController> {
   }
 
   Widget get buttonText => Text('SIGN_IN'.tr);
-
-  ShapeBorder get shape => const StadiumBorder();
 }

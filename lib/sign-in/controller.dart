@@ -20,6 +20,13 @@ class SignInController extends GetxController {
   final Rx<String> security = Rx<String>('');
   final TextEditingController securityController = TextEditingController();
 
+  /// Sign agreement value.
+  final Rx<bool> agreement = Rx<bool>(false);
+
+  changeAgreement(bool value) {
+    agreement.value = value;
+  }
+
   /// Switch mode.
   ///
   /// [mode] is [SignInMode] values.

@@ -27,9 +27,7 @@ class SignInAccountInput extends GetView<SignInController> {
       ? TextInputType.text
       : TextInputType.number;
 
-  String get labelText => 'INPUT_ENTER'.trParams({
-        'field': controller.mode.value == SignInMode.PASSWORD
-            ? '${'USER_LOGIN'.tr}/${'PHONE_NUMBER'.tr}/${'E-MAIL'.tr}'
-            : 'PHONE_NUMBER'.tr
-      });
+  String get labelText => controller.mode.value == SignInMode.PASSWORD
+      ? '${'USER_LOGIN'.tr}/${'PHONE_NUMBER'.tr}'
+      : 'PHONE_NUMBER'.tr;
 }

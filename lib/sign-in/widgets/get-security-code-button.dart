@@ -8,24 +8,11 @@ class SignInGetSecurityCodeButton extends GetView<SignInController> {
 
   @override
   Widget build(BuildContext context) {
-    return UnconstrainedBox(
-      child: Obx(() => GestureDetector(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.only(right: 24.0),
-                child: Text(
-                  'GET_SMS_CODE'.tr,
-                  style: TextStyle(
-                    color: allowTap
-                        ? Get.theme.primaryColor
-                        : Get.theme.primaryColor.withOpacity(0.6),
-                  ),
-                ),
-              ),
-            ),
-            onTap: allowTap ? onSendCode : null,
-          )),
+    return Obx(
+      () => TextButton(
+        onPressed: allowTap ? onSendCode : null,
+        child: Text('GET_SMS_CODE'.tr),
+      ),
     );
   }
 

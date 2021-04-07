@@ -19,7 +19,7 @@ class Socfony extends StatelessWidget {
       onGenerateTitle: (BuildContext context) => 'APP_NAME'.tr,
       getPages: pages,
       initialRoute: initialRoute,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       theme: SocfonyTheme.light(),
       darkTheme: SocfonyTheme.dark(),
     );
