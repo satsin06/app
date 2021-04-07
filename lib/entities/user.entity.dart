@@ -8,16 +8,14 @@ part 'user.entity.g.dart';
 class UserEntity extends Entity<UserEntity> {
   final String id;
   final DateTime createdAt;
-  String email;
   String phone;
-  String login;
+  String username;
 
   UserEntity({
     this.id,
     this.createdAt,
-    this.email,
     this.phone,
-    this.login,
+    this.username,
   });
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
