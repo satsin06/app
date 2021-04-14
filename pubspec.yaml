@@ -1,5 +1,7 @@
 name: socfony
-description: Socfony is an open source social application, quickly build your own social application.
+description: >-
+  Socfony is an open source social application, quickly
+  build your own social application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -29,7 +31,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
+  # cupertino_icons: ^1.0.0
   json_annotation: ^3.1.1
   get: ^4.1.4
 
