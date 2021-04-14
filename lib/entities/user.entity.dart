@@ -7,8 +7,8 @@ part 'user.entity.g.dart';
 
 @JsonSerializable()
 class UserEntity extends Entity<UserEntity> {
-  UserEntity(
-    this.id, {
+  UserEntity({
+    this.id,
     this.createdAt,
     this.phone,
     this.username,

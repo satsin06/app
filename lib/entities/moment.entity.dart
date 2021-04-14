@@ -16,8 +16,8 @@ class MomentEntity extends Entity<MomentEntity> {
 
   DateTime deletedAt;
 
-  MomentEntity(
-    this.id, {
+  MomentEntity({
+    this.id,
     this.title,
     this.createdAt,
     this.content,

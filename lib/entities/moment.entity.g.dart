@@ -8,7 +8,7 @@ part of 'moment.entity.dart';
 
 MomentEntity _$MomentEntityFromJson(Map<String, dynamic> json) {
   return MomentEntity(
-    json['id'] as String,
+    id: json['id'] as String,
     title: json['title'] as String,
     createdAt: json['createdAt'] == null
         ? null

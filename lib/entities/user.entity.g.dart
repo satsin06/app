@@ -8,7 +8,7 @@ part of 'user.entity.dart';
 
 UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
   return UserEntity(
-    json['id'] as String,
+    id: json['id'] as String,
     createdAt: json['createdAt'] == null
         ? null
         : DateTime.parse(json['createdAt'] as String),

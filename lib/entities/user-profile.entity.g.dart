@@ -8,7 +8,7 @@ part of 'user-profile.entity.dart';
 
 UserProfileEntity _$UserProfileEntityFromJson(Map<String, dynamic> json) {
   return UserProfileEntity(
-    json['userId'] as String,
+    userId: json['userId'] as String,
     user: json['user'] == null
         ? null
         : UserEntity.fromJson(json['user'] as Map<String, dynamic>),
