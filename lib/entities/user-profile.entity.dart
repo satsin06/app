@@ -8,7 +8,7 @@ part 'user-profile.entity.g.dart';
 @JsonSerializable()
 class UserProfileEntity extends Entity<UserProfileEntity> {
   UserProfileEntity({
-    this.userId,
+    required this.userId,
     this.user,
     this.name,
     this.avatar,
@@ -18,15 +18,15 @@ class UserProfileEntity extends Entity<UserProfileEntity> {
   });
 
   final String userId;
-  final UserEntity user;
-  String name;
-  String avatar;
-  String bio;
-  String location;
-  DateTime updatedAt;
+  final UserEntity? user;
+  String? name;
+  String? avatar;
+  String? bio;
+  String? location;
+  DateTime? updatedAt;
 
   @override
-  String get $id => userId;
+  String? get $id => userId;
 
   @override
   Map<String, dynamic> toJson() => _$UserProfileEntityToJson(this);

@@ -26,7 +26,7 @@ class SignInView extends GetView<SignInController> {
           children: [
             Text(
               'APP_NAME'.tr,
-              style: context.textTheme.headline2.copyWith(
+              style: context.textTheme.headline2!.copyWith(
                 color: context.theme.primaryColor,
               ),
             ),

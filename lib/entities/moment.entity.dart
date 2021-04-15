@@ -8,22 +8,22 @@ part 'moment.entity.g.dart';
 @JsonSerializable()
 class MomentEntity extends Entity<MomentEntity> {
   final String id;
-  final String title;
-  final String content;
+  final String? title;
+  final String? content;
   final DateTime createdAt;
   final String ownerId;
-  final UserEntity owner;
+  final UserEntity? owner;
 
-  DateTime deletedAt;
+  DateTime? deletedAt;
 
   MomentEntity({
-    this.id,
+    required this.id,
+    required this.createdAt,
+    required this.ownerId,
     this.title,
-    this.createdAt,
     this.content,
     this.deletedAt,
     this.owner,
-    this.ownerId,
   });
 
   @override

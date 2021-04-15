@@ -5,7 +5,7 @@ import '../controller.dart';
 import 'get-security-code-button.dart';
 
 class SignInSecurity extends GetView<SignInController> {
-  const SignInSecurity({Key key}) : super(key: key);
+  const SignInSecurity({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +31,11 @@ class SignInSecurity extends GetView<SignInController> {
       ? TextInputType.visiblePassword
       : TextInputType.number;
 
-  Widget get suffixIcon => controller.mode.value == SignInMode.SMS_CODE
+  Widget? get suffixIcon => controller.mode.value == SignInMode.SMS_CODE
       ? const SignInGetSecurityCodeButton()
       : null;
 
-  String get labelText => controller.mode.value == SignInMode.PASSWORD
+  String? get labelText => controller.mode.value == SignInMode.PASSWORD
       ? 'INPUT_ENTER'.trParams({
           'field': 'PASSWORD'.tr,
         })

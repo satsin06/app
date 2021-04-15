@@ -10,13 +10,13 @@ class AuthorizationTokenEntity {
   String userId;
   DateTime expiredAt;
   DateTime refreshExpiredAt;
-  UserEntity user;
+  UserEntity? user;
 
   AuthorizationTokenEntity({
-    this.token,
-    this.userId,
-    this.expiredAt,
-    this.refreshExpiredAt,
+    required this.token,
+    required this.userId,
+    required this.expiredAt,
+    required this.refreshExpiredAt,
     this.user,
   });
 

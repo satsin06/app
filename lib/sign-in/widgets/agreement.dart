@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controller.dart';
 
 class SignInAgreement extends GetView<SignInController> {
-  const SignInAgreement({Key key}) : super(key: key);
+  const SignInAgreement({Key? key}) : super(key: key);
 
   TextStyle get agreementStyle => TextStyle(
         color: Get.theme.primaryColor,
@@ -26,7 +26,8 @@ class SignInAgreement extends GetView<SignInController> {
           Obx(
             () => Checkbox(
               value: controller.agreement.value,
-              onChanged: controller.changeAgreement,
+              onChanged: (bool? value) =>
+                  controller.changeAgreement(value == true),
               splashRadius: 24.0,
             ),
           ),

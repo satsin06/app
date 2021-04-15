@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controller.dart';
 
 class SignInGetSecurityCodeButton extends GetView<SignInController> {
-  const SignInGetSecurityCodeButton({Key key}) : super(key: key);
+  const SignInGetSecurityCodeButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

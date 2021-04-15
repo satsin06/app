@@ -12,10 +12,10 @@ UserProfileEntity _$UserProfileEntityFromJson(Map<String, dynamic> json) {
     user: json['user'] == null
         ? null
         : UserEntity.fromJson(json['user'] as Map<String, dynamic>),
-    name: json['name'] as String,
-    avatar: json['avatar'] as String,
-    bio: json['bio'] as String,
-    location: json['location'] as String,
+    name: json['name'] as String?,
+    avatar: json['avatar'] as String?,
+    bio: json['bio'] as String?,
+    location: json['location'] as String?,
     updatedAt: json['updatedAt'] == null
         ? null
         : DateTime.parse(json['updatedAt'] as String),

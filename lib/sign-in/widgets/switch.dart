@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controller.dart';
 
 class SignInSwitchMode extends GetView<SignInController> {
-  const SignInSwitchMode({Key key}) : super(key: key);
+  const SignInSwitchMode({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +34,11 @@ class SignInSwitchMode extends GetView<SignInController> {
             controller.mode.value == SignInMode.PASSWORD
                 ? 'SIGN_IN_USE_SMS_CODE'.tr
                 : 'SIGN_IN_USE_PASSWORD'.tr,
-            style: TextStyle(color: Get.context.theme.primaryColor),
+            style: TextStyle(color: Get.context!.theme.primaryColor),
           )));
 
   void onSwitchMode() {
-    Get.focusScope.unfocus();
+    Get.focusScope!.unfocus();
     controller.switchMode(controller.mode.value == SignInMode.PASSWORD
         ? SignInMode.SMS_CODE
         : SignInMode.PASSWORD);

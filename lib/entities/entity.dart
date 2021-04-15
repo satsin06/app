@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 /// Entity abstract class.
 abstract class Entity<T> {
   /// The entity unique id.
-  String get $id;
+  String? get $id;
 
   /// Entity to JSON map.
   Map<String, dynamic> toJson();
@@ -22,12 +22,12 @@ abstract class Entity<T> {
   /// Using a [tag] find entity.
   ///
   /// [tag] is [Entity<T>] [$id] field.
-  static Rx<T> find<T extends Entity<T>>(String tag,
-      [void onError(dynamic error)]) {
+  static Rx<T>? find<T extends Entity<T>>(String? tag,
+      [void onError(dynamic error)?]) {
     try {
       return Get.find<Rx<T>>(tag: tag);
     } catch (error) {
-      if (onError is Function) onError(error);
+      if (onError is Function) onError!(error);
     }
 
     return null;
@@ -37,8 +37,8 @@ abstract class Entity<T> {
   ///
   /// [entity] is extends <Entity<T>> class.
   static Rx<T> upsert<T extends Entity<T>>(T entity) {
-    Rx<T> value = find(entity.$id);
-    if (value == null || value.isBlank || value.value.isBlank) {
+    Rx<T>? value = find(entity.$id);
+    if (value == null || value.isBlank! || value.value.isBlank!) {
       return Get.put<Rx<T>>(entity.obs, tag: entity.$id);
     }
     value(entity);

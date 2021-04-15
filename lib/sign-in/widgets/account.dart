@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controller.dart';
 
 class SignInAccountInput extends GetView<SignInController> {
-  const SignInAccountInput({Key key}) : super(key: key);
+  const SignInAccountInput({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

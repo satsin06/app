@@ -11,12 +11,8 @@ AuthorizationTokenEntity _$AuthorizationTokenEntityFromJson(
   return AuthorizationTokenEntity(
     token: json['token'] as String,
     userId: json['userId'] as String,
-    expiredAt: json['expiredAt'] == null
-        ? null
-        : DateTime.parse(json['expiredAt'] as String),
-    refreshExpiredAt: json['refreshExpiredAt'] == null
-        ? null
-        : DateTime.parse(json['refreshExpiredAt'] as String),
+    expiredAt: DateTime.parse(json['expiredAt'] as String),
+    refreshExpiredAt: DateTime.parse(json['refreshExpiredAt'] as String),
     user: json['user'] == null
         ? null
         : UserEntity.fromJson(json['user'] as Map<String, dynamic>),
@@ -28,7 +24,7 @@ Map<String, dynamic> _$AuthorizationTokenEntityToJson(
     <String, dynamic>{
       'token': instance.token,
       'userId': instance.userId,
-      'expiredAt': instance.expiredAt?.toIso8601String(),
-      'refreshExpiredAt': instance.refreshExpiredAt?.toIso8601String(),
+      'expiredAt': instance.expiredAt.toIso8601String(),
+      'refreshExpiredAt': instance.refreshExpiredAt.toIso8601String(),
       'user': instance.user,
     };
