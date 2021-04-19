@@ -1,17 +1,128 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sign-in.data.gql.dart';
+part of 'mutations.data.gql.dart';
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
+Serializer<GCreatePhoneSecurityData> _$gCreatePhoneSecurityDataSerializer =
+    new _$GCreatePhoneSecurityDataSerializer();
+Serializer<GCreatePhoneSecurityOfViewerData>
+    _$gCreatePhoneSecurityOfViewerDataSerializer =
+    new _$GCreatePhoneSecurityOfViewerDataSerializer();
 Serializer<GCreateAuthorizationTokenData>
     _$gCreateAuthorizationTokenDataSerializer =
     new _$GCreateAuthorizationTokenDataSerializer();
 Serializer<GCreateAuthorizationTokenData_createAuthorizationToken>
     _$gCreateAuthorizationTokenDataCreateAuthorizationTokenSerializer =
     new _$GCreateAuthorizationTokenData_createAuthorizationTokenSerializer();
+
+class _$GCreatePhoneSecurityDataSerializer
+    implements StructuredSerializer<GCreatePhoneSecurityData> {
+  @override
+  final Iterable<Type> types = const [
+    GCreatePhoneSecurityData,
+    _$GCreatePhoneSecurityData
+  ];
+  @override
+  final String wireName = 'GCreatePhoneSecurityData';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GCreatePhoneSecurityData object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+      'createSecurity',
+      serializers.serialize(object.createSecurity,
+          specifiedType: const FullType(_i1.GDateTime)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GCreatePhoneSecurityData deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GCreatePhoneSecurityDataBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'createSecurity':
+          result.createSecurity.replace(serializers.deserialize(value,
+              specifiedType: const FullType(_i1.GDateTime))! as _i1.GDateTime);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
+
+class _$GCreatePhoneSecurityOfViewerDataSerializer
+    implements StructuredSerializer<GCreatePhoneSecurityOfViewerData> {
+  @override
+  final Iterable<Type> types = const [
+    GCreatePhoneSecurityOfViewerData,
+    _$GCreatePhoneSecurityOfViewerData
+  ];
+  @override
+  final String wireName = 'GCreatePhoneSecurityOfViewerData';
+
+  @override
+  Iterable<Object?> serialize(
+      Serializers serializers, GCreatePhoneSecurityOfViewerData object,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = <Object?>[
+      '__typename',
+      serializers.serialize(object.G__typename,
+          specifiedType: const FullType(String)),
+      'createViewerSecurity',
+      serializers.serialize(object.createViewerSecurity,
+          specifiedType: const FullType(_i1.GDateTime)),
+    ];
+
+    return result;
+  }
+
+  @override
+  GCreatePhoneSecurityOfViewerData deserialize(
+      Serializers serializers, Iterable<Object?> serialized,
+      {FullType specifiedType = FullType.unspecified}) {
+    final result = new GCreatePhoneSecurityOfViewerDataBuilder();
+
+    final iterator = serialized.iterator;
+    while (iterator.moveNext()) {
+      final key = iterator.current as String;
+      iterator.moveNext();
+      final Object? value = iterator.current;
+      switch (key) {
+        case '__typename':
+          result.G__typename = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String;
+          break;
+        case 'createViewerSecurity':
+          result.createViewerSecurity.replace(serializers.deserialize(value,
+              specifiedType: const FullType(_i1.GDateTime))! as _i1.GDateTime);
+          break;
+      }
+    }
+
+    return result.build();
+  }
+}
 
 class _$GCreateAuthorizationTokenDataSerializer
     implements StructuredSerializer<GCreateAuthorizationTokenData> {
@@ -130,6 +241,239 @@ class _$GCreateAuthorizationTokenData_createAuthorizationTokenSerializer
     }
 
     return result.build();
+  }
+}
+
+class _$GCreatePhoneSecurityData extends GCreatePhoneSecurityData {
+  @override
+  final String G__typename;
+  @override
+  final _i1.GDateTime createSecurity;
+
+  factory _$GCreatePhoneSecurityData(
+          [void Function(GCreatePhoneSecurityDataBuilder)? updates]) =>
+      (new GCreatePhoneSecurityDataBuilder()..update(updates)).build();
+
+  _$GCreatePhoneSecurityData._(
+      {required this.G__typename, required this.createSecurity})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, 'GCreatePhoneSecurityData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(
+        createSecurity, 'GCreatePhoneSecurityData', 'createSecurity');
+  }
+
+  @override
+  GCreatePhoneSecurityData rebuild(
+          void Function(GCreatePhoneSecurityDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GCreatePhoneSecurityDataBuilder toBuilder() =>
+      new GCreatePhoneSecurityDataBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GCreatePhoneSecurityData &&
+        G__typename == other.G__typename &&
+        createSecurity == other.createSecurity;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, G__typename.hashCode), createSecurity.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GCreatePhoneSecurityData')
+          ..add('G__typename', G__typename)
+          ..add('createSecurity', createSecurity))
+        .toString();
+  }
+}
+
+class GCreatePhoneSecurityDataBuilder
+    implements
+        Builder<GCreatePhoneSecurityData, GCreatePhoneSecurityDataBuilder> {
+  _$GCreatePhoneSecurityData? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  _i1.GDateTimeBuilder? _createSecurity;
+  _i1.GDateTimeBuilder get createSecurity =>
+      _$this._createSecurity ??= new _i1.GDateTimeBuilder();
+  set createSecurity(_i1.GDateTimeBuilder? createSecurity) =>
+      _$this._createSecurity = createSecurity;
+
+  GCreatePhoneSecurityDataBuilder() {
+    GCreatePhoneSecurityData._initializeBuilder(this);
+  }
+
+  GCreatePhoneSecurityDataBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _createSecurity = $v.createSecurity.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GCreatePhoneSecurityData other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GCreatePhoneSecurityData;
+  }
+
+  @override
+  void update(void Function(GCreatePhoneSecurityDataBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GCreatePhoneSecurityData build() {
+    _$GCreatePhoneSecurityData _$result;
+    try {
+      _$result = _$v ??
+          new _$GCreatePhoneSecurityData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(
+                  G__typename, 'GCreatePhoneSecurityData', 'G__typename'),
+              createSecurity: createSecurity.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'createSecurity';
+        createSecurity.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GCreatePhoneSecurityData', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GCreatePhoneSecurityOfViewerData
+    extends GCreatePhoneSecurityOfViewerData {
+  @override
+  final String G__typename;
+  @override
+  final _i1.GDateTime createViewerSecurity;
+
+  factory _$GCreatePhoneSecurityOfViewerData(
+          [void Function(GCreatePhoneSecurityOfViewerDataBuilder)? updates]) =>
+      (new GCreatePhoneSecurityOfViewerDataBuilder()..update(updates)).build();
+
+  _$GCreatePhoneSecurityOfViewerData._(
+      {required this.G__typename, required this.createViewerSecurity})
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(
+        G__typename, 'GCreatePhoneSecurityOfViewerData', 'G__typename');
+    BuiltValueNullFieldError.checkNotNull(createViewerSecurity,
+        'GCreatePhoneSecurityOfViewerData', 'createViewerSecurity');
+  }
+
+  @override
+  GCreatePhoneSecurityOfViewerData rebuild(
+          void Function(GCreatePhoneSecurityOfViewerDataBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GCreatePhoneSecurityOfViewerDataBuilder toBuilder() =>
+      new GCreatePhoneSecurityOfViewerDataBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GCreatePhoneSecurityOfViewerData &&
+        G__typename == other.G__typename &&
+        createViewerSecurity == other.createViewerSecurity;
+  }
+
+  @override
+  int get hashCode {
+    return $jf(
+        $jc($jc(0, G__typename.hashCode), createViewerSecurity.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GCreatePhoneSecurityOfViewerData')
+          ..add('G__typename', G__typename)
+          ..add('createViewerSecurity', createViewerSecurity))
+        .toString();
+  }
+}
+
+class GCreatePhoneSecurityOfViewerDataBuilder
+    implements
+        Builder<GCreatePhoneSecurityOfViewerData,
+            GCreatePhoneSecurityOfViewerDataBuilder> {
+  _$GCreatePhoneSecurityOfViewerData? _$v;
+
+  String? _G__typename;
+  String? get G__typename => _$this._G__typename;
+  set G__typename(String? G__typename) => _$this._G__typename = G__typename;
+
+  _i1.GDateTimeBuilder? _createViewerSecurity;
+  _i1.GDateTimeBuilder get createViewerSecurity =>
+      _$this._createViewerSecurity ??= new _i1.GDateTimeBuilder();
+  set createViewerSecurity(_i1.GDateTimeBuilder? createViewerSecurity) =>
+      _$this._createViewerSecurity = createViewerSecurity;
+
+  GCreatePhoneSecurityOfViewerDataBuilder() {
+    GCreatePhoneSecurityOfViewerData._initializeBuilder(this);
+  }
+
+  GCreatePhoneSecurityOfViewerDataBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _G__typename = $v.G__typename;
+      _createViewerSecurity = $v.createViewerSecurity.toBuilder();
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GCreatePhoneSecurityOfViewerData other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GCreatePhoneSecurityOfViewerData;
+  }
+
+  @override
+  void update(void Function(GCreatePhoneSecurityOfViewerDataBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  _$GCreatePhoneSecurityOfViewerData build() {
+    _$GCreatePhoneSecurityOfViewerData _$result;
+    try {
+      _$result = _$v ??
+          new _$GCreatePhoneSecurityOfViewerData._(
+              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
+                  'GCreatePhoneSecurityOfViewerData', 'G__typename'),
+              createViewerSecurity: createViewerSecurity.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'createViewerSecurity';
+        createViewerSecurity.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'GCreatePhoneSecurityOfViewerData', _$failedField, e.toString());
+      }
+      rethrow;
+    }
+    replace(_$result);
+    return _$result;
   }
 }
 

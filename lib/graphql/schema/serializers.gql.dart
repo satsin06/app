@@ -3,20 +3,22 @@ import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
 import 'package:gql_code_builder/src/serializers/operation_serializer.dart'
     show OperationSerializer;
-import 'package:socfony/graphql/mutations/security/security.data.gql.dart'
-    show GcreatePhoneSecurityData, GcreatePhoneSecurityOfViewerData;
-import 'package:socfony/graphql/mutations/security/security.req.gql.dart'
-    show GcreatePhoneSecurityOfViewerReq, GcreatePhoneSecurityReq;
-import 'package:socfony/graphql/mutations/security/security.var.gql.dart'
-    show GcreatePhoneSecurityOfViewerVars, GcreatePhoneSecurityVars;
-import 'package:socfony/graphql/mutations/sign-in/sign-in.data.gql.dart'
+import 'package:socfony/graphql/mutations/mutations.data.gql.dart'
     show
         GCreateAuthorizationTokenData,
-        GCreateAuthorizationTokenData_createAuthorizationToken;
-import 'package:socfony/graphql/mutations/sign-in/sign-in.req.gql.dart'
-    show GCreateAuthorizationTokenReq;
-import 'package:socfony/graphql/mutations/sign-in/sign-in.var.gql.dart'
-    show GCreateAuthorizationTokenVars;
+        GCreateAuthorizationTokenData_createAuthorizationToken,
+        GCreatePhoneSecurityData,
+        GCreatePhoneSecurityOfViewerData;
+import 'package:socfony/graphql/mutations/mutations.req.gql.dart'
+    show
+        GCreateAuthorizationTokenReq,
+        GCreatePhoneSecurityOfViewerReq,
+        GCreatePhoneSecurityReq;
+import 'package:socfony/graphql/mutations/mutations.var.gql.dart'
+    show
+        GCreateAuthorizationTokenVars,
+        GCreatePhoneSecurityOfViewerVars,
+        GCreatePhoneSecurityVars;
 import 'package:socfony/graphql/schema/schema.schema.gql.dart'
     show
         GAllowUploadFileType,
@@ -51,6 +53,12 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GCreateAuthorizationTokenData_createAuthorizationToken,
   GCreateAuthorizationTokenReq,
   GCreateAuthorizationTokenVars,
+  GCreatePhoneSecurityData,
+  GCreatePhoneSecurityOfViewerData,
+  GCreatePhoneSecurityOfViewerReq,
+  GCreatePhoneSecurityOfViewerVars,
+  GCreatePhoneSecurityReq,
+  GCreatePhoneSecurityVars,
   GDateTime,
   GDateTimeFilter,
   GMomentMediaType,
@@ -69,12 +77,6 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GUserSecurityCompareType,
   GUserWhereInput,
   GUserWhereUniqueInput,
-  GcreatePhoneSecurityData,
-  GcreatePhoneSecurityOfViewerData,
-  GcreatePhoneSecurityOfViewerReq,
-  GcreatePhoneSecurityOfViewerVars,
-  GcreatePhoneSecurityReq,
-  GcreatePhoneSecurityVars,
   GsortOrder
 ])
 final Serializers serializers = _serializersBuilder.build();

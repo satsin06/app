@@ -2,9 +2,60 @@
 
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:socfony/graphql/schema/serializers.gql.dart' as _i1;
+import 'package:socfony/graphql/schema/schema.schema.gql.dart' as _i1;
+import 'package:socfony/graphql/schema/serializers.gql.dart' as _i2;
 
-part 'sign-in.data.gql.g.dart';
+part 'mutations.data.gql.g.dart';
+
+abstract class GCreatePhoneSecurityData
+    implements
+        Built<GCreatePhoneSecurityData, GCreatePhoneSecurityDataBuilder> {
+  GCreatePhoneSecurityData._();
+
+  factory GCreatePhoneSecurityData(
+          [Function(GCreatePhoneSecurityDataBuilder b) updates]) =
+      _$GCreatePhoneSecurityData;
+
+  static void _initializeBuilder(GCreatePhoneSecurityDataBuilder b) =>
+      b..G__typename = 'Mutation';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  _i1.GDateTime get createSecurity;
+  static Serializer<GCreatePhoneSecurityData> get serializer =>
+      _$gCreatePhoneSecurityDataSerializer;
+  Map<String, dynamic> toJson() =>
+      (_i2.serializers.serializeWith(GCreatePhoneSecurityData.serializer, this)
+          as Map<String, dynamic>);
+  static GCreatePhoneSecurityData? fromJson(Map<String, dynamic> json) =>
+      _i2.serializers
+          .deserializeWith(GCreatePhoneSecurityData.serializer, json);
+}
+
+abstract class GCreatePhoneSecurityOfViewerData
+    implements
+        Built<GCreatePhoneSecurityOfViewerData,
+            GCreatePhoneSecurityOfViewerDataBuilder> {
+  GCreatePhoneSecurityOfViewerData._();
+
+  factory GCreatePhoneSecurityOfViewerData(
+          [Function(GCreatePhoneSecurityOfViewerDataBuilder b) updates]) =
+      _$GCreatePhoneSecurityOfViewerData;
+
+  static void _initializeBuilder(GCreatePhoneSecurityOfViewerDataBuilder b) =>
+      b..G__typename = 'Mutation';
+  @BuiltValueField(wireName: '__typename')
+  String get G__typename;
+  _i1.GDateTime get createViewerSecurity;
+  static Serializer<GCreatePhoneSecurityOfViewerData> get serializer =>
+      _$gCreatePhoneSecurityOfViewerDataSerializer;
+  Map<String, dynamic> toJson() => (_i2.serializers
+          .serializeWith(GCreatePhoneSecurityOfViewerData.serializer, this)
+      as Map<String, dynamic>);
+  static GCreatePhoneSecurityOfViewerData? fromJson(
+          Map<String, dynamic> json) =>
+      _i2.serializers
+          .deserializeWith(GCreatePhoneSecurityOfViewerData.serializer, json);
+}
 
 abstract class GCreateAuthorizationTokenData
     implements
@@ -24,10 +75,10 @@ abstract class GCreateAuthorizationTokenData
       get createAuthorizationToken;
   static Serializer<GCreateAuthorizationTokenData> get serializer =>
       _$gCreateAuthorizationTokenDataSerializer;
-  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+  Map<String, dynamic> toJson() => (_i2.serializers.serializeWith(
       GCreateAuthorizationTokenData.serializer, this) as Map<String, dynamic>);
   static GCreateAuthorizationTokenData? fromJson(Map<String, dynamic> json) =>
-      _i1.serializers
+      _i2.serializers
           .deserializeWith(GCreateAuthorizationTokenData.serializer, json);
 }
 
@@ -51,12 +102,12 @@ abstract class GCreateAuthorizationTokenData_createAuthorizationToken
   static Serializer<GCreateAuthorizationTokenData_createAuthorizationToken>
       get serializer =>
           _$gCreateAuthorizationTokenDataCreateAuthorizationTokenSerializer;
-  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
+  Map<String, dynamic> toJson() => (_i2.serializers.serializeWith(
       GCreateAuthorizationTokenData_createAuthorizationToken.serializer,
       this) as Map<String, dynamic>);
   static GCreateAuthorizationTokenData_createAuthorizationToken? fromJson(
           Map<String, dynamic> json) =>
-      _i1.serializers.deserializeWith(
+      _i2.serializers.deserializeWith(
           GCreateAuthorizationTokenData_createAuthorizationToken.serializer,
           json);
 }

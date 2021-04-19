@@ -11,7 +11,7 @@ const Map<String, String> _$ZH_CN_MESSAGE = {
   'PRIVACY_POLICY': '《隐私政策》',
   'FORGOT_PASSWORD': '忘记密码？',
   'INPUT_ENTER': '请输入@field',
-  'USER_LOGIN': '登录名',
+  'USERNAME': '用户名',
   'PHONE_NUMBER': '手机号',
   'SMS_CODE': '验证码',
   'PASSWORD': '密码',

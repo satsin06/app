@@ -1,0 +1,26 @@
+# 使用手机号码创建安全验证
+mutation CreatePhoneSecurity($phone: String!) {
+  createSecurity(phone: $phone)
+}
+
+# 给 Viewer 发送安全验证
+mutation CreatePhoneSecurityOfViewer {
+  createViewerSecurity
+}
+
+# 创建认证 Token
+mutation CreateAuthorizationToken(
+  $user: UserWhereUniqueInput!,
+  $type: UserSecurityCompareType!,
+  $security: String!
+) {
+  createAuthorizationToken(
+    user: $user
+    type: $type
+    security: $security
+  ) {
+    token
+    userId
+  }
+}
+
