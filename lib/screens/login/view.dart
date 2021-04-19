@@ -4,9 +4,13 @@ import 'package:get/get.dart';
 import 'logic.dart';
 import 'widgets/account.input.dart';
 import 'widgets/actions.dart';
+import 'widgets/agreement.dart';
+import 'widgets/login.button.dart';
 import 'widgets/security.input.dart';
 
 class LoginView extends GetView<LoginLogic> {
+  const LoginView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +35,8 @@ class LoginView extends GetView<LoginLogic> {
             const LoginAccountInput(),
             const LoginSecurityInput(),
             const LoginActions(),
+            const LoginButton(),
+            const LoginAgreement(),
           ],
         ),
       ),

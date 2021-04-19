@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../logic.dart';
 import '../state.dart';
 import '../../../graphql/schema.dart';
+import 'create-security.button.dart';
 
 class LoginSecurityInput extends GetView<LoginLogic> {
   const LoginSecurityInput({Key? key}) : super(key: key);
@@ -29,8 +30,10 @@ class LoginSecurityInput extends GetView<LoginLogic> {
             controller: controller.securityController,
             keyboardType: keyboardType,
             textInputAction: TextInputAction.join,
+            onSubmitted: (String value) => controller.loginHandler(),
             decoration: InputDecoration(
               labelText: labelText,
+              suffixIcon: LoginCreateSecurityButton(),
             ),
           )),
     );

@@ -5,6 +5,6 @@ import 'view.dart';
 
 GetPage $LoginPage = GetPage(
   name: 'login',
-  page: () => LoginView(),
+  page: () => const LoginView(),
   binding: LoginBindings(),
 );

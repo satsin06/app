@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller.dart';
+import '../logic.dart';
 
-class SignInButton extends GetView<SignInController> {
-  const SignInButton({Key? key}) : super(key: key);
+class LoginButton extends GetView<LoginLogic> {
+  const LoginButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +14,10 @@ class SignInButton extends GetView<SignInController> {
         width: 200.0,
         height: 44.0,
         child: ElevatedButton(
-          child: buttonText,
-          onPressed: onLoginTap,
+          onPressed: controller.loginHandler,
+          child: Text('SIGN_IN'.tr),
         ),
       ),
     );
   }
-
-  onLoginTap() {
-    print(controller.account.value);
-  }
-
-  Widget get buttonText => Text('SIGN_IN'.tr);
 }

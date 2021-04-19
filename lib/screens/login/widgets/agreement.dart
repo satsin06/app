@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../controller.dart';
+import '../logic.dart';
 
-class SignInAgreement extends GetView<SignInController> {
-  const SignInAgreement({Key? key}) : super(key: key);
-
-  TextStyle get agreementStyle => TextStyle(
-        color: Get.theme.primaryColor,
-      );
+class LoginAgreement extends GetView<LoginLogic> {
+  const LoginAgreement({Key? key}) : super(key: key);
 
   String get prefix => 'AGREE'.tr;
   String get userAgreement => 'USER_AGREEMENT'.tr;
@@ -18,16 +14,15 @@ class SignInAgreement extends GetView<SignInController> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 24.0),
+      padding: const EdgeInsets.only(top: 24.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Obx(
             () => Checkbox(
-              value: controller.agreement.value,
-              onChanged: (bool? value) =>
-                  controller.changeAgreement(value == true),
+              value: controller.state.agreement.value,
+              onChanged: controller.changeAgreement,
               splashRadius: 24.0,
             ),
           ),
@@ -37,12 +32,16 @@ class SignInAgreement extends GetView<SignInController> {
                 TextSpan(text: prefix),
                 TextSpan(
                   text: userAgreement,
-                  style: agreementStyle,
+                  style: TextStyle(
+                    color: context.theme.primaryColor,
+                  ),
                 ),
                 TextSpan(text: and),
                 TextSpan(
                   text: privacyPolicy,
-                  style: agreementStyle,
+                  style: TextStyle(
+                    color: context.theme.primaryColor,
+                  ),
                 )
               ],
             ),

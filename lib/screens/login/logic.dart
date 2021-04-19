@@ -57,4 +57,12 @@ class LoginLogic extends GetxController {
         ? GUserSecurityCompareType.PHONE_SMS_CODE
         : GUserSecurityCompareType.PASSWORD);
   }
+
+  void loginHandler() {
+    print('Login handler.');
+  }
+
+  void changeAgreement(bool? value) {
+    state.agreement.value = value == true;
+  }
 }
