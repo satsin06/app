@@ -1,0 +1,10 @@
+mutation CreateAuthorizationToken($user: UserWhereUniqueInput!, $type: UserSecurityCompareType!, $security: String!) {
+  createAuthorizationToken(
+    user: $user
+    type: $type
+    security: $security
+  ) {
+    token
+    userId
+  }
+}

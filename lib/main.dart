@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide Translations;
+import 'package:socfony/test.dart';
 
-import 'pages.dart';
+import 'pages/pages.dart';
 import 'theme.dart';
 import 'translations/translations.dart';
 
 void main() {
+  demo();
   runApp(Socfony());
 }
 

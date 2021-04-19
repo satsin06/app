@@ -1,0 +1,9 @@
+# 使用手机号码创建安全验证
+mutation createPhoneSecurity($phone: String!) {
+  createSecurity(phone: $phone)
+}
+
+# 给 Viewer 发送安全验证
+mutation createPhoneSecurityOfViewer {
+  createViewerSecurity
+}
