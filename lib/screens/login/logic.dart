@@ -83,25 +83,30 @@ class LoginLogic extends GetxController {
     }
 
     state.createSecurityStatus.value = LoginCreateSecurityStatus.INPROGRESS;
-    final createSecurityRequest = GCreatePhoneSecurityReq((builder) => builder..vars.phone = '+86${state.account.value}');
+    state.countdownNumber.value = 0;
+    final createSecurityRequest = GCreatePhoneSecurityReq(
+        (builder) => builder..vars.phone = '+86${state.account.value}');
     graphql.client.request(createSecurityRequest).listen((event) {
-      if (event.data?.createSecurity.value == null) {
+      if (event.data?.createSecurity is! DateTime) {
         return Get.snackbar('错误', '获取验证码失败');
       }
-      state.createSecurityStatus.value = LoginCreateSecurityStatus.DONE;
-      state.countdownNumber.value = 0;
-      countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-        print('1111111');
-        if (state.countdownNumber < 10) {
-          state.countdownNumber.value += 1;
-          return;
-        }
 
-        state.createSecurityStatus.value = LoginCreateSecurityStatus.AWAIT;
-        timer.cancel();
-        countdownTimer?.cancel();
-        countdownTimer = null;
-      });
+      state.createSecurityStatus.value = LoginCreateSecurityStatus.DONE;
+      countdownTimer?.cancel();
+      countdownTimer =
+          Timer.periodic(Duration(seconds: 1), _$onCountdownTimerCallback);
     });
+  }
+
+  void _$onCountdownTimerCallback(Timer timer) {
+    if (state.countdownNumber < 60) {
+      state.countdownNumber.value += 1;
+      return;
+    }
+
+    countdownTimer?.cancel();
+    countdownTimer = null;
+    state.createSecurityStatus.value = LoginCreateSecurityStatus.AWAIT;
+    timer.cancel();
   }
 }

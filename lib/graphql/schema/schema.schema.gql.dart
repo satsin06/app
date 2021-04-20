@@ -3,9 +3,7 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:gql_code_builder/src/serializers/default_scalar_serializer.dart'
-    as _i1;
-import 'package:socfony/graphql/schema/serializers.gql.dart' as _i2;
+import 'package:socfony/graphql/schema/serializers.gql.dart' as _i1;
 
 part 'schema.schema.gql.g.dart';
 
@@ -34,19 +32,6 @@ class GAllowUploadFileType extends EnumClass {
       _$gAllowUploadFileTypeValueOf(name);
 }
 
-abstract class GDateTime implements Built<GDateTime, GDateTimeBuilder> {
-  GDateTime._();
-
-  factory GDateTime([String? value]) =>
-      _$GDateTime((b) => value != null ? (b..value = value) : b);
-
-  String get value;
-  @BuiltValueSerializer(custom: true)
-  static Serializer<GDateTime> get serializer =>
-      _i1.DefaultScalarSerializer<GDateTime>(
-          (Object serialized) => GDateTime((serialized as String?)));
-}
-
 abstract class GDateTimeFilter
     implements Built<GDateTimeFilter, GDateTimeFilterBuilder> {
   GDateTimeFilter._();
@@ -54,22 +39,22 @@ abstract class GDateTimeFilter
   factory GDateTimeFilter([Function(GDateTimeFilterBuilder b) updates]) =
       _$GDateTimeFilter;
 
-  GDateTime? get equals;
-  GDateTime? get gt;
-  GDateTime? get gte;
+  DateTime? get equals;
+  DateTime? get gt;
+  DateTime? get gte;
   @BuiltValueField(wireName: 'in')
-  BuiltList<GDateTime>? get Gin;
-  GDateTime? get lt;
-  GDateTime? get lte;
+  BuiltList<DateTime>? get Gin;
+  DateTime? get lt;
+  DateTime? get lte;
   GDateTimeFilter? get not;
-  BuiltList<GDateTime>? get notIn;
+  BuiltList<DateTime>? get notIn;
   static Serializer<GDateTimeFilter> get serializer =>
       _$gDateTimeFilterSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GDateTimeFilter.serializer, this)
+      (_i1.serializers.serializeWith(GDateTimeFilter.serializer, this)
           as Map<String, dynamic>);
   static GDateTimeFilter? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GDateTimeFilter.serializer, json);
+      _i1.serializers.deserializeWith(GDateTimeFilter.serializer, json);
 }
 
 class GMomentMediaType extends EnumClass {
@@ -106,10 +91,10 @@ abstract class GMomentOrderByInput
   static Serializer<GMomentOrderByInput> get serializer =>
       _$gMomentOrderByInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GMomentOrderByInput.serializer, this)
+      (_i1.serializers.serializeWith(GMomentOrderByInput.serializer, this)
           as Map<String, dynamic>);
   static GMomentOrderByInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GMomentOrderByInput.serializer, json);
+      _i1.serializers.deserializeWith(GMomentOrderByInput.serializer, json);
 }
 
 class GMomentScalarFieldEnum extends EnumClass {
@@ -158,10 +143,10 @@ abstract class GMomentWhereInput
   static Serializer<GMomentWhereInput> get serializer =>
       _$gMomentWhereInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GMomentWhereInput.serializer, this)
+      (_i1.serializers.serializeWith(GMomentWhereInput.serializer, this)
           as Map<String, dynamic>);
   static GMomentWhereInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GMomentWhereInput.serializer, json);
+      _i1.serializers.deserializeWith(GMomentWhereInput.serializer, json);
 }
 
 abstract class GMomentWhereUniqueInput
@@ -176,10 +161,10 @@ abstract class GMomentWhereUniqueInput
   static Serializer<GMomentWhereUniqueInput> get serializer =>
       _$gMomentWhereUniqueInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GMomentWhereUniqueInput.serializer, this)
+      (_i1.serializers.serializeWith(GMomentWhereUniqueInput.serializer, this)
           as Map<String, dynamic>);
   static GMomentWhereUniqueInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GMomentWhereUniqueInput.serializer, json);
+      _i1.serializers.deserializeWith(GMomentWhereUniqueInput.serializer, json);
 }
 
 class GQueryMode extends EnumClass {
@@ -217,10 +202,10 @@ abstract class GStringFilter
   String? get startsWith;
   static Serializer<GStringFilter> get serializer => _$gStringFilterSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GStringFilter.serializer, this)
+      (_i1.serializers.serializeWith(GStringFilter.serializer, this)
           as Map<String, dynamic>);
   static GStringFilter? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GStringFilter.serializer, json);
+      _i1.serializers.deserializeWith(GStringFilter.serializer, json);
 }
 
 abstract class GUserOrderByInput
@@ -239,10 +224,10 @@ abstract class GUserOrderByInput
   static Serializer<GUserOrderByInput> get serializer =>
       _$gUserOrderByInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserOrderByInput.serializer, this)
+      (_i1.serializers.serializeWith(GUserOrderByInput.serializer, this)
           as Map<String, dynamic>);
   static GUserOrderByInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GUserOrderByInput.serializer, json);
+      _i1.serializers.deserializeWith(GUserOrderByInput.serializer, json);
 }
 
 abstract class GUserProfileOrderByInput
@@ -263,10 +248,10 @@ abstract class GUserProfileOrderByInput
   static Serializer<GUserProfileOrderByInput> get serializer =>
       _$gUserProfileOrderByInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserProfileOrderByInput.serializer, this)
+      (_i1.serializers.serializeWith(GUserProfileOrderByInput.serializer, this)
           as Map<String, dynamic>);
   static GUserProfileOrderByInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers
+      _i1.serializers
           .deserializeWith(GUserProfileOrderByInput.serializer, json);
 }
 
@@ -284,10 +269,10 @@ abstract class GUserProfileRelationFilter
   GUserProfileWhereInput? get isNot;
   static Serializer<GUserProfileRelationFilter> get serializer =>
       _$gUserProfileRelationFilterSerializer;
-  Map<String, dynamic> toJson() => (_i2.serializers.serializeWith(
+  Map<String, dynamic> toJson() => (_i1.serializers.serializeWith(
       GUserProfileRelationFilter.serializer, this) as Map<String, dynamic>);
   static GUserProfileRelationFilter? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers
+      _i1.serializers
           .deserializeWith(GUserProfileRelationFilter.serializer, json);
 }
 
@@ -306,10 +291,10 @@ abstract class GUserProfileUpdateInput
   static Serializer<GUserProfileUpdateInput> get serializer =>
       _$gUserProfileUpdateInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserProfileUpdateInput.serializer, this)
+      (_i1.serializers.serializeWith(GUserProfileUpdateInput.serializer, this)
           as Map<String, dynamic>);
   static GUserProfileUpdateInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GUserProfileUpdateInput.serializer, json);
+      _i1.serializers.deserializeWith(GUserProfileUpdateInput.serializer, json);
 }
 
 abstract class GUserProfileWhereInput
@@ -332,10 +317,10 @@ abstract class GUserProfileWhereInput
   static Serializer<GUserProfileWhereInput> get serializer =>
       _$gUserProfileWhereInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserProfileWhereInput.serializer, this)
+      (_i1.serializers.serializeWith(GUserProfileWhereInput.serializer, this)
           as Map<String, dynamic>);
   static GUserProfileWhereInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GUserProfileWhereInput.serializer, json);
+      _i1.serializers.deserializeWith(GUserProfileWhereInput.serializer, json);
 }
 
 abstract class GUserRelationFilter
@@ -351,10 +336,10 @@ abstract class GUserRelationFilter
   static Serializer<GUserRelationFilter> get serializer =>
       _$gUserRelationFilterSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserRelationFilter.serializer, this)
+      (_i1.serializers.serializeWith(GUserRelationFilter.serializer, this)
           as Map<String, dynamic>);
   static GUserRelationFilter? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GUserRelationFilter.serializer, json);
+      _i1.serializers.deserializeWith(GUserRelationFilter.serializer, json);
 }
 
 class GUserSecurityCompareType extends EnumClass {
@@ -393,10 +378,10 @@ abstract class GUserWhereInput
   static Serializer<GUserWhereInput> get serializer =>
       _$gUserWhereInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserWhereInput.serializer, this)
+      (_i1.serializers.serializeWith(GUserWhereInput.serializer, this)
           as Map<String, dynamic>);
   static GUserWhereInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GUserWhereInput.serializer, json);
+      _i1.serializers.deserializeWith(GUserWhereInput.serializer, json);
 }
 
 abstract class GUserWhereUniqueInput
@@ -413,10 +398,10 @@ abstract class GUserWhereUniqueInput
   static Serializer<GUserWhereUniqueInput> get serializer =>
       _$gUserWhereUniqueInputSerializer;
   Map<String, dynamic> toJson() =>
-      (_i2.serializers.serializeWith(GUserWhereUniqueInput.serializer, this)
+      (_i1.serializers.serializeWith(GUserWhereUniqueInput.serializer, this)
           as Map<String, dynamic>);
   static GUserWhereUniqueInput? fromJson(Map<String, dynamic> json) =>
-      _i2.serializers.deserializeWith(GUserWhereUniqueInput.serializer, json);
+      _i1.serializers.deserializeWith(GUserWhereUniqueInput.serializer, json);
 }
 
 class GsortOrder extends EnumClass {

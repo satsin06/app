@@ -18,7 +18,6 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GCreatePhoneSecurityOfViewerVars.serializer)
       ..add(GCreatePhoneSecurityReq.serializer)
       ..add(GCreatePhoneSecurityVars.serializer)
-      ..add(GDateTime.serializer)
       ..add(GDateTimeFilter.serializer)
       ..add(GMomentMediaType.serializer)
       ..add(GMomentOrderByInput.serializer)
@@ -38,11 +37,11 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GUserWhereUniqueInput.serializer)
       ..add(GsortOrder.serializer)
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(GDateTime)]),
-          () => new ListBuilder<GDateTime>())
+          const FullType(BuiltList, const [const FullType(DateTime)]),
+          () => new ListBuilder<DateTime>())
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(GDateTime)]),
-          () => new ListBuilder<GDateTime>())
+          const FullType(BuiltList, const [const FullType(DateTime)]),
+          () => new ListBuilder<DateTime>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(GMomentWhereInput)]),
           () => new ListBuilder<GMomentWhereInput>())

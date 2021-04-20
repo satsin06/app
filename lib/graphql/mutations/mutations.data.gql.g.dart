@@ -38,7 +38,7 @@ class _$GCreatePhoneSecurityDataSerializer
           specifiedType: const FullType(String)),
       'createSecurity',
       serializers.serialize(object.createSecurity,
-          specifiedType: const FullType(_i1.GDateTime)),
+          specifiedType: const FullType(DateTime)),
     ];
 
     return result;
@@ -61,8 +61,8 @@ class _$GCreatePhoneSecurityDataSerializer
               specifiedType: const FullType(String)) as String;
           break;
         case 'createSecurity':
-          result.createSecurity.replace(serializers.deserialize(value,
-              specifiedType: const FullType(_i1.GDateTime))! as _i1.GDateTime);
+          result.createSecurity = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
       }
     }
@@ -91,7 +91,7 @@ class _$GCreatePhoneSecurityOfViewerDataSerializer
           specifiedType: const FullType(String)),
       'createViewerSecurity',
       serializers.serialize(object.createViewerSecurity,
-          specifiedType: const FullType(_i1.GDateTime)),
+          specifiedType: const FullType(DateTime)),
     ];
 
     return result;
@@ -114,8 +114,8 @@ class _$GCreatePhoneSecurityOfViewerDataSerializer
               specifiedType: const FullType(String)) as String;
           break;
         case 'createViewerSecurity':
-          result.createViewerSecurity.replace(serializers.deserialize(value,
-              specifiedType: const FullType(_i1.GDateTime))! as _i1.GDateTime);
+          result.createViewerSecurity = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
       }
     }
@@ -248,7 +248,7 @@ class _$GCreatePhoneSecurityData extends GCreatePhoneSecurityData {
   @override
   final String G__typename;
   @override
-  final _i1.GDateTime createSecurity;
+  final DateTime createSecurity;
 
   factory _$GCreatePhoneSecurityData(
           [void Function(GCreatePhoneSecurityDataBuilder)? updates]) =>
@@ -303,10 +303,9 @@ class GCreatePhoneSecurityDataBuilder
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  _i1.GDateTimeBuilder? _createSecurity;
-  _i1.GDateTimeBuilder get createSecurity =>
-      _$this._createSecurity ??= new _i1.GDateTimeBuilder();
-  set createSecurity(_i1.GDateTimeBuilder? createSecurity) =>
+  DateTime? _createSecurity;
+  DateTime? get createSecurity => _$this._createSecurity;
+  set createSecurity(DateTime? createSecurity) =>
       _$this._createSecurity = createSecurity;
 
   GCreatePhoneSecurityDataBuilder() {
@@ -317,7 +316,7 @@ class GCreatePhoneSecurityDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _createSecurity = $v.createSecurity.toBuilder();
+      _createSecurity = $v.createSecurity;
       _$v = null;
     }
     return this;
@@ -336,24 +335,12 @@ class GCreatePhoneSecurityDataBuilder
 
   @override
   _$GCreatePhoneSecurityData build() {
-    _$GCreatePhoneSecurityData _$result;
-    try {
-      _$result = _$v ??
-          new _$GCreatePhoneSecurityData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(
-                  G__typename, 'GCreatePhoneSecurityData', 'G__typename'),
-              createSecurity: createSecurity.build());
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'createSecurity';
-        createSecurity.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'GCreatePhoneSecurityData', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        new _$GCreatePhoneSecurityData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, 'GCreatePhoneSecurityData', 'G__typename'),
+            createSecurity: BuiltValueNullFieldError.checkNotNull(
+                createSecurity, 'GCreatePhoneSecurityData', 'createSecurity'));
     replace(_$result);
     return _$result;
   }
@@ -364,7 +351,7 @@ class _$GCreatePhoneSecurityOfViewerData
   @override
   final String G__typename;
   @override
-  final _i1.GDateTime createViewerSecurity;
+  final DateTime createViewerSecurity;
 
   factory _$GCreatePhoneSecurityOfViewerData(
           [void Function(GCreatePhoneSecurityOfViewerDataBuilder)? updates]) =>
@@ -421,10 +408,9 @@ class GCreatePhoneSecurityOfViewerDataBuilder
   String? get G__typename => _$this._G__typename;
   set G__typename(String? G__typename) => _$this._G__typename = G__typename;
 
-  _i1.GDateTimeBuilder? _createViewerSecurity;
-  _i1.GDateTimeBuilder get createViewerSecurity =>
-      _$this._createViewerSecurity ??= new _i1.GDateTimeBuilder();
-  set createViewerSecurity(_i1.GDateTimeBuilder? createViewerSecurity) =>
+  DateTime? _createViewerSecurity;
+  DateTime? get createViewerSecurity => _$this._createViewerSecurity;
+  set createViewerSecurity(DateTime? createViewerSecurity) =>
       _$this._createViewerSecurity = createViewerSecurity;
 
   GCreatePhoneSecurityOfViewerDataBuilder() {
@@ -435,7 +421,7 @@ class GCreatePhoneSecurityOfViewerDataBuilder
     final $v = _$v;
     if ($v != null) {
       _G__typename = $v.G__typename;
-      _createViewerSecurity = $v.createViewerSecurity.toBuilder();
+      _createViewerSecurity = $v.createViewerSecurity;
       _$v = null;
     }
     return this;
@@ -454,24 +440,14 @@ class GCreatePhoneSecurityOfViewerDataBuilder
 
   @override
   _$GCreatePhoneSecurityOfViewerData build() {
-    _$GCreatePhoneSecurityOfViewerData _$result;
-    try {
-      _$result = _$v ??
-          new _$GCreatePhoneSecurityOfViewerData._(
-              G__typename: BuiltValueNullFieldError.checkNotNull(G__typename,
-                  'GCreatePhoneSecurityOfViewerData', 'G__typename'),
-              createViewerSecurity: createViewerSecurity.build());
-    } catch (_) {
-      late String _$failedField;
-      try {
-        _$failedField = 'createViewerSecurity';
-        createViewerSecurity.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'GCreatePhoneSecurityOfViewerData', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ??
+        new _$GCreatePhoneSecurityOfViewerData._(
+            G__typename: BuiltValueNullFieldError.checkNotNull(
+                G__typename, 'GCreatePhoneSecurityOfViewerData', 'G__typename'),
+            createViewerSecurity: BuiltValueNullFieldError.checkNotNull(
+                createViewerSecurity,
+                'GCreatePhoneSecurityOfViewerData',
+                'createViewerSecurity'));
     replace(_$result);
     return _$result;
   }

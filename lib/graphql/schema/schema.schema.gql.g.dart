@@ -261,21 +261,21 @@ class _$GDateTimeFilterSerializer
       result
         ..add('equals')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(GDateTime)));
+            specifiedType: const FullType(DateTime)));
     }
     value = object.gt;
     if (value != null) {
       result
         ..add('gt')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(GDateTime)));
+            specifiedType: const FullType(DateTime)));
     }
     value = object.gte;
     if (value != null) {
       result
         ..add('gte')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(GDateTime)));
+            specifiedType: const FullType(DateTime)));
     }
     value = object.Gin;
     if (value != null) {
@@ -283,21 +283,21 @@ class _$GDateTimeFilterSerializer
         ..add('in')
         ..add(serializers.serialize(value,
             specifiedType:
-                const FullType(BuiltList, const [const FullType(GDateTime)])));
+                const FullType(BuiltList, const [const FullType(DateTime)])));
     }
     value = object.lt;
     if (value != null) {
       result
         ..add('lt')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(GDateTime)));
+            specifiedType: const FullType(DateTime)));
     }
     value = object.lte;
     if (value != null) {
       result
         ..add('lte')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(GDateTime)));
+            specifiedType: const FullType(DateTime)));
     }
     value = object.not;
     if (value != null) {
@@ -312,7 +312,7 @@ class _$GDateTimeFilterSerializer
         ..add('notIn')
         ..add(serializers.serialize(value,
             specifiedType:
-                const FullType(BuiltList, const [const FullType(GDateTime)])));
+                const FullType(BuiltList, const [const FullType(DateTime)])));
     }
     return result;
   }
@@ -330,30 +330,30 @@ class _$GDateTimeFilterSerializer
       final Object? value = iterator.current;
       switch (key) {
         case 'equals':
-          result.equals.replace(serializers.deserialize(value,
-              specifiedType: const FullType(GDateTime))! as GDateTime);
+          result.equals = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'gt':
-          result.gt.replace(serializers.deserialize(value,
-              specifiedType: const FullType(GDateTime))! as GDateTime);
+          result.gt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'gte':
-          result.gte.replace(serializers.deserialize(value,
-              specifiedType: const FullType(GDateTime))! as GDateTime);
+          result.gte = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'in':
           result.Gin.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(GDateTime)]))!
+                      BuiltList, const [const FullType(DateTime)]))!
               as BuiltList<Object>);
           break;
         case 'lt':
-          result.lt.replace(serializers.deserialize(value,
-              specifiedType: const FullType(GDateTime))! as GDateTime);
+          result.lt = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'lte':
-          result.lte.replace(serializers.deserialize(value,
-              specifiedType: const FullType(GDateTime))! as GDateTime);
+          result.lte = serializers.deserialize(value,
+              specifiedType: const FullType(DateTime)) as DateTime;
           break;
         case 'not':
           result.not.replace(serializers.deserialize(value,
@@ -363,7 +363,7 @@ class _$GDateTimeFilterSerializer
         case 'notIn':
           result.notIn.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(GDateTime)]))!
+                      BuiltList, const [const FullType(DateTime)]))!
               as BuiltList<Object>);
           break;
       }
@@ -1734,99 +1734,23 @@ class _$GsortOrderSerializer implements PrimitiveSerializer<GsortOrder> {
       GsortOrder.valueOf(serialized as String);
 }
 
-class _$GDateTime extends GDateTime {
-  @override
-  final String value;
-
-  factory _$GDateTime([void Function(GDateTimeBuilder)? updates]) =>
-      (new GDateTimeBuilder()..update(updates)).build();
-
-  _$GDateTime._({required this.value}) : super._() {
-    BuiltValueNullFieldError.checkNotNull(value, 'GDateTime', 'value');
-  }
-
-  @override
-  GDateTime rebuild(void Function(GDateTimeBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  GDateTimeBuilder toBuilder() => new GDateTimeBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is GDateTime && value == other.value;
-  }
-
-  @override
-  int get hashCode {
-    return $jf($jc(0, value.hashCode));
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper('GDateTime')..add('value', value))
-        .toString();
-  }
-}
-
-class GDateTimeBuilder implements Builder<GDateTime, GDateTimeBuilder> {
-  _$GDateTime? _$v;
-
-  String? _value;
-  String? get value => _$this._value;
-  set value(String? value) => _$this._value = value;
-
-  GDateTimeBuilder();
-
-  GDateTimeBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _value = $v.value;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(GDateTime other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GDateTime;
-  }
-
-  @override
-  void update(void Function(GDateTimeBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  _$GDateTime build() {
-    final _$result = _$v ??
-        new _$GDateTime._(
-            value: BuiltValueNullFieldError.checkNotNull(
-                value, 'GDateTime', 'value'));
-    replace(_$result);
-    return _$result;
-  }
-}
-
 class _$GDateTimeFilter extends GDateTimeFilter {
   @override
-  final GDateTime? equals;
+  final DateTime? equals;
   @override
-  final GDateTime? gt;
+  final DateTime? gt;
   @override
-  final GDateTime? gte;
+  final DateTime? gte;
   @override
-  final BuiltList<GDateTime>? Gin;
+  final BuiltList<DateTime>? Gin;
   @override
-  final GDateTime? lt;
+  final DateTime? lt;
   @override
-  final GDateTime? lte;
+  final DateTime? lte;
   @override
   final GDateTimeFilter? not;
   @override
-  final BuiltList<GDateTime>? notIn;
+  final BuiltList<DateTime>? notIn;
 
   factory _$GDateTimeFilter([void Function(GDateTimeFilterBuilder)? updates]) =>
       (new GDateTimeFilterBuilder()..update(updates)).build();
@@ -1899,52 +1823,51 @@ class GDateTimeFilterBuilder
     implements Builder<GDateTimeFilter, GDateTimeFilterBuilder> {
   _$GDateTimeFilter? _$v;
 
-  GDateTimeBuilder? _equals;
-  GDateTimeBuilder get equals => _$this._equals ??= new GDateTimeBuilder();
-  set equals(GDateTimeBuilder? equals) => _$this._equals = equals;
+  DateTime? _equals;
+  DateTime? get equals => _$this._equals;
+  set equals(DateTime? equals) => _$this._equals = equals;
 
-  GDateTimeBuilder? _gt;
-  GDateTimeBuilder get gt => _$this._gt ??= new GDateTimeBuilder();
-  set gt(GDateTimeBuilder? gt) => _$this._gt = gt;
+  DateTime? _gt;
+  DateTime? get gt => _$this._gt;
+  set gt(DateTime? gt) => _$this._gt = gt;
 
-  GDateTimeBuilder? _gte;
-  GDateTimeBuilder get gte => _$this._gte ??= new GDateTimeBuilder();
-  set gte(GDateTimeBuilder? gte) => _$this._gte = gte;
+  DateTime? _gte;
+  DateTime? get gte => _$this._gte;
+  set gte(DateTime? gte) => _$this._gte = gte;
 
-  ListBuilder<GDateTime>? _Gin;
-  ListBuilder<GDateTime> get Gin =>
-      _$this._Gin ??= new ListBuilder<GDateTime>();
-  set Gin(ListBuilder<GDateTime>? Gin) => _$this._Gin = Gin;
+  ListBuilder<DateTime>? _Gin;
+  ListBuilder<DateTime> get Gin => _$this._Gin ??= new ListBuilder<DateTime>();
+  set Gin(ListBuilder<DateTime>? Gin) => _$this._Gin = Gin;
 
-  GDateTimeBuilder? _lt;
-  GDateTimeBuilder get lt => _$this._lt ??= new GDateTimeBuilder();
-  set lt(GDateTimeBuilder? lt) => _$this._lt = lt;
+  DateTime? _lt;
+  DateTime? get lt => _$this._lt;
+  set lt(DateTime? lt) => _$this._lt = lt;
 
-  GDateTimeBuilder? _lte;
-  GDateTimeBuilder get lte => _$this._lte ??= new GDateTimeBuilder();
-  set lte(GDateTimeBuilder? lte) => _$this._lte = lte;
+  DateTime? _lte;
+  DateTime? get lte => _$this._lte;
+  set lte(DateTime? lte) => _$this._lte = lte;
 
   GDateTimeFilterBuilder? _not;
   GDateTimeFilterBuilder get not =>
       _$this._not ??= new GDateTimeFilterBuilder();
   set not(GDateTimeFilterBuilder? not) => _$this._not = not;
 
-  ListBuilder<GDateTime>? _notIn;
-  ListBuilder<GDateTime> get notIn =>
-      _$this._notIn ??= new ListBuilder<GDateTime>();
-  set notIn(ListBuilder<GDateTime>? notIn) => _$this._notIn = notIn;
+  ListBuilder<DateTime>? _notIn;
+  ListBuilder<DateTime> get notIn =>
+      _$this._notIn ??= new ListBuilder<DateTime>();
+  set notIn(ListBuilder<DateTime>? notIn) => _$this._notIn = notIn;
 
   GDateTimeFilterBuilder();
 
   GDateTimeFilterBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _equals = $v.equals?.toBuilder();
-      _gt = $v.gt?.toBuilder();
-      _gte = $v.gte?.toBuilder();
+      _equals = $v.equals;
+      _gt = $v.gt;
+      _gte = $v.gte;
       _Gin = $v.Gin?.toBuilder();
-      _lt = $v.lt?.toBuilder();
-      _lte = $v.lte?.toBuilder();
+      _lt = $v.lt;
+      _lte = $v.lte;
       _not = $v.not?.toBuilder();
       _notIn = $v.notIn?.toBuilder();
       _$v = null;
@@ -1969,29 +1892,20 @@ class GDateTimeFilterBuilder
     try {
       _$result = _$v ??
           new _$GDateTimeFilter._(
-              equals: _equals?.build(),
-              gt: _gt?.build(),
-              gte: _gte?.build(),
+              equals: equals,
+              gt: gt,
+              gte: gte,
               Gin: _Gin?.build(),
-              lt: _lt?.build(),
-              lte: _lte?.build(),
+              lt: lt,
+              lte: lte,
               not: _not?.build(),
               notIn: _notIn?.build());
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'equals';
-        _equals?.build();
-        _$failedField = 'gt';
-        _gt?.build();
-        _$failedField = 'gte';
-        _gte?.build();
         _$failedField = 'Gin';
         _Gin?.build();
-        _$failedField = 'lt';
-        _lt?.build();
-        _$failedField = 'lte';
-        _lte?.build();
+
         _$failedField = 'not';
         _not?.build();
         _$failedField = 'notIn';

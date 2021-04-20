@@ -27,5 +27,6 @@ class LoginState {
   final Rx<bool> agreement = false.obs;
 
   final Rx<int> countdownNumber = 0.obs;
-  final Rx<LoginCreateSecurityStatus> createSecurityStatus = LoginCreateSecurityStatus.AWAIT.obs;
+  final Rx<LoginCreateSecurityStatus> createSecurityStatus =
+      LoginCreateSecurityStatus.AWAIT.obs;
 }

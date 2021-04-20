@@ -22,7 +22,6 @@ import 'package:socfony/graphql/mutations/mutations.var.gql.dart'
 import 'package:socfony/graphql/schema/schema.schema.gql.dart'
     show
         GAllowUploadFileType,
-        GDateTime,
         GDateTimeFilter,
         GMomentMediaType,
         GMomentOrderByInput,
@@ -59,7 +58,6 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   GCreatePhoneSecurityOfViewerVars,
   GCreatePhoneSecurityReq,
   GCreatePhoneSecurityVars,
-  GDateTime,
   GDateTimeFilter,
   GMomentMediaType,
   GMomentOrderByInput,
