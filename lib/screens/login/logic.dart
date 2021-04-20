@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ferry/ferry.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -85,16 +86,26 @@ class LoginLogic extends GetxController {
     state.countdownNumber.value = 0;
     final createSecurityRequest = GCreatePhoneSecurityReq(
         (builder) => builder..vars.phone = '+86${state.account.value}');
-    graphql.client.request(createSecurityRequest).listen((event) {
-      if (event.data?.createSecurity is! DateTime) {
-        state.createSecurityStatus.value = LoginCreateSecurityStatus.AWAIT;
-        return Get.snackbar('错误', '获取验证码失败');
+    graphql.clientWithout
+        .request(createSecurityRequest)
+        .firstWhere((element) => element.dataSource != DataSource.Optimistic)
+        .then<DateTime>((response) {
+      if (response.data?.createSecurity is DateTime) {
+        return response.data!.createSecurity;
+      } else if (response.graphqlErrors?.isNotEmpty == true) {
+        throw response.graphqlErrors!.last;
       }
 
+      throw response.linkException ?? Exception('服务器错误');
+    }).then((value) {
       state.createSecurityStatus.value = LoginCreateSecurityStatus.DONE;
       countdownTimer?.cancel();
       countdownTimer =
           Timer.periodic(Duration(seconds: 1), _$onCountdownTimerCallback);
+    }).catchError((error) {
+      state.createSecurityStatus.value = LoginCreateSecurityStatus.AWAIT;
+      Get.snackbar('错误', '获取验证码失败');
+      print(error);
     });
   }
 

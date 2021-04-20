@@ -1,5 +1,6 @@
 {
     "dart.analysisExcludedFolders": [
+        "lib/graphql/fragments",
         "lib/graphql/mutations",
         "lib/graphql/schema"
     ]

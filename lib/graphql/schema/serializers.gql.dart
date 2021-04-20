@@ -5,6 +5,12 @@ import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart' show StandardJsonPlugin;
 import 'package:gql_code_builder/src/serializers/operation_serializer.dart'
     show OperationSerializer;
+import 'package:socfony/graphql/fragments/fragments.data.gql.dart'
+    show GAuthorizationTokenFragmentData;
+import 'package:socfony/graphql/fragments/fragments.req.gql.dart'
+    show GAuthorizationTokenFragmentReq;
+import 'package:socfony/graphql/fragments/fragments.var.gql.dart'
+    show GAuthorizationTokenFragmentVars;
 import 'package:socfony/graphql/mutations/mutations.data.gql.dart'
     show
         GCreateAuthorizationTokenData,
@@ -51,6 +57,9 @@ final SerializersBuilder _serializersBuilder = _$serializers.toBuilder()
   ..addPlugin(StandardJsonPlugin());
 @SerializersFor([
   GAllowUploadFileType,
+  GAuthorizationTokenFragmentData,
+  GAuthorizationTokenFragmentReq,
+  GAuthorizationTokenFragmentVars,
   GCreateAuthorizationTokenData,
   GCreateAuthorizationTokenData_createAuthorizationToken,
   GCreateAuthorizationTokenReq,

@@ -8,6 +8,9 @@ part of 'serializers.gql.dart';
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GAllowUploadFileType.serializer)
+      ..add(GAuthorizationTokenFragmentData.serializer)
+      ..add(GAuthorizationTokenFragmentReq.serializer)
+      ..add(GAuthorizationTokenFragmentVars.serializer)
       ..add(GCreateAuthorizationTokenData.serializer)
       ..add(GCreateAuthorizationTokenData_createAuthorizationToken.serializer)
       ..add(GCreateAuthorizationTokenReq.serializer)
