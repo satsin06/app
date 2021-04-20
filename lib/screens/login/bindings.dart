@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:socfony/screens/login/logic.dart';
+
+import 'logic.dart';
 
 class LoginBindings implements Bindings {
   @override

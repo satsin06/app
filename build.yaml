@@ -38,6 +38,9 @@ targets:
               name: DateTime
             DateTime:
               name: DateTime
+          custom_serializers:
+            - import: package:built_value/iso_8601_date_time_serializer.dart
+              name: Iso8601DateTimeSerializer
 
       ferry_generator|req_builder:
         enabled: true

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:socfony/graphql/schema.dart';
+import '../../graphql/schema.dart';
 
 enum LoginCreateSecurityStatus {
   AWAIT,

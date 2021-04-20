@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:core';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:socfony/graphql/mutations.dart';
 
 import '../../graphql/schema.dart' hide DateTime;
 import '../../graphql/client.service.dart';
+import '../../graphql/mutations.dart';
 import 'state.dart';
 
 /// Login logic
@@ -88,6 +87,7 @@ class LoginLogic extends GetxController {
         (builder) => builder..vars.phone = '+86${state.account.value}');
     graphql.client.request(createSecurityRequest).listen((event) {
       if (event.data?.createSecurity is! DateTime) {
+        state.createSecurityStatus.value = LoginCreateSecurityStatus.AWAIT;
         return Get.snackbar('错误', '获取验证码失败');
       }
 
