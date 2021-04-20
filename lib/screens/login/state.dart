@@ -1,6 +1,12 @@
 import 'package:get/get.dart';
 import 'package:socfony/graphql/schema.dart';
 
+enum LoginCreateSecurityStatus {
+  AWAIT,
+  DONE,
+  INPROGRESS,
+}
+
 /// Login state
 class LoginState {
   /// Login mode.
@@ -19,4 +25,7 @@ class LoginState {
 
   /// Login agreement value.
   final Rx<bool> agreement = false.obs;
+
+  final Rx<int> countdownNumber = 0.obs;
+  final Rx<LoginCreateSecurityStatus> createSecurityStatus = LoginCreateSecurityStatus.AWAIT.obs;
 }

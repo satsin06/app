@@ -1,7 +1,12 @@
+import 'dart:async';
+import 'dart:core';
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:socfony/graphql/mutations.dart';
 
-import '../../graphql/schema.dart';
+import '../../graphql/schema.dart' hide DateTime;
+import '../../graphql/client.service.dart';
 import 'state.dart';
 
 /// Login logic
@@ -9,11 +14,15 @@ class LoginLogic extends GetxController {
   /// The login logic state.
   final LoginState state = LoginState();
 
+  final GraphQLClientService graphql = Get.find<GraphQLClientService>();
+
   /// Account input text editing controller.
   final TextEditingController accountController = TextEditingController();
 
   /// Security input text editing controller.
   final TextEditingController securityController = TextEditingController();
+
+  Timer? countdownTimer;
 
   /// Called immediately after the widget is allocated in memory.
   @override
@@ -37,6 +46,8 @@ class LoginLogic extends GetxController {
   void onClose() {
     accountController.dispose();
     securityController.dispose();
+    countdownTimer?.cancel();
+    countdownTimer = null;
     super.onClose();
   }
 
@@ -64,5 +75,33 @@ class LoginLogic extends GetxController {
 
   void changeAgreement(bool? value) {
     state.agreement.value = value == true;
+  }
+
+  void createSecurityHandler() {
+    if (!state.account.value.isPhoneNumber) {
+      return Get.snackbar('错误', '请输入正确手机号码');
+    }
+
+    state.createSecurityStatus.value = LoginCreateSecurityStatus.INPROGRESS;
+    final createSecurityRequest = GCreatePhoneSecurityReq((builder) => builder..vars.phone = '+86${state.account.value}');
+    graphql.client.request(createSecurityRequest).listen((event) {
+      if (event.data?.createSecurity.value == null) {
+        return Get.snackbar('错误', '获取验证码失败');
+      }
+      state.createSecurityStatus.value = LoginCreateSecurityStatus.DONE;
+      state.countdownNumber.value = 0;
+      countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+        print('1111111');
+        if (state.countdownNumber < 10) {
+          state.countdownNumber.value += 1;
+          return;
+        }
+
+        state.createSecurityStatus.value = LoginCreateSecurityStatus.AWAIT;
+        timer.cancel();
+        countdownTimer?.cancel();
+        countdownTimer = null;
+      });
+    });
   }
 }
