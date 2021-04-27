@@ -10,7 +10,7 @@ class LoginCreateSecurityButton extends GetView<LoginLogic> {
 
   bool get allowCreateSecurity =>
       state.createSecurityStatus.value == LoginCreateSecurityStatus.AWAIT &&
-      state.account.value.isPhoneNumber;
+      state.account.value.isPhoneNumber && state.signing.value == false;
 
   @override
   Widget build(BuildContext context) {

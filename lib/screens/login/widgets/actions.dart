@@ -23,7 +23,7 @@ class LoginActions extends GetView<LoginLogic> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Obx(() => TextButton(
-            onPressed: controller.switchModeHandler,
+            onPressed: state.signing.value ? null : controller.switchModeHandler,
             child: Text(switchLoginModeText))),
         Obx(() => showForgotPassword
             ? TextButton(onPressed: null, child: Text('FORGOT_PASSWORD'.tr))

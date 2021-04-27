@@ -31,6 +31,7 @@ class LoginAccountInput extends GetView<LoginLogic> {
             decoration: InputDecoration(
               labelText: labelText,
             ),
+            readOnly: state.signing.value,
           )),
     );
   }

@@ -35,6 +35,7 @@ class LoginSecurityInput extends GetView<LoginLogic> {
               labelText: labelText,
               suffixIcon: LoginCreateSecurityButton(),
             ),
+            readOnly: state.signing.value,
           )),
     );
   }

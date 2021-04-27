@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:ferry/ferry.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
@@ -70,6 +71,8 @@ class LoginLogic extends GetxController {
   }
 
   void loginHandler() {
+    Get.focusScope?.unfocus();
+    state.signing.value = true;
     print('Login handler.');
   }
 

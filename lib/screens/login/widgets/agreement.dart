@@ -23,7 +23,6 @@ class LoginAgreement extends GetView<LoginLogic> {
             () => Checkbox(
               value: controller.state.agreement.value,
               onChanged: controller.changeAgreement,
-              splashRadius: 24.0,
             ),
           ),
           Text.rich(
