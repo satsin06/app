@@ -1,4 +1,4 @@
-package com.bytegem.socfony
+package com.odroe.socfony
 
 import io.flutter.embedding.android.FlutterActivity
 

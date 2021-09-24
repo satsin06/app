@@ -1,6 +1,0 @@
-fragment AuthorizationTokenFragment on AuthorizationTokenEntity {
-   expiredAt
-   refreshExpiredAt
-   token
-   userId
-}
