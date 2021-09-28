@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
-import 'login/screen.dart';
+import 'login.dart';
 
 const initialRoute = '/';
 final routes = {
-  '/': (BuildContext context) => const LoginScreen(),
+  '/': (BuildContext context) => LoginScreen(),
 };
