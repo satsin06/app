@@ -32,7 +32,7 @@ ThemeData themeData = ThemeData.from(
 ThemeData darkThemeData = ThemeData.from(
   colorScheme: ColorScheme.fromSwatch(
     primarySwatch: themeColor,
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.grey[900],
     brightness: Brightness.dark,
   ),
 ).copyWith(

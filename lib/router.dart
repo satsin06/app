@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
-
-import 'login.dart';
+import 'package:socfony/screens/login/screen.dart';
 
 const initialRoute = '/';
 final routes = {
