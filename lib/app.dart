@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'router.dart';
 import 'theme_data.dart';
@@ -14,6 +15,14 @@ class App extends StatelessWidget {
       darkTheme: darkThemeData,
       routes: routes,
       initialRoute: initialRoute,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('zh', 'CN'),
+      ],
     );
   }
 }

@@ -4,10 +4,12 @@ import 'package:mobx/mobx.dart';
 part 'verification_code.response.g.dart';
 
 @JsonSerializable()
-class VerificationCodeResponse extends _VerificationCodeResponse with _$VerificationCodeResponse {
+class VerificationCodeResponse extends _VerificationCodeResponse
+    with _$VerificationCodeResponse {
   VerificationCodeResponse();
 
-  factory VerificationCodeResponse.fromJson(Map<String, dynamic> json) => _$VerificationCodeResponseFromJson(json);
+  factory VerificationCodeResponse.fromJson(Map<String, dynamic> json) =>
+      _$VerificationCodeResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$VerificationCodeResponseToJson(this);
 }

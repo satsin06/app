@@ -8,5 +8,6 @@ class GraphQLError {
 
   GraphQLError(this.message);
 
-  factory GraphQLError.fromJson(Map<String, dynamic> json) => _$GraphQLErrorFromJson(json);
+  factory GraphQLError.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLErrorFromJson(json);
 }

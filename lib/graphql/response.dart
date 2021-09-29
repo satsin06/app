@@ -11,6 +11,6 @@ class GraphQLResponse {
 
   GraphQLResponse({this.errors, this.data});
 
-  factory GraphQLResponse.fromJson(Map<String, dynamic> json) => _$GraphQLResponseFromJson(json);
+  factory GraphQLResponse.fromJson(Map<String, dynamic> json) =>
+      _$GraphQLResponseFromJson(json);
 }
-

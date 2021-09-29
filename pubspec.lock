@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  circle_flags:
+    dependency: transitive
+    description:
+      name: circle_flags
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   cli_util:
     dependency: transitive
     description:
@@ -169,6 +176,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  dart_countries:
+    dependency: transitive
+    description:
+      name: dart_countries
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   dart_style:
     dependency: transitive
     description:
@@ -223,6 +237,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_mobx:
     dependency: "direct main"
     description:
@@ -296,6 +315,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.5"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
   io:
     dependency: transitive
     description:
@@ -422,6 +448,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.3.0"
+  phone_form_field:
+    dependency: "direct main"
+    description:
+      name: phone_form_field
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
+  phone_number_metadata:
+    dependency: transitive
+    description:
+      name: phone_number_metadata
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  phone_numbers_parser:
+    dependency: transitive
+    description:
+      name: phone_numbers_parser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   platform:
     dependency: transitive
     description:

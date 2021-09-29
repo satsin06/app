@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:phone_form_field/phone_form_field.dart';
 
 part 'store.g.dart';
 
@@ -6,13 +7,10 @@ class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
   @observable
-  String? country = '+86';
+  PhoneNumber? phone;
 
   @observable
-  String phone = '';
-
-  @observable
-  String code = '';
+  String? code;
 
   @observable
   bool agreement = false;
@@ -20,12 +18,9 @@ abstract class _LoginStore with Store {
   @observable
   int countdown = 0;
 
-  @computed
-  String get e164 => (country ?? '') + phone;
-
   void dispose() {
-    phone = '';
-    code = '';
+    phone = null;
+    code = null;
     agreement = false;
   }
 }
