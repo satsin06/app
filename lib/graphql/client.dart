@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../configuration.dart';
 import 'response.dart';
 
-const String endpoint = 'http://localhost:3000/graphql';
-
-class GraphQLClient extends BaseClient {
+class _GraphQLClient extends BaseClient {
   late final Client client;
 
-  GraphQLClient._() {
+  _GraphQLClient._() {
     client = Client();
   }
 
@@ -31,7 +30,7 @@ class GraphQLClient extends BaseClient {
       Map<String, String>? headers,
       required String query,
       required Uri url}) async {
-    final client = GraphQLClient._();
+    final client = _GraphQLClient._();
     final response = await client.post(
       url,
       headers: {
@@ -52,4 +51,21 @@ class GraphQLClient extends BaseClient {
   void dispose() {
     client.close();
   }
+}
+
+final _endpoint = Uri.parse(graphqlEndpoint);
+
+Future<GraphQLResponse> graphql({
+  String? operationName,
+  Map<dynamic, dynamic>? variables,
+  Map<String, String>? headers,
+  required String query,
+}) {
+  return _GraphQLClient.request(
+    operationName: operationName,
+    variables: variables,
+    headers: headers,
+    query: query,
+    url: _endpoint,
+  );
 }

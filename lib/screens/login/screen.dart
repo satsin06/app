@@ -190,12 +190,13 @@ class _LoginScreenState extends State<LoginScreen> {
   void onLogin() async {
     FocusScope.of(context).unfocus();
 
-    final bool validated = validatePhone() && validateCode();
+    final bool validated =
+        validatePhone() && validateCode() && validateAgreement();
     if (!validated) {
       return;
     }
 
-    // TODO: Login!
+    // TODO: Login
   }
 
   Future<void> onSendVerificationCode() async {
@@ -205,8 +206,7 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    final response = await GraphQLClient.request(
-      url: Uri.parse('http://127.0.0.1:3000'),
+    final response = await graphql(
       query: sendSmsVerificationCode,
       variables: {
         'phone': store.phone!.international,
@@ -223,6 +223,18 @@ class _LoginScreenState extends State<LoginScreen> {
     final data = VerificationCodeResponse.fromJson(json);
     GetIt.I<VerificationCodeResponse>().update(data);
     store.countdown = 60;
+  }
+
+  bool validateAgreement() {
+    if (store.agreement == false) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('请阅读并同意用户协议'),
+        duration: Duration(seconds: 2),
+      ));
+      return false;
+    }
+
+    return true;
   }
 
   bool validatePhone() {
