@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 
 import 'main.controller.dart';
 
-
 class MainBinding extends Bindings {
   @override
   void dependencies() {

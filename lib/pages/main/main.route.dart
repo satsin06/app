@@ -6,8 +6,8 @@ import 'main.view.dart';
 class MainRoute {
   static String get path => '/';
   static GetPage get route => GetPage(
-    name: path,
-    page: () => const MainView(),
-    binding: MainBinding(),
-  );
+        name: path,
+        page: () => const MainView(),
+        binding: MainBinding(),
+      );
 }
