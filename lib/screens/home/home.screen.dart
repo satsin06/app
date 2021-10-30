@@ -1,4 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:socfony/widgets/login_dialog/login_dialog.dart';
+
+import '../../routes/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -29,11 +33,14 @@ class HomeScreen extends StatelessWidget {
             label: '我的',
           ),
         ],
+        onTap: (int index) {
+          LoginDialog.open(context);
+        },
       ),
       tabBuilder: (context, index) {
-        return const CupertinoPageScaffold(
+        return CupertinoPageScaffold(
           child: Center(
-            child: Text('Home'),
+            child: Text('View: $index'),
           ),
         );
       },
