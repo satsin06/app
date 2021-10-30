@@ -11,10 +11,13 @@ class VerificationCodeScreen extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         automaticallyImplyLeading: true,
         middle: const Text('输入验证码'),
-        trailing: CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: const Text('确定'),
-          onPressed: () {},
+        trailing: SizedBox(
+          height: 28,
+          child: CupertinoButton.filled(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: const Text('登录'),
+            onPressed: () {},
+          ),
         ),
       ),
       child: ListView(
