@@ -36,6 +36,7 @@ dependencies:
   socfonyapis: ^1.0.0
   flutter_svg: ^1.0.1
   provider: ^6.0.2
+  readmore: ^2.1.0
 
 dev_dependencies:
   flutter_test:

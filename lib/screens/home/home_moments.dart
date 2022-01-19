@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:readmore/readmore.dart';
 
 class HomeMomentsScrren extends StatefulWidget {
   const HomeMomentsScrren({Key? key}) : super(key: key);
@@ -64,9 +65,11 @@ class _HomeMomentsScrren extends StatelessWidget {
       ),
       body: TabBarView(
         controller: context.read<TabController>(),
-        children: const [
-          MomentCard(),
-          Text('关注'),
+        children: [
+          ListView(
+            children: const [MomentCard()],
+          ),
+          const Text('关注'),
         ],
       ),
     );
@@ -82,18 +85,55 @@ class MomentCard extends StatelessWidget {
 
     return Column(
       children: [
-        ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(
-                r'https://avatars.githubusercontent.com/u/5564821?v=4'),
-          ),
-          title: Text('Seven'),
-          subtitle: Text('@seven · 1小时前'),
-          trailing: Icon(Icons.expand_more),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              width: 64,
+              child: Center(
+                child: CircleAvatar(radius: 21),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Seven',
+                    style: theme.textTheme.subtitle2,
+                  ),
+                  Text(
+                    '3天前',
+                    style: theme.textTheme.caption,
+                  ),
+                ],
+              ),
+            ),
+            IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {},
+              icon: const Icon(Icons.expand_more),
+            ),
+          ],
         ),
         Padding(
-          padding: EdgeInsets.only(left: 12),
-          child: Text('我的干饭日常'),
+          padding: const EdgeInsets.only(left: 64, right: 16),
+          // child: Text(
+          //   '不会随大风过后就是冻干粉黄金时代工会经费把史蒂芬霍金风格黄金时代v发货剪短发',
+          //   style: theme.textTheme.bodyText2,
+          // ),
+          child: ReadMoreText(
+            'Socfony is an open source social application, and basic security modules and social function modules have been preset in the software. Whether it is to deploy Socfony directly or as a basis for program development is wonderful',
+            trimMode: TrimMode.Line,
+            trimLines: 3,
+            trimExpandedText: '收起',
+            trimCollapsedText: '阅读全文',
+            style: theme.textTheme.bodyText2,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 64, right: 16),
+          // child: Grid,
         ),
       ],
     );
