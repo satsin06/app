@@ -35,6 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   socfonyapis: ^1.0.0
   flutter_svg: ^1.0.1
+  provider: ^6.0.2
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +90,19 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: MiSans
+      fonts:
+        - asset: assets/fonts/MiSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/MiSans-Demibold.ttf
+          weight: 600
+        - asset: assets/fonts/MiSans-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/MiSans-Heavy.ttf
+          weight: 800
+        - asset: assets/fonts/MiSans-Light.ttf
+          style: italic
 
 # Flutter launcher icons
 # Builds a set of launcher icons for application.
