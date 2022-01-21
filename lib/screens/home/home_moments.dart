@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
@@ -67,9 +69,19 @@ class _HomeMomentsScrren extends StatelessWidget {
         controller: context.read<TabController>(),
         children: [
           ListView(
-            children: const [MomentCard()],
+            children: const [
+              MomentCard(),
+              MomentCard(),
+              MomentCard(),
+            ],
           ),
-          const Text('关注'),
+          ListView(
+            children: const [
+              MomentCard(),
+              MomentCard(),
+              MomentCard(),
+            ],
+          ),
         ],
       ),
     );
@@ -118,10 +130,6 @@ class MomentCard extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.only(left: 64, right: 16),
-          // child: Text(
-          //   '不会随大风过后就是冻干粉黄金时代工会经费把史蒂芬霍金风格黄金时代v发货剪短发',
-          //   style: theme.textTheme.bodyText2,
-          // ),
           child: ReadMoreText(
             'Socfony is an open source social application, and basic security modules and social function modules have been preset in the software. Whether it is to deploy Socfony directly or as a basis for program development is wonderful',
             trimMode: TrimMode.Line,
@@ -129,11 +137,59 @@ class MomentCard extends StatelessWidget {
             trimExpandedText: '收起',
             trimCollapsedText: '阅读全文',
             style: theme.textTheme.bodyText2,
+            colorClickableText: theme.primaryColor,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 64, right: 16, top: 12),
+          child: AspectRatio(
+            aspectRatio: 3 / 4,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: PageView(
+                children: [
+                  Image.asset(
+                    'assets/socfony.png',
+                    fit: BoxFit.cover,
+                  ),
+                  Image.network(
+                    'https://avatars.githubusercontent.com/u/5564821?v=4',
+                    fit: BoxFit.cover,
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 64, right: 16),
-          // child: Grid,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.shortcut),
+                label: const Text('分享'),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.forum),
+                label: const Text(
+                  '评论',
+                  style: TextStyle(
+                    fontFeatures: [
+                      FontFeature.alternativeFractions(),
+                    ],
+                  ),
+                ),
+              ),
+              TextButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.favorite_border),
+                label: const Text('喜欢'),
+              ),
+            ],
+          ),
         ),
       ],
     );
