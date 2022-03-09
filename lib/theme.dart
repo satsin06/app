@@ -19,9 +19,9 @@ class SocfonyTheme {
     return ColorScheme(
       brightness: brightness,
       primary: primaryColor,
-      primaryVariant: primaryColor,
+      primaryContainer: primaryColor,
       secondary: primaryColor,
-      secondaryVariant: primaryColor,
+      secondaryContainer: primaryColor,
       surface: isDark ? Colors.black : Colors.white,
       background: isDark ? Colors.black : Colors.white,
       error: Colors.red,

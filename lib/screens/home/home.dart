@@ -34,18 +34,18 @@ class _HomeScrren extends StatelessWidget {
                 SvgIcon.asset('assets/bottom_navigation_bar/home_selected.svg'),
             label: '动态',
           ),
-          BottomNavigationBarItem(
-            icon: SvgIcon.asset('assets/bottom_navigation_bar/community.svg'),
-            activeIcon: SvgIcon.asset(
-                'assets/bottom_navigation_bar/community_selected.svg'),
-            label: '社区',
-          ),
-          BottomNavigationBarItem(
-            icon: SvgIcon.asset('assets/bottom_navigation_bar/message.svg'),
-            activeIcon: SvgIcon.asset(
-                'assets/bottom_navigation_bar/message_selected.svg'),
-            label: '消息',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: SvgIcon.asset('assets/bottom_navigation_bar/community.svg'),
+          //   activeIcon: SvgIcon.asset(
+          //       'assets/bottom_navigation_bar/community_selected.svg'),
+          //   label: '社区',
+          // ),
+          // BottomNavigationBarItem(
+          //   icon: SvgIcon.asset('assets/bottom_navigation_bar/message.svg'),
+          //   activeIcon: SvgIcon.asset(
+          //       'assets/bottom_navigation_bar/message_selected.svg'),
+          //   label: '消息',
+          // ),
           BottomNavigationBarItem(
             icon: SvgIcon.asset('assets/bottom_navigation_bar/me.svg'),
             activeIcon:

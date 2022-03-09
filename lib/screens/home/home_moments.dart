@@ -143,7 +143,7 @@ class MomentCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 64, right: 16, top: 12),
           child: AspectRatio(
-            aspectRatio: 3 / 4,
+            aspectRatio: 16 / 9,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: PageView(
