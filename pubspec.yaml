@@ -108,6 +108,6 @@ flutter:
 # Builds a set of launcher icons for application.
 flutter_icons:
   image_path: "assets/socfony.png"
-  android: true
+  android: false
   ios: true
   remove_alpha_ios: true
