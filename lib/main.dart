@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
-import 'screens/home/home.dart';
+// import 'screens/home/home.dart';
+import 'screens/login/login.dart';
 import 'theme.dart';
 
 void main() async {
@@ -35,7 +36,7 @@ class SocfonyApp extends StatelessWidget {
       theme: theme.light,
       darkTheme: theme.dark,
       themeMode: mode,
-      home: const HomeScrren(),
+      home: const LoginScreen(),
     );
   }
 }
