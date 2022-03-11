@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
-// import 'screens/home/home.dart';
+import 'hive/init.dart';
 import 'screens/login/login.dart';
 import 'theme.dart';
 
 void main() async {
+  await hiveInit();
   await AppState.loadTheme();
 
   runApp(ChangeNotifierProvider(
