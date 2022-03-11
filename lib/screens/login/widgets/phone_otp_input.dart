@@ -41,7 +41,6 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   Timer? _timer;
   final int _countdown = 60;
   int _currentCountdown = 0;
-  bool _isSending = false;
 
   @override
   void dispose() {
@@ -50,7 +49,7 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   }
 
   Widget get child {
-    if (_isSending) {
+    if (context.select<LoginState, bool>((value) => value.hasOTPIsSending)) {
       return const SizedBox.square(
         child: CircularProgressIndicator(strokeWidth: 2.0),
         dimension: 20.0,
@@ -70,8 +69,13 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
       (bloc) => bloc.account,
     );
 
+    // Has OTP is sending
+    final bool hasOTPIsSending = context.select<LoginState, bool>(
+      (bloc) => bloc.hasOTPIsSending,
+    );
+
     // If account is not China phone number, disable button
-    if (account.length != 11 || !account.startsWith('1') || _isSending) {
+    if (account.length != 11 || !account.startsWith('1') || hasOTPIsSending) {
       onPressed = null;
     }
 
@@ -82,9 +86,11 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   }
 
   void onSendOTP() {
+    if (context.read<LoginState>().hasOTPIsSending) {
+      return;
+    }
+
     _timer?.cancel();
-    setState(() {
-      _isSending = true;
-    });
+    context.read<LoginState>().isSendingOTP();
   }
 }

@@ -11,10 +11,18 @@ class LoginAccountInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Fetch the [useOTP] value from the [LoginState]
     final bool useOTP = context.select<LoginState, bool>(
       (state) => state.useOTP,
     );
+
+    // Build the [TextField] enabled state.
+    bool enabled = context.select<LoginState, bool>(
+      (state) => state.hasLogging == false && state.hasOTPIsSending == false,
+    );
+
     return TextField(
+      enabled: enabled,
       keyboardType: useOTP ? TextInputType.number : TextInputType.emailAddress,
       decoration: InputDecoration(
         hintText: useOTP ? '手机号码' : 'E-Mail/手机号码/用户名',
