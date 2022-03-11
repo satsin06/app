@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socfony/screens/login/login_state.dart';
 
+import '../graphql/send_phone_otp.mutation.dart';
+
 class LoginPhoneOTPInputWidget extends StatelessWidget {
   const LoginPhoneOTPInputWidget({Key? key}) : super(key: key);
 
@@ -85,12 +87,19 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
     );
   }
 
-  void onSendOTP() {
-    if (context.read<LoginState>().hasOTPIsSending) {
+  void onSendOTP() async {
+    final LoginState state = context.read<LoginState>();
+    if (state.hasOTPIsSending) {
       return;
     }
 
     _timer?.cancel();
-    context.read<LoginState>().isSendingOTP();
+    state.isSendingOTP();
+    try {
+      await sendPhoneOTP(state.account);
+      state.isNotSendingOTP();
+    } catch (e) {
+      print(e);
+    }
   }
 }
