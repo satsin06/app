@@ -19,9 +19,7 @@ class SocfonyTheme {
     return ColorScheme(
       brightness: brightness,
       primary: primaryColor,
-      primaryContainer: primaryColor,
       secondary: primaryColor,
-      secondaryContainer: primaryColor,
       surface: isDark ? Colors.black : Colors.white,
       background: isDark ? Colors.black : Colors.white,
       error: Colors.red,
@@ -43,6 +41,7 @@ class SocfonyTheme {
       primaryColor: colorScheme.primary,
       scaffoldBackgroundColor: colorScheme.background,
       cardColor: colorScheme.surface,
+      toggleableActiveColor: colorScheme.primary,
       appBarTheme: AppBarTheme(
         elevation: 0,
         backgroundColor: colorScheme.surface,

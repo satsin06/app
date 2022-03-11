@@ -1,72 +1,53 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../widgets/unfocus.dart';
+import 'login_state.dart';
+import 'widgets/forget_password.dart';
+import 'widgets/login_account_input.dart';
+import 'widgets/login_agreement.dart';
+import 'widgets/login_logo.dart';
+import 'widgets/phone_otp_input.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: true,
-      ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                'assets/socfony.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Positioned.fill(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 100, sigmaY: 60),
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: [
-                    const SizedBox(height: 100),
-                    const Center(
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/socfony.png'),
-                        radius: 60,
-                      ),
-                    ),
-                    const SizedBox(height: 60),
-                    TextField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: '请输入手机号码',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.white24,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                        suffixIcon: IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {},
-                          icon: const Icon(Icons.east),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+    return UnfocusWidget(
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+        ),
+        body: ChangeNotifierProvider(
+          create: (context) => LoginState(),
+          child: const _StatedListView(),
+          lazy: true,
         ),
       ),
+    );
+  }
+}
+
+class _StatedListView extends StatelessWidget {
+  const _StatedListView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final useOTP = context.select<LoginState, bool>((state) => state.useOTP);
+    return ListView(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      children: [
+        const LoginLogoWidget(),
+        const SizedBox(height: 60),
+        const LoginAccountInputWidget(),
+        const SizedBox(height: 20),
+        const LoginPhoneOTPInputWidget(),
+        useOTP ? const SizedBox(height: 20) : const LoginForgetPasswordWidget(),
+        const LoginAgreementWidget(),
+      ],
     );
   }
 }
