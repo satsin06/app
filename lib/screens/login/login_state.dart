@@ -29,6 +29,8 @@ class LoginState with ChangeNotifier {
     useOTP = !useOTP;
     account.clear();
     password.clear();
+    accountInputErrorMessage = null;
+    passwordInputErrorMessage = null;
     notifyListeners();
   }
 
