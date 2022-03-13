@@ -1,23 +1,11 @@
 import 'dart:async';
 
-import 'package:hive/hive.dart';
-
 import '../../hive/hive.dart';
-import '../constants.dart';
+import 'auth_box.dart';
 import 'refresh_access_token.dart';
 
-/// Get the [Box] from [Hive].
-Future<Box<AccessToken>> _getBox() async {
-  if (Hive.isBoxOpen(authHeaderKey)) {
-    return Hive.box<AccessToken>(authHeaderKey);
-  }
-
-  return Hive.openBox<AccessToken>(authHeaderKey);
-}
-
 /// Get the [AccessToken] from cached.
-FutureOr<AccessToken?> getCachedAccessToken() async =>
-    (await _getBox()).get(authHeaderKey);
+FutureOr<AccessToken?> getCachedAccessToken() async => await AuthBox.get();
 
 /// Get the [AccessToken] from cached.
 ///
@@ -27,7 +15,12 @@ FutureOr<AccessToken?> getAccessTokenWithRefresh() async {
 
   if (accessToken != null &&
       accessToken.expiredAt.difference(DateTime.now()).inMinutes < 5) {
-    return refreshAccessToken();
+    final newAccessToken = await refreshAccessToken();
+    if (newAccessToken is AccessToken) {
+      await AuthBox.set(newAccessToken);
+    }
+
+    return newAccessToken;
   }
 
   return accessToken;

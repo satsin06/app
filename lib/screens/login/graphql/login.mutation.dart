@@ -30,21 +30,30 @@ MutationOptions _createLoginMutationOptions({
   );
 }
 
-Future<AccessToken?> login({
+Future<AccessToken> login({
   required String account,
   required String password,
   bool usePhoneOtp = false,
 }) async {
   final GraphQLClient client = await getGraphQLClient();
-  final result = client.mutate(
+  final result = await client.mutate(
     _createLoginMutationOptions(
-      account: account,
+      account: usePhoneOtp ? '+86$account' : account,
       password: password,
       usePhoneOtp: usePhoneOtp,
     ),
   );
+  if (result.hasException) {
+    throw result.exception!.graphqlErrors.isNotEmpty
+        ? result.exception!.graphqlErrors.first.message
+        : result.exception!.linkException!;
+  }
 
-  print(result);
+  final data = result.data!['login'];
 
-  return null;
+  return AccessToken()
+    ..expiredAt = DateTime.parse(data['expiredAt'] as String)
+    ..refreshExpiredAt = DateTime.parse(data['refreshExpiredAt'] as String)
+    ..token = data['token'] as String
+    ..userId = data['userId'] as String;
 }

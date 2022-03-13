@@ -39,8 +39,15 @@ final MutationOptions _options = MutationOptions(
 FutureOr<AccessToken?> refreshAccessToken() async {
   final result = await _client.mutate(_options);
 
-  print(result.data);
-  // TODO: Parse the result.
+  if (result.hasException) {
+    return null;
+  }
 
-  return null;
+  final data = result.data!['refreshAccessToken']!;
+
+  return AccessToken()
+    ..expiredAt = DateTime.parse(data['expiredAt'])
+    ..refreshExpiredAt = DateTime.parse(data['refreshExpiredAt'])
+    ..token = data['token']
+    ..userId = data['userId'];
 }

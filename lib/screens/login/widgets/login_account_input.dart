@@ -17,15 +17,22 @@ class LoginAccountInputWidget extends StatelessWidget {
     );
 
     // Build the [TextField] enabled state.
-    bool enabled = context.select<LoginState, bool>(
+    final bool enabled = context.select<LoginState, bool>(
       (state) => state.hasLogging == false && state.hasOTPIsSending == false,
     );
 
+    // Account input error message.
+    final String? errorMessage = context.select<LoginState, String?>(
+      (state) => state.accountInputErrorMessage,
+    );
+
     return TextField(
+      controller: context.read<LoginState>().account,
       enabled: enabled,
       keyboardType: useOTP ? TextInputType.number : TextInputType.emailAddress,
       decoration: InputDecoration(
         hintText: useOTP ? '手机号码' : 'E-Mail/手机号码/用户名',
+        errorText: errorMessage,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
           borderSide: BorderSide.none,
@@ -36,7 +43,6 @@ class LoginAccountInputWidget extends StatelessWidget {
           vertical: 16,
         ),
       ),
-      onChanged: context.read<LoginState>().updateAccount,
       inputFormatters: [
         LengthLimitingTextInputFormatter(useOTP ? 11 : 32),
         useOTP
