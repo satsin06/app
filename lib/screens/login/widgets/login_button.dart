@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../graphql/auth/auth_box.dart';
 import '../../../hive/hive.dart';
+import '../../../provider/states/app_auth.dart';
 import '../graphql/login.mutation.dart';
 import '../login_state.dart';
 
@@ -52,7 +53,9 @@ class LoginButton extends StatelessWidget {
         account: state.account.text.trim(),
         password: state.password.text,
       );
-      await AuthBox.set(accessToken);
+
+      context.read<AppAuthState>().update(accessToken);
+      Navigator.of(context).pop(accessToken);
     } catch (e) {
       if (e.toString() == 'User not found') {
         state.setAccountInputErrorMessage(e.toString());
@@ -60,7 +63,6 @@ class LoginButton extends StatelessWidget {
         state.setPasswordInputErrorMessage(e.toString());
       }
     }
-    // TODO:登录成功后，返回上级页面，并设置登录状态
   }
 
   Future<bool> onValidateForm(LoginState state) async {

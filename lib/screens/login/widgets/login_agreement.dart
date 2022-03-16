@@ -74,12 +74,10 @@ class _AgreementTextWidgetState extends State<_AgreementTextWidget> {
 
   void onUserAgreementTap() {
     // TODO: open user agreement page
-    print('Click: onUserAgreementTap');
   }
 
   void onPrivacyPolicyTap() {
     // TODO: open privacy policy page
-    print('Click: onPrivacyPolicyTap');
   }
 }
 

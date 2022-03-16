@@ -6,14 +6,18 @@ import 'package:flutter/material.dart';
 
 import 'app.dart';
 import 'hive/init.dart';
+import 'provider/provider.dart';
 
 /// The main entry point for the application.
 void main() async {
   // Ensure that the platform is initialized before the app starts.
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize The Hive.
+  // Initialize Hive.
   await hiveInit();
+
+  // Initialize provider.
+  await initProvider();
 
   // Create App instance.
   const Application app = Application();

@@ -3,66 +3,65 @@
 // license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:socfony/widgets/svg_icon.dart';
 
-import 'home_moments.dart';
+import 'widgets/user_profile_avatar_button.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => PageController(),
-      child: const _HomeScreen(),
-    );
-  }
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreen extends StatelessWidget {
-  const _HomeScreen({Key? key}) : super(key: key);
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin<HomeScreen> {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+      initialIndex: 0,
+      length: 2,
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: SvgIcon.asset('assets/bottom_navigation_bar/home.svg'),
-            activeIcon:
-                SvgIcon.asset('assets/bottom_navigation_bar/home_selected.svg'),
-            label: '动态',
+      appBar: AppBar(
+        centerTitle: false,
+        title: TabBar(
+          controller: tabController,
+          isScrollable: true,
+          tabs: const [
+            Tab(text: '全部'),
+            Tab(text: '关注'),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: r'搜索',
+            onPressed: () {
+              // TODO: Jump to search page.
+            },
           ),
-          // BottomNavigationBarItem(
-          //   icon: SvgIcon.asset('assets/bottom_navigation_bar/community.svg'),
-          //   activeIcon: SvgIcon.asset(
-          //       'assets/bottom_navigation_bar/community_selected.svg'),
-          //   label: '社区',
-          // ),
-          // BottomNavigationBarItem(
-          //   icon: SvgIcon.asset('assets/bottom_navigation_bar/message.svg'),
-          //   activeIcon: SvgIcon.asset(
-          //       'assets/bottom_navigation_bar/message_selected.svg'),
-          //   label: '消息',
-          // ),
-          BottomNavigationBarItem(
-            icon: SvgIcon.asset('assets/bottom_navigation_bar/me.svg'),
-            activeIcon:
-                SvgIcon.asset('assets/bottom_navigation_bar/me_selected.svg'),
-            label: '我的',
-          ),
+          const UserProfileAvatarButton(),
         ],
-        currentIndex: context.watch<PageController>().positions.isEmpty
-            ? 0
-            : context.watch<PageController>().page!.round(),
-        onTap: (index) => context.read<PageController>().jumpToPage(index),
       ),
-      body: PageView(
-        controller: context.read<PageController>(),
+      body: TabBarView(
+        controller: tabController,
         children: const [
-          HomeMomentsScrren(),
-          Text('1'),
+          Text('A'),
+          Text('B'),
         ],
       ),
     );
