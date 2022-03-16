@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../hive/models/access_token.dart';
 import '../../../provider/states/app_auth.dart';
 import '../../../route/route_names.dart';
 
@@ -60,6 +59,7 @@ class _AccountAvatarIconWidget extends StatelessWidget {
 
     // TODO: Get user avatar.
     return CircleAvatar(
+      backgroundColor: IconTheme.of(context).color,
       radius: UserProfileAvatarButton.getIconSize(context) / 2,
     );
   }

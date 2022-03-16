@@ -57,6 +57,14 @@ class _HomeScreenState extends State<HomeScreen>
           const UserProfileAvatarButton(),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Jump to publish moment page.
+        },
+        mini: true,
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: TabBarView(
         controller: tabController,
         children: const [
