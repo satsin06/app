@@ -8,20 +8,20 @@ import 'package:socfony/widgets/svg_icon.dart';
 
 import 'home_moments.dart';
 
-class HomeScrren extends StatelessWidget {
-  const HomeScrren({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => PageController(),
-      child: const _HomeScrren(),
+      child: const _HomeScreen(),
     );
   }
 }
 
-class _HomeScrren extends StatelessWidget {
-  const _HomeScrren({Key? key}) : super(key: key);
+class _HomeScreen extends StatelessWidget {
+  const _HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

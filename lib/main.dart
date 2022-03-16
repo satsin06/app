@@ -3,41 +3,21 @@
 // license that can be found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'app_state.dart';
+import 'app.dart';
 import 'hive/init.dart';
-import 'screens/login/login.dart';
-import 'theme.dart';
 
+/// The main entry point for the application.
 void main() async {
+  // Ensure that the platform is initialized before the app starts.
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize The Hive.
   await hiveInit();
-  await AppState.loadTheme();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => AppState(),
-    child: const SocfonyApp(),
-  ));
-}
+  // Create App instance.
+  const Application app = Application();
 
-class SocfonyApp extends StatelessWidget {
-  const SocfonyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final SocfonyTheme theme = SocfonyTheme(
-      context.select<AppState, Color>((value) => value.themePrimaryColor),
-    );
-    final ThemeMode mode =
-        context.select<AppState, ThemeMode>((value) => value.themeMode);
-
-    return MaterialApp(
-      key: context.select<AppState, Key>((value) => value.key),
-      title: 'Socfony',
-      theme: theme.light,
-      darkTheme: theme.dark,
-      themeMode: mode,
-      home: const LoginScreen(),
-    );
-  }
+  // Run the app.
+  runApp(app);
 }
