@@ -38,7 +38,7 @@ class UserProfileAvatarButton extends StatelessWidget {
 
   void jump(BuildContext context, String userId) {
     Navigator.of(context).pushNamed(
-      RouteNames.login, // TODO：Change to user profile page.
+      RouteNames.userProfile,
       arguments: userId,
     );
   }

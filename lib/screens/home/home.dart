@@ -61,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen>
         onPressed: () {
           // TODO: Jump to publish moment page.
         },
-        mini: true,
         child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

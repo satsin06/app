@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../graphql/auth/auth_box.dart';
 import '../../../hive/hive.dart';
 import '../../../provider/states/app_auth.dart';
 import '../graphql/login.mutation.dart';
