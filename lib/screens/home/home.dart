@@ -42,8 +42,8 @@ class _HomeScreenState extends State<HomeScreen>
           controller: tabController,
           isScrollable: true,
           tabs: const [
-            Tab(text: '全部'),
-            Tab(text: '关注'),
+            Tab(text: 'Timeline'),
+            Tab(text: 'Follow'),
           ],
         ),
         actions: [
@@ -53,6 +53,10 @@ class _HomeScreenState extends State<HomeScreen>
             onPressed: () {
               // TODO: Jump to search page.
             },
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications),
           ),
           const UserProfileAvatarButton(),
         ],

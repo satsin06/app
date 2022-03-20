@@ -19,7 +19,10 @@ class UserProfileAvatarButton extends StatelessWidget {
     );
 
     return IconButton(
-      icon: const _AccountAvatarIconWidget(),
+      icon: const Hero(
+        tag: 'currentUserAvatar',
+        child: _AccountAvatarIconWidget(),
+      ),
       iconSize: getIconSize(context),
       onPressed: () => onJump(context, isAuthenticated),
     );

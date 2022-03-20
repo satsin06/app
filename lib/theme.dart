@@ -73,6 +73,14 @@ class SocfonyTheme {
         checkColor: MaterialStateProperty.all<Color>(colorScheme.onPrimary),
         fillColor: MaterialStateProperty.all<Color>(colorScheme.primary),
       ),
+      cardTheme: CardTheme(
+        color: colorScheme.surface,
+        shadowColor: colorScheme.onSurface,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+      ),
     );
   }
 
