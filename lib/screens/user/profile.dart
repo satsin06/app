@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/states/app_auth.dart';
+import '../../route/route_names.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -28,7 +29,9 @@ class UserProfileScreen extends StatelessWidget {
           title: const Text('socfony'),
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteNames.setting);
+              },
               icon: const Icon(Icons.crop_square),
             )
           ],
