@@ -12,6 +12,10 @@ class UserProfileScreen extends StatelessWidget {
       return currentUserId;
     }
 
+    return currentAuthenticatedUserId(context);
+  }
+
+  String? currentAuthenticatedUserId(BuildContext context) {
     return context.read<AppAuthState>().userId;
   }
 
@@ -20,209 +24,197 @@ class UserProfileScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('socfony'),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.crop_square),
+            )
+          ],
+        ),
         body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverAppBar(
-                expandedHeight: 200.0,
-                floating: false,
-                pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  centerTitle: true,
-                  title: Text(
-                    'User Profile',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  background: Image.network(
-                    'https://picsum.photos/250?image=9',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              new SliverPersistentHeader(
-                delegate: new SliverTabBarDelegate(
-                  new TabBar(
-                    tabs: [
-                      new Tab(text: 'Timeline'),
-                      new Tab(text: 'Follow'),
-                      new Tab(text: 'Follower'),
-                    ],
-                  ),
-                  color: Colors.white,
-                ),
-                pinned: true,
-              ),
-            ];
-          },
+          headerSliverBuilder: headerSliverBuilder,
           body: TabBarView(
             children: [
-              Center(
-                child: Text('Timeline'),
+              SafeArea(
+                top: false,
+                child: ListView.builder(
+                  itemCount: 100,
+                  itemBuilder: (context, index) => ListTile(
+                    title: Text('Item $index'),
+                  ),
+                ),
               ),
-              Center(
-                child: Text('Follow'),
-              ),
-              Center(
-                child: Text('Follower'),
-              ),
+              const Text('Likes'),
+              const Text('Comments'),
             ],
           ),
         ),
       ),
     );
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          const SliverAppBar(
-            pinned: true,
-            leading: BackButton(),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                Hero(
-                  tag: 'currentUserAvatar',
-                  child: CircleAvatar(
-                    radius: 42,
-                    backgroundColor: Theme.of(context).colorScheme.onBackground,
+  }
+
+  List<Widget> headerSliverBuilder(
+      BuildContext context, bool innerBoxIsScrolled) {
+    return <Widget>[
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                radius: 36,
+              ),
+              const Expanded(child: SizedBox.shrink()),
+              OutlinedButton(
+                onPressed: () {},
+                child: const Text('发消息'),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(60),
+                    ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  'Socfony',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  width: 1,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                borderRadius: BorderRadius.circular(16),
               ),
-              margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                child: Column(
-                  children: [
-                    Text(
-                      'Socfony is an open source social application, and basic security modules and social function modules have been preset in the software. Whether it is to deploy Socfony directly or as a basis for program development is wonderful.',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
+              const SizedBox(width: 16),
+              ElevatedButton.icon(
+                onPressed: () {},
+                icon: const Icon(Icons.add),
+                label: const Text('关注'),
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(60),
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              '1314',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              '动态',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '1314',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              '关注',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              '1314',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            Text(
-                              '喜欢',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.chat),
-                          label: const Text('私信'),
-                        ),
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                ),
-                              ),
-                              elevation: MaterialStateProperty.all(6),
-                            ),
-                            onPressed: () {},
-                            label: const Text('关注'),
-                            icon: const Icon(Icons.add),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
-    );
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 8),
+          child: Text(
+            'Socfony',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16).copyWith(top: 4),
+          child: Text(
+            'Socfony is an open source social application, and basic security modules and social function modules have been preset in the software. Whether it is to deploy Socfony directly or as a basis for program development is wonderful.',
+            style: Theme.of(context).textTheme.bodyMedium,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+      const SliverToBoxAdapter(
+        child: ListTile(
+          dense: true,
+          leading: Icon(Icons.cake),
+          minLeadingWidth: 0,
+          title: Text('1993年11月2日'),
+        ),
+      ),
+      SliverToBoxAdapter(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Column(
+                children: [
+                  Text(
+                    '0',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    '获得喜欢',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '0',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    '关注',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Text(
+                    '0',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  Text(
+                    '粉丝',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SliverToBoxAdapter(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 6),
+          child: Divider(),
+        ),
+      ),
+      SliverPersistentHeader(
+        pinned: true,
+        floating: true,
+        delegate: _SliverTabBarDelegate(
+          const TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            tabs: [
+              Tab(text: '动态'),
+              Tab(text: '喜欢'),
+              Tab(text: '评论'),
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 }
 
-class SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar widget;
-  final Color color;
+class _SliverTabBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverTabBarDelegate(this._tabBar);
 
-  const SliverTabBarDelegate(this.widget, {required this.color})
-      : assert(widget != null);
+  final TabBar _tabBar;
+
+  @override
+  double get minExtent => _tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => _tabBar.preferredSize.height;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
-      child: widget,
-      color: color,
+    return Container(
+      color: Theme.of(context).colorScheme.background,
+      child: _tabBar,
     );
   }
 
   @override
-  bool shouldRebuild(SliverTabBarDelegate oldDelegate) {
+  bool shouldRebuild(_SliverTabBarDelegate oldDelegate) {
     return false;
   }
-
-  @override
-  double get maxExtent => widget.preferredSize.height;
-
-  @override
-  double get minExtent => widget.preferredSize.height;
 }

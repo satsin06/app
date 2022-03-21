@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../graphql/auth/auth_box.dart';
+import '../../graphql/auth/get_access_token.dart';
 import '../../hive/models/access_token.dart';
 
 class AppAuthState extends ChangeNotifier {
@@ -31,6 +32,8 @@ class AppAuthState extends ChangeNotifier {
 
   /// Update access token, change logged status.
   Future<void> update(AccessToken? accessToken) async {
+    _setAccessToken(accessToken);
+
     if (accessToken == null) {
       return AuthBox.delete();
     }
@@ -44,11 +47,9 @@ class AppAuthState extends ChangeNotifier {
 
 /// Initialize [AppAuthState].
 Future<void> initAppAuthState() async {
-  // Set the current access token is cached access token.
-  AppAuthState()._setAccessToken(await AuthBox.get());
+  // Get cached access token and with refresh.
+  final AccessToken? accessToken = await getAccessTokenWithRefresh();
 
-  // Listen to changes in the access token.
-  (await AuthBox.box).watch(key: AuthBox.key).listen((event) {
-    AppAuthState()._setAccessToken(event.value);
-  });
+  // Set the current access token is cached access token.
+  AppAuthState()._setAccessToken(accessToken);
 }

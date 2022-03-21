@@ -19,9 +19,9 @@ class UserProfileAvatarButton extends StatelessWidget {
     );
 
     return IconButton(
-      icon: const Hero(
+      icon: Hero(
         tag: 'currentUserAvatar',
-        child: _AccountAvatarIconWidget(),
+        child: _AccountAvatarIconWidget(isAuthenticated: isAuthenticated),
       ),
       iconSize: getIconSize(context),
       onPressed: () => onJump(context, isAuthenticated),
@@ -33,9 +33,9 @@ class UserProfileAvatarButton extends StatelessWidget {
       await Navigator.of(context).pushNamed(RouteNames.login);
     }
 
-    final String? userId = context.read<AppAuthState>().userId;
-    if (userId != null) {
-      jump(context, userId);
+    final AppAuthState state = context.read<AppAuthState>();
+    if (state.isAuthenticated && state.userId != null) {
+      jump(context, state.userId!);
     }
   }
 
@@ -48,7 +48,12 @@ class UserProfileAvatarButton extends StatelessWidget {
 }
 
 class _AccountAvatarIconWidget extends StatelessWidget {
-  const _AccountAvatarIconWidget({Key? key}) : super(key: key);
+  const _AccountAvatarIconWidget({
+    Key? key,
+    required this.isAuthenticated,
+  }) : super(key: key);
+
+  final bool isAuthenticated;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,7 @@ class _AccountAvatarIconWidget extends StatelessWidget {
       (AppAuthState state) => state.userId,
     );
 
-    if (userId == null) {
+    if (userId == null || isAuthenticated == false) {
       return const Icon(Icons.account_circle_rounded);
     }
 
