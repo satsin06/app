@@ -31,7 +31,7 @@ class AppAuthState extends ChangeNotifier {
   }
 
   /// Update access token, change logged status.
-  Future<void> update(AccessToken? accessToken) async {
+  Future<void> update([AccessToken? accessToken]) async {
     _setAccessToken(accessToken);
 
     if (accessToken == null) {
@@ -42,7 +42,7 @@ class AppAuthState extends ChangeNotifier {
   }
 
   /// Logout.
-  Future<void> delete() => AuthBox.delete();
+  Future<void> delete() => update();
 }
 
 /// Initialize [AppAuthState].

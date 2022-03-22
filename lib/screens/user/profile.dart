@@ -30,7 +30,7 @@ class UserProfileScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(RouteNames.setting);
+                Navigator.of(context).pushNamed(RouteNames.userSetting);
               },
               icon: const Icon(Icons.crop_square),
             )

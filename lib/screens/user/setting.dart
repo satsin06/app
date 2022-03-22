@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+import '../../provider/states/app_auth.dart';
+import '../../provider/states/app_key.dart';
+
+class UserSettingScreen extends StatelessWidget {
+  const UserSettingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +16,15 @@ class SettingScreen extends StatelessWidget {
       body: ListView(
         children: [
           const SizedBox(height: 16),
-          const Padding(
-            padding: EdgeInsets.symmetric(
+          Padding(
+            padding: const EdgeInsets.symmetric(
               horizontal: 24,
               vertical: 8,
             ),
-            child: Text('账户'),
+            child: Text(
+              '账户',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -31,7 +38,7 @@ class SettingScreen extends StatelessWidget {
                 tiles: [
                   ListTile(
                     leading: const Icon(Icons.person),
-                    title: const Text('资料编辑'),
+                    title: const Text('账户资料'),
                     onTap: () {},
                   ),
                   ListTile(
@@ -48,7 +55,10 @@ class SettingScreen extends StatelessWidget {
               horizontal: 24,
               vertical: 8,
             ).copyWith(top: 24),
-            child: const Text('通用'),
+            child: Text(
+              '通用',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -74,7 +84,10 @@ class SettingScreen extends StatelessWidget {
               horizontal: 24,
               vertical: 8,
             ).copyWith(top: 24),
-            child: const Text('关于'),
+            child: Text(
+              '关于',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -129,7 +142,10 @@ class SettingScreen extends StatelessWidget {
           const SizedBox(height: 36),
           Center(
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () async {
+                await context.read<AppAuthState>().delete();
+                context.read<AppKeyState>().change();
+              },
               child: const Text('退出登录'),
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(

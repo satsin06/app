@@ -21,7 +21,7 @@ class SocfonyTheme {
       primary: primaryColor,
       secondary: primaryColor,
       surface: isDark ? Colors.white10 : Colors.white,
-      background: isDark ? Colors.black : Colors.grey.shade100,
+      background: isDark ? Colors.black : const Color(0xFFF0F0F6),
       error: Colors.red,
       onBackground: onDarkColor,
       onError: onDarkColor,
