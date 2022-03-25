@@ -46,7 +46,7 @@ class SocfonyTheme {
       appBarTheme: AppBarTheme(
         elevation: 0,
         backgroundColor: colorScheme.background,
-        foregroundColor: colorScheme.onSurface,
+        foregroundColor: colorScheme.onBackground,
         centerTitle: true,
         iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),

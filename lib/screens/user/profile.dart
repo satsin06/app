@@ -47,7 +47,13 @@ class _ScreenBody extends StatelessWidget {
     return Stack(
       children: const [
         _ScreenBackground(),
-        _ScreenContent(),
+        SafeArea(
+          top: true,
+          left: false,
+          right: false,
+          bottom: false,
+          child: _ScreenContent(),
+        ),
       ],
     );
   }
@@ -87,10 +93,18 @@ class _ScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: const [
-        ProfileUserCard(),
+    return const CustomScrollView(
+      slivers: [
+        SliverToBoxAdapter(
+          child: ProfileUserCard(),
+        ),
       ],
     );
+    // return ListView(
+    //   children: const [
+    //     ProfileUserCard(),
+    //     ProfileMomentsTimeline(),
+    //   ],
+    // );
   }
 }

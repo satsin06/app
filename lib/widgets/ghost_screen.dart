@@ -12,12 +12,25 @@ class GhostScreen extends StatelessWidget {
     this.onButtonPressed,
   }) : super(key: key);
 
+  /// The title of the ghost screen.
   final String title;
+
+  /// The message of the ghost screen.
   final Widget? message;
+
+  /// The message text of the ghost screen.
   final String messageText;
+
+  /// The button of the ghost screen.
   final Widget? button;
+
+  /// The button text of the ghost screen.
   final String buttonText;
+
+  /// The button location of the ghost screen.
   final FloatingActionButtonLocation buttonLocation;
+
+  /// The button pressed callback of the ghost screen.
   final void Function(BuildContext context)? onButtonPressed;
 
   @override

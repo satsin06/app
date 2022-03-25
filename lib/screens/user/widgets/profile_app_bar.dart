@@ -55,10 +55,8 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
     final Color backgroundColor =
-        (theme.appBarTheme.backgroundColor ?? theme.backgroundColor)
-            .withOpacity(_opacity);
+        Theme.of(context).colorScheme.surface.withOpacity(_opacity);
 
     return AppBar(
       toolbarHeight: height,
