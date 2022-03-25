@@ -5,6 +5,7 @@ import 'package:provider/single_child_widget.dart';
 import 'states/app_auth.dart';
 import 'states/app_key.dart';
 import 'states/app_theme.dart';
+import 'states/users.dart';
 
 class ProviderWrapper extends StatelessWidget {
   const ProviderWrapper({
@@ -30,6 +31,7 @@ class ProviderWrapper extends StatelessWidget {
         create: AppThemeState.create,
         initialData: AppThemeState(),
       ),
+      ChangeNotifierProvider(create: (_) => UsersState()),
     ];
   }
 }

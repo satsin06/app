@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/states/app_auth.dart';
-import '../../route/route_names.dart';
+import 'widgets/profile_header_button.dart';
+import 'widgets/profile_header_title.dart';
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -22,19 +23,14 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String? userId = resolveCurrentUserId(context);
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('socfony'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(RouteNames.userSetting);
-              },
-              icon: const Icon(Icons.crop_square),
-            )
-          ],
+          title: ProfileHeaderTitle(userId: userId!),
+          actions: ProfileHeaderButton.actions(userId),
         ),
         body: NestedScrollView(
           headerSliverBuilder: headerSliverBuilder,
