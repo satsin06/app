@@ -137,7 +137,7 @@ class ProfileUserCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(36),
               ),
               child: const Padding(
-                padding: EdgeInsets.all(1.0),
+                padding: EdgeInsets.all(2.0),
                 child: CircleAvatar(
                   radius: 36.0,
                 ),

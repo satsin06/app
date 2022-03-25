@@ -45,8 +45,8 @@ class SocfonyTheme {
       toggleableActiveColor: colorScheme.primary,
       appBarTheme: AppBarTheme(
         elevation: 0,
-        backgroundColor: colorScheme.background,
-        foregroundColor: colorScheme.onBackground,
+        backgroundColor: colorScheme.surface,
+        foregroundColor: colorScheme.onSurface,
         centerTitle: true,
         iconTheme: IconThemeData(color: colorScheme.onSurface),
       ),

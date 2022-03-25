@@ -3,6 +3,11 @@ import 'package:provider/provider.dart';
 
 import '../../provider/states/app_auth.dart';
 import '../../provider/states/app_key.dart';
+import '../../widgets/dynamic_app_bar.dart';
+
+Widget _titleBuilder(BuildContext context, double opacity) {
+  return const Text('设置');
+}
 
 class UserSettingScreen extends StatelessWidget {
   const UserSettingScreen({Key? key}) : super(key: key);
@@ -10,8 +15,8 @@ class UserSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('设置'),
+      appBar: const DynamicAppBar(
+        title: _titleBuilder,
       ),
       body: ListView(
         children: [

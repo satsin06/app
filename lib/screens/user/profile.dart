@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/dynamic_app_bar.dart';
 import '../../widgets/ghost_screen.dart';
 import 'controllers/profile_controller.dart';
-import 'widgets/profile_app_bar.dart';
+import 'widgets/profile_header_button.dart';
 import 'widgets/profile_user_card.dart';
+
+List<Widget> _appBarActionsBuilder(BuildContext context, double opacity) {
+  return const <Widget>[ProfileHeaderButton()];
+}
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({Key? key}) : super(key: key);
@@ -30,7 +35,10 @@ class UserProfileScreen extends StatelessWidget {
       create: (_) => UserProfileController(userId),
       child: const Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: ProfileAppBar(),
+        appBar: DynamicAppBar(
+          automaticallyImplyLeading: true,
+          actions: _appBarActionsBuilder,
+        ),
         body: _ScreenBody(),
       ),
     );
