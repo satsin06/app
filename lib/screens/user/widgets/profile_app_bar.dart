@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'profile_header_button.dart';
+
 class ProfileAppBar extends StatefulWidget implements PreferredSizeWidget {
   const ProfileAppBar({Key? key}) : super(key: key);
 
@@ -41,9 +43,8 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
 
   void _handleScrollNotification(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification) {
-      final double screenWidth = MediaQuery.of(context).size.width;
       final double pixels = notification.metrics.pixels;
-      final double opacity = pixels / screenWidth;
+      final double opacity = pixels / 120;
       if (opacity != _opacity && opacity <= 2.0) {
         setState(() {
           _opacity = max(0.0, min(1.0, opacity));
@@ -62,6 +63,7 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
     return AppBar(
       toolbarHeight: height,
       backgroundColor: backgroundColor,
+      actions: const <Widget>[ProfileHeaderButton()],
     );
   }
 }

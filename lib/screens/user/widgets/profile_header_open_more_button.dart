@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProfileHeaderOpenMoreButton extends StatelessWidget {
-  const ProfileHeaderOpenMoreButton(this.userId, {Key? key}) : super(key: key);
-
-  final String userId;
+  const ProfileHeaderOpenMoreButton({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
