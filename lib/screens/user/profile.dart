@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/ghost_screen.dart';
 import 'controllers/profile_controller.dart';
 import 'widgets/profile_app_bar.dart';
 import 'widgets/profile_user_card.dart';
@@ -22,9 +23,7 @@ class UserProfileScreen extends StatelessWidget {
     final String? userId = resolveUserId(context);
 
     if (userId == null) {
-      return const Center(
-        child: Text('No user id provided'),
-      );
+      return const GhostScreen();
     }
 
     return ChangeNotifierProvider(

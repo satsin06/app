@@ -20,7 +20,7 @@ class SocfonyTheme {
       brightness: brightness,
       primary: primaryColor,
       secondary: primaryColor,
-      surface: isDark ? Colors.white10 : Colors.white,
+      surface: isDark ? const Color(0xFF1A1A1C) : Colors.white,
       background: isDark ? Colors.black : const Color(0xFFF0F0F6),
       error: Colors.red,
       onBackground: onDarkColor,

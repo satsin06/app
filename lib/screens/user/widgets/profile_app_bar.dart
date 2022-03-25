@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:socfony/hive/models/app_theme.dart';
 
 class ProfileAppBar extends StatefulWidget implements PreferredSizeWidget {
   const ProfileAppBar({Key? key}) : super(key: key);
