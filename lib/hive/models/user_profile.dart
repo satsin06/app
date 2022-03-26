@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 
 import 'file.dart';
-import 'user.dart';
 
 part 'user_profile.g.dart';
 
@@ -11,14 +10,11 @@ class UserProfile {
   late String userId;
 
   @HiveField(1)
-  File? abatar;
+  File? avatar;
 
   @HiveField(2)
   String? bio;
 
   @HiveField(3)
   int? birthday;
-
-  @HiveField(4)
-  late User user;
 }

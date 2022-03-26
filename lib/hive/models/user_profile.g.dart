@@ -18,26 +18,23 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
     };
     return UserProfile()
       ..userId = fields[0] as String
-      ..abatar = fields[1] as File?
+      ..avatar = fields[1] as File?
       ..bio = fields[2] as String?
-      ..birthday = fields[3] as int?
-      ..user = fields[4] as User;
+      ..birthday = fields[3] as int?;
   }
 
   @override
   void write(BinaryWriter writer, UserProfile obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.userId)
       ..writeByte(1)
-      ..write(obj.abatar)
+      ..write(obj.avatar)
       ..writeByte(2)
       ..write(obj.bio)
       ..writeByte(3)
-      ..write(obj.birthday)
-      ..writeByte(4)
-      ..write(obj.user);
+      ..write(obj.birthday);
   }
 
   @override

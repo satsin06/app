@@ -27,6 +27,7 @@ MutationOptions _createLoginMutationOptions({
       r'usePhoneOtp': usePhoneOtp
     },
     operationName: r'Login',
+    fetchPolicy: FetchPolicy.noCache,
   );
 }
 

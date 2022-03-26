@@ -15,6 +15,7 @@ MutationOptions _createSendPhoneOTPOptions(String phone) {
       r'value': '+86$phone',
     },
     operationName: r'SendOTP',
+    fetchPolicy: FetchPolicy.noCache,
   );
 }
 
