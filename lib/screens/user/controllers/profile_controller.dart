@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -47,18 +46,4 @@ class UserProxyOfUserProfileController {
       return selector(users);
     });
   }
-
-  // T Function(UsersState) _selectCurrentUsersSelector<T>(
-  //     T Function(Iterable<User>) selector) {
-  //   return (UsersState state) {
-  //     selector.call(state.find(
-  //       where: (user) => user.id == controller.userId,
-  //     ));
-  //   };
-  // }
-
-  // T select<T>(T Function(Iterable<User>) selector) =>
-
-  //     context.select<UsersState, T>((state) => selector
-  //         .call(state.find(where: (user) => user.id == controller.userId)));
 }

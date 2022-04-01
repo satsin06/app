@@ -12,6 +12,8 @@ query ProfileUserData($id: ID!) {
     profile {
       avatar
       bio
+      gender
+      birthday
     }
   }
 }

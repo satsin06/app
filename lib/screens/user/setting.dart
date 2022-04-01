@@ -44,7 +44,9 @@ class UserSettingScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('账户资料'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/user/edit');
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.verified_user),

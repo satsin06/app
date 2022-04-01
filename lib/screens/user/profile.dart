@@ -88,10 +88,6 @@ class UserProfileScreen extends StatelessWidget {
       return const GhostScreen();
     }
 
-    if (!snapshot.hasData) {
-      return const GhostScreen();
-    }
-
     return _ScreenScaffold(controller: snapshot.requireData);
   }
 }
