@@ -1,7 +1,6 @@
 import 'package:graphql/client.dart';
 
 import '../../../graphql/client.dart';
-import '../../../hive/models/file.dart';
 import '../../../hive/models/user.dart';
 import '../../../hive/models/user_profile.dart';
 
@@ -11,9 +10,7 @@ query ProfileUserData($id: ID!) {
     id
     username
     profile {
-      avatar {
-        path
-      }
+      avatar
       bio
     }
   }
@@ -52,11 +49,8 @@ Future<User> queryProfileUser(String id) async {
     ..username = userMap['username']
     ..profile = UserProfile()
     ..profile?.userId = userMap['id'] as String
-    ..profile?.bio = userMap['profile']['bio'];
-
-  if (userMap['profile']['avatar']?['path'] != null) {
-    user.profile?.avatar = File()..path = userMap['profile']['avatar']['path'];
-  }
+    ..profile?.bio = userMap['profile']['bio']
+    ..profile?.avatar = userMap['profile']['avatar'];
 
   return user;
 }

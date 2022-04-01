@@ -18,7 +18,7 @@ class UserProfileAdapter extends TypeAdapter<UserProfile> {
     };
     return UserProfile()
       ..userId = fields[0] as String
-      ..avatar = fields[1] as File?
+      ..avatar = fields[1] as String?
       ..bio = fields[2] as String?
       ..birthday = fields[3] as int?;
   }
