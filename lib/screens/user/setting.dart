@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../provider/states/app_auth.dart';
 import '../../provider/states/app_key.dart';
+import '../../route/route_names.dart';
 import '../../widgets/dynamic_app_bar.dart';
 
 Widget _titleBuilder(BuildContext context, double opacity) {
@@ -45,7 +46,7 @@ class UserSettingScreen extends StatelessWidget {
                     leading: const Icon(Icons.person),
                     title: const Text('账户资料'),
                     onTap: () {
-                      Navigator.of(context).pushNamed('/user/edit');
+                      Navigator.of(context).pushNamed(RouteNames.userEdit);
                     },
                   ),
                   ListTile(

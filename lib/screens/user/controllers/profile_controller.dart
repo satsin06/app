@@ -35,7 +35,7 @@ class UserProxyOfUserProfileController {
         .first;
   }
 
-  T select<T>(T Function(Iterable<User> user) selector) {
+  T select<T>(T Function(User user) selector) {
     final UserProfileController controller = this.controller;
 
     return context.select<UsersState, T>((state) {
@@ -43,7 +43,7 @@ class UserProxyOfUserProfileController {
         where: (user) => user.id == controller.userId,
       );
 
-      return selector(users);
+      return selector(users.first);
     });
   }
 }

@@ -56,7 +56,6 @@ class EditUserScreen extends StatelessWidget {
   Widget _builder(
       BuildContext context, AsyncSnapshot<UserProfileController> snapshot) {
     if (snapshot.hasError) {
-      print(snapshot.error);
       return const GhostScreen();
     }
 
@@ -95,6 +94,232 @@ class _ScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ListView(
+      children: [
+        const SizedBox(height: 16),
+        const CircleAvatar(
+          radius: 36,
+        ),
+        Center(
+          child: TextButton(
+            onPressed: () {},
+            child: const Text('更换头像'),
+          ),
+        ),
+        const _AccountCard(),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 8,
+          ).copyWith(top: 24),
+          child: Text(
+            '资料',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+        ),
+        const _UserDataCard(),
+      ],
+    );
+  }
+}
+
+class _UserDataCard extends StatelessWidget {
+  const _UserDataCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _CardWrapper.tiles([
+      ListTile(
+        dense: true,
+        title: const Text('生日'),
+        trailing: TextButton(
+          onPressed: () {},
+          child: const Text('2020-01-01'),
+        ),
+      ),
+      ListTile(
+        dense: true,
+        title: const Text('性别'),
+        trailing: TextButton(
+          onPressed: () {},
+          child: const Text('男'),
+        ),
+      ),
+      const _UserBio(),
+    ]);
+  }
+}
+
+class _UserBio extends StatelessWidget {
+  const _UserBio({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final String? bio = UserProfileController.proxy(context)
+        .select<String?>((user) => user.profile?.bio);
+
+    Widget child;
+    if (bio == null) {
+      child = const Text('这个人很懒，什么都没有留下。');
+    } else {
+      child = Text(bio);
+    }
+
+    return ListTile(
+      title: const Text('简介'),
+      subtitle: child,
+      trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.chevron_right),
+      ),
+    );
+  }
+}
+
+class _AccountCard extends StatelessWidget {
+  const _AccountCard({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return _CardWrapper.tiles(const [
+      _AccountId(),
+      _AccountUsername(),
+    ]);
+  }
+}
+
+class _AccountUsername extends StatelessWidget {
+  const _AccountUsername({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final String? username =
+        UserProfileController.proxy(context).select<String?>(
+      (user) => user.username,
+    );
+
+    Widget? child;
+    if (username == null) {
+      child = const Text('设置用户名');
+    }
+
+    return ListTile(
+      title: _LabelRow(
+        labelText: '用户名',
+        text: username,
+        child: child,
+      ),
+      trailing: IconButton(
+        onPressed: () {},
+        icon: const Icon(Icons.edit),
+      ),
+    );
+  }
+}
+
+class _CardWrapper extends StatelessWidget {
+  factory _CardWrapper.tiles(Iterable<Widget> tiles) {
+    final List<Widget> widgets = [];
+
+    // 每一个 tile 后插入一个分割线，除了最后一个 tile
+    for (var i = 0; i < tiles.length; i++) {
+      widgets.add(tiles.elementAt(i));
+      if (i != tiles.length - 1) {
+        widgets.add(const Divider(indent: 60));
+      }
+    }
+
+    return _CardWrapper(child: Column(children: widgets));
+  }
+
+  const _CardWrapper({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: child,
+    );
+  }
+}
+
+class _AccountId extends StatelessWidget {
+  const _AccountId({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final String userId = UserProfileController.of(context).userId;
+    return ListTile(
+      title: _LabelRow(
+        labelText: 'ID',
+        child: Text(
+          userId,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.copy)),
+    );
+  }
+}
+
+class _LabelRow extends StatelessWidget {
+  const _LabelRow({
+    Key? key,
+    this.label,
+    this.child,
+    this.labelText,
+    this.text,
+  }) : super(key: key);
+
+  final String? labelText;
+  final String? text;
+  final Widget? label;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget labelWidget = label ??
+        Text(
+          labelText!,
+          style: Theme.of(context).textTheme.bodyMedium,
+        );
+    final Widget textWidget = child ??
+        Text(
+          text!,
+          style: Theme.of(context).textTheme.bodyLarge,
+        );
+
+    return Row(
+      children: [
+        SizedBox(
+          width: 60,
+          child: labelWidget,
+        ),
+        Expanded(
+          child: textWidget,
+        ),
+      ],
+    );
   }
 }

@@ -177,8 +177,8 @@ class _UserBioWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? bio =
-        UserProfileController.proxy(context).select<String?>((users) {
-      return users.first.profile?.bio;
+        UserProfileController.proxy(context).select<String?>((user) {
+      return user.profile?.bio;
     });
     final String bioText =
         bio != null && bio.isNotEmpty ? bio : '这个人很懒，什么都没有留下~';
@@ -201,8 +201,8 @@ class _UsernameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String? username =
-        UserProfileController.proxy(context).select<String?>((users) {
-      return users.first.username;
+        UserProfileController.proxy(context).select<String?>((user) {
+      return user.username;
     });
     final String userId = UserProfileController.of(context).userId;
 
