@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../provider/states/app_auth.dart';
 import '../../provider/states/users.dart';
+import '../../widgets/card_wrapper.dart';
 import '../../widgets/dynamic_app_bar.dart';
 import '../../widgets/ghost_screen.dart';
 import 'controllers/profile_controller.dart';
@@ -106,7 +107,7 @@ class _ScreenBody extends StatelessWidget {
             child: const Text('更换头像'),
           ),
         ),
-        const _AccountCard(),
+        const _CardWrapper(child: _AccountUsername()),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
@@ -163,34 +164,20 @@ class _UserBio extends StatelessWidget {
         .select<String?>((user) => user.profile?.bio);
 
     Widget child;
-    if (bio == null) {
+    if (bio == null || bio.isEmpty) {
       child = const Text('这个人很懒，什么都没有留下。');
     } else {
       child = Text(bio);
     }
 
     return ListTile(
-      title: const Text('简介'),
+      title: Text('简介', style: Theme.of(context).textTheme.bodyMedium),
       subtitle: child,
       trailing: IconButton(
         onPressed: () {},
         icon: const Icon(Icons.chevron_right),
       ),
     );
-  }
-}
-
-class _AccountCard extends StatelessWidget {
-  const _AccountCard({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return _CardWrapper.tiles(const [
-      _AccountId(),
-      _AccountUsername(),
-    ]);
   }
 }
 
@@ -249,36 +236,8 @@ class _CardWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return CardWrapper(
       child: child,
-    );
-  }
-}
-
-class _AccountId extends StatelessWidget {
-  const _AccountId({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final String userId = UserProfileController.of(context).userId;
-    return ListTile(
-      title: _LabelRow(
-        labelText: 'ID',
-        child: Text(
-          userId,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ),
-      trailing: IconButton(onPressed: () {}, icon: const Icon(Icons.copy)),
     );
   }
 }

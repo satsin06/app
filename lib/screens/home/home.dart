@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../route/route_names.dart';
 import 'widgets/user_profile_avatar_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Jump to publish moment page.
+          Navigator.of(context).pushNamed(RouteNames.publish);
         },
         child: const Icon(Icons.add),
       ),
