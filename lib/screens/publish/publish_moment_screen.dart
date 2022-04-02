@@ -4,6 +4,7 @@ import 'package:socfony/widgets/card_wrapper.dart';
 
 import '../../widgets/dynamic_app_bar.dart';
 import 'publish_controller.dart';
+import 'publish_mutation.dart';
 
 class PublishMomentScreen extends StatelessWidget {
   const PublishMomentScreen({Key? key}) : super(key: key);
@@ -41,15 +42,20 @@ class _PublishButton extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void _onPushlishHandler(BuildContext context) {
-    print(11);
+  void _onPushlishHandler(BuildContext context) async {
+    final PublishController controller = PublishController.of(context);
+    final result = await createMoment(controller);
+
+    print(result);
   }
 
   @override
   Widget build(BuildContext context) {
-    final PublishController controller = PublishController.of(context);
+    final bool isValid = context.select<PublishController, bool>(
+      (controller) => controller.content.isNotEmpty,
+    );
     VoidCallback? onPressed;
-    if (controller.content.isNotEmpty) {
+    if (isValid) {
       onPressed = () => _onPushlishHandler(context);
     }
 

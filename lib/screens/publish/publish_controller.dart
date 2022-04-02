@@ -7,7 +7,10 @@ class PublishController extends ChangeNotifier {
     String? content,
   }) {
     titleTextEditingController = TextEditingController(text: title);
-    contentTextEditingController = TextEditingController(text: content);
+    contentTextEditingController = TextEditingController(text: content)
+      ..addListener(() {
+        notifyListeners();
+      });
   }
 
   static PublishController of(BuildContext context) =>
