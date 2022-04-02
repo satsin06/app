@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/dynamic_app_bar.dart';
 import '../../widgets/unfocus.dart';
 import 'login_state.dart';
 import 'widgets/forget_password.dart';
@@ -34,9 +35,9 @@ class _LoginScaffold extends StatelessWidget {
 
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(
+        appBar: DynamicAppBar(
           automaticallyImplyLeading: true,
-          actions: [
+          actions: (_, __) => [
             TextButton(
               onPressed: () {
                 FocusScope.of(context).unfocus();
