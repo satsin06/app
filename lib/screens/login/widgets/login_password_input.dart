@@ -7,13 +7,20 @@ import '../providers/login_mode_provider.dart';
 import '../providers/login_text_editing_controller_provider.dart';
 
 final _showPasswordProvider = StateProvider.autoDispose((ref) => false);
+final passwordErrorMessageProvider =
+    StateProvider.autoDispose<String?>((ref) => null);
 
 class LoginPasswordInputWidget extends ConsumerWidget {
   const LoginPasswordInputWidget({Key? key}) : super(key: key);
 
+  VoidCallback _onPasswordVisibleToggle(WidgetRef ref) => () {
+        final bool visible = ref.read(_showPasswordProvider);
+        ref.read(_showPasswordProvider.state).state = !visible;
+      };
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? errorMessage = null;
+    final String? errorMessage = ref.watch(passwordErrorMessageProvider);
     final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
     final bool showPassword = ref.watch(_showPasswordProvider);
     final Widget suffixIcon = useOTP
@@ -22,8 +29,9 @@ class LoginPasswordInputWidget extends ConsumerWidget {
             child: _SendOTPButton(),
           )
         : IconButton(
-            onPressed: () {},
-            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off));
+            onPressed: _onPasswordVisibleToggle(ref),
+            icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+          );
 
     return TextField(
       controller: ref.read(loginPasswordTextEditingControllerProvider),
