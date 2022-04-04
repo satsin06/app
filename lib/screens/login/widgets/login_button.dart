@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/login_mode_provider.dart';
+import '../providers/login_sending_provider.dart';
 
 class LoginButton extends ConsumerWidget {
   const LoginButton({
@@ -11,7 +12,7 @@ class LoginButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
-    final bool hasLogging = false;
+    final bool hasLogging = ref.watch(loginSendingProvider);
 
     final Widget child = hasLogging
         ? const SizedBox.square(

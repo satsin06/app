@@ -60,6 +60,7 @@ class AuthNotifier extends StateNotifier<String?> {
               : AuthorizationType.refresh;
       if (type == AuthorizationType.access) {
         await manager.store(AuthorizationType.access, item);
+        state = item.payload!;
       }
     }
   }

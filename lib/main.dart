@@ -7,8 +7,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
 
+const List<String> headers = [
+  '╔════════════════════════════════════════╗',
+  '║                Socfony                 ║',
+  '╚════════════════════════════════════════╝',
+  '                    ♻️                    '
+];
+
 /// The main entry point for the application.
 void main() {
+  // Output The following message to the console:
+  for (String line in headers) {
+    print.call(line);
+  }
+
   runApp(
     const ProviderScope(
       child: Application(),

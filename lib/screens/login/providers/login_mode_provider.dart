@@ -9,7 +9,7 @@ final loginModeProvider = StateProvider(
   (Ref ref) => LoginMode.otp,
 );
 
-final hasLoginModeProvider = StateProvider.autoDispose.family(
+final hasLoginModeProvider = Provider.autoDispose.family(
   (Ref ref, LoginMode value) {
     return ref.watch(loginModeProvider) == value;
   },
