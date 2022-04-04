@@ -1,38 +1,32 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:socfony/screens/login/login_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../graphql/send_phone_otp.mutation.dart';
+import '../providers/login_mode_provider.dart';
+import '../providers/login_text_editing_controller_provider.dart';
 
-class LoginPasswordInputWidget extends StatefulWidget {
+final _showPasswordProvider = StateProvider.autoDispose((ref) => false);
+
+class LoginPasswordInputWidget extends ConsumerWidget {
   const LoginPasswordInputWidget({Key? key}) : super(key: key);
 
   @override
-  State<LoginPasswordInputWidget> createState() =>
-      _LoginPasswordInputWidgetState();
-}
-
-class _LoginPasswordInputWidgetState extends State<LoginPasswordInputWidget> {
-  bool showPassword = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final String? errorMessage =
-        context.select((LoginState state) => state.passwordInputErrorMessage);
-    final bool useOTP = context.select((LoginState state) => state.useOTP);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? errorMessage = null;
+    final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final bool showPassword = ref.watch(_showPasswordProvider);
     final Widget suffixIcon = useOTP
         ? const Padding(
             padding: EdgeInsets.only(right: 12),
             child: _SendOTPButton(),
           )
         : IconButton(
-            onPressed: togglePasswordVisibility,
+            onPressed: () {},
             icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off));
 
     return TextField(
-      controller: context.read<LoginState>().password,
+      controller: ref.read(loginPasswordTextEditingControllerProvider),
       keyboardType: TextInputType.visiblePassword,
       obscureText: useOTP ? false : !showPassword,
       decoration: InputDecoration(
@@ -50,12 +44,6 @@ class _LoginPasswordInputWidgetState extends State<LoginPasswordInputWidget> {
         suffixIcon: suffixIcon,
       ),
     );
-  }
-
-  void togglePasswordVisibility() {
-    setState(() {
-      showPassword = !showPassword;
-    });
   }
 }
 
@@ -80,12 +68,12 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   }
 
   Widget get child {
-    if (context.select<LoginState, bool>((value) => value.hasOTPIsSending)) {
-      return const SizedBox.square(
-        child: CircularProgressIndicator(strokeWidth: 2.0),
-        dimension: 20.0,
-      );
-    }
+    // if (context.select<LoginState, bool>((value) => value.hasOTPIsSending)) {
+    //   return const SizedBox.square(
+    //     child: CircularProgressIndicator(strokeWidth: 2.0),
+    //     dimension: 20.0,
+    //   );
+    // }
 
     return Text(_currentCountdown == 0 ? '获取验证码' : '$_currentCountdown s');
   }
@@ -96,14 +84,14 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
     void Function()? onPressed = _currentCountdown == 0 ? onSendOTP : null;
 
     // Has OTP is sending
-    final bool hasOTPIsSending = context.select<LoginState, bool>(
-      (bloc) => bloc.hasOTPIsSending,
-    );
+    // final bool hasOTPIsSending = context.select<LoginState, bool>(
+    //   (bloc) => bloc.hasOTPIsSending,
+    // );
 
     // If account is not China phone number, disable button
-    if (hasOTPIsSending) {
-      onPressed = null;
-    }
+    // if (hasOTPIsSending) {
+    //   onPressed = null;
+    // }
 
     return TextButton(
       onPressed: onPressed,
@@ -112,39 +100,39 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   }
 
   void onSendOTP() async {
-    final LoginState state = context.read<LoginState>()
-      ..clearAccountInputErrorMessage()
-      ..clearPasswordInputErrorMessage();
-    if (state.hasOTPIsSending) {
-      return;
-    } else if (state.account.text.length != 11 ||
-        !state.account.text.startsWith('1')) {
-      state.setAccountInputErrorMessage('请输入正确的手机号码');
-      return;
-    }
+    // final LoginState state = context.read<LoginState>()
+    //   ..clearAccountInputErrorMessage()
+    //   ..clearPasswordInputErrorMessage();
+    // if (state.hasOTPIsSending) {
+    //   return;
+    // } else if (state.account.text.length != 11 ||
+    //     !state.account.text.startsWith('1')) {
+    //   state.setAccountInputErrorMessage('请输入正确的手机号码');
+    //   return;
+    // }
 
-    _timer?.cancel();
-    state.isSendingOTP();
-    try {
-      await sendPhoneOTP(state.account.text);
-      setState(() {
-        _currentCountdown = _countdown;
-      });
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (Timer timer) {
-          setState(() {
-            _currentCountdown--;
-            if (_currentCountdown == 0) {
-              timer.cancel();
-            }
-          });
-        },
-      );
-    } catch (e) {
-      state.setPasswordInputErrorMessage(e.toString());
-    } finally {
-      state.isNotSendingOTP();
-    }
+    // _timer?.cancel();
+    // state.isSendingOTP();
+    // try {
+    //   await sendPhoneOTP(state.account.text);
+    //   setState(() {
+    //     _currentCountdown = _countdown;
+    //   });
+    //   _timer = Timer.periodic(
+    //     const Duration(seconds: 1),
+    //     (Timer timer) {
+    //       setState(() {
+    //         _currentCountdown--;
+    //         if (_currentCountdown == 0) {
+    //           timer.cancel();
+    //         }
+    //       });
+    //     },
+    //   );
+    // } catch (e) {
+    //   state.setPasswordInputErrorMessage(e.toString());
+    // } finally {
+    //   state.isNotSendingOTP();
+    // }
   }
 }

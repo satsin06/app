@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../login_state.dart';
+import '../providers/login_agreement_provider.dart';
 
 class LoginAgreementWidget extends StatelessWidget {
   const LoginAgreementWidget({
@@ -81,20 +81,24 @@ class _AgreementTextWidgetState extends State<_AgreementTextWidget> {
   }
 }
 
-class _AgreementRadioWidget extends StatelessWidget {
+class _AgreementRadioWidget extends ConsumerWidget {
   const _AgreementRadioWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool value = ref.watch(loginAgreementProvider);
+
     return Radio<bool>(
       toggleable: true,
-      value: context.select<LoginState, bool>(valueSeletor),
+      value: value,
       groupValue: true,
-      onChanged: (_) => context.read<LoginState>().toggleAgreement(),
+      onChanged: (bool? oldValue) {
+        ref
+            .read(loginAgreementProvider.notifier)
+            .update((oldValue) => !oldValue);
+      },
     );
   }
-
-  bool valueSeletor(LoginState state) => state.agreement;
 }

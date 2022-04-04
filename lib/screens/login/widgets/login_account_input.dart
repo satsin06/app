@@ -1,33 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../login_state.dart';
+import '../providers/login_mode_provider.dart';
+import '../providers/login_text_editing_controller_provider.dart';
 
-class LoginAccountInputWidget extends StatelessWidget {
+class LoginAccountInputWidget extends ConsumerWidget {
   const LoginAccountInputWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Fetch the [useOTP] value from the [LoginState]
-    final bool useOTP = context.select<LoginState, bool>(
-      (state) => state.useOTP,
-    );
+    final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
 
     // Build the [TextField] enabled state.
-    final bool enabled = context.select<LoginState, bool>(
-      (state) => state.hasLogging == false && state.hasOTPIsSending == false,
-    );
+    final bool enabled = false;
 
     // Account input error message.
-    final String? errorMessage = context.select<LoginState, String?>(
-      (state) => state.accountInputErrorMessage,
-    );
+    final String? errorMessage = null;
 
     return TextField(
-      controller: context.read<LoginState>().account,
+      controller: ref.read(loginAccountTextEditingControllerProvider),
       enabled: enabled,
       keyboardType: useOTP ? TextInputType.number : TextInputType.emailAddress,
       decoration: InputDecoration(

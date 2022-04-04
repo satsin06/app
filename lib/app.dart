@@ -1,45 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'provider/provider.dart';
-import 'provider/states/app_key.dart';
-import 'provider/states/app_theme.dart';
+import 'providers/app_key_provider.dart';
+import 'providers/theme_provider.dart';
 import 'route/route_names.dart';
 import 'route/routes.dart';
 import 'theme.dart';
 
-class Application extends StatelessWidget {
+class Application extends ConsumerWidget {
   const Application({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const ProviderWrapper(
-      child: _ConfiguredApp(),
-    );
-  }
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(loadThemeProvider);
+    final mode = ref.watch(themeModeProvider);
+    final primaryColor = ref.watch(themePrimaryColorProvider);
+    final appKey = ref.watch(appKeyProvider);
 
-class _ConfiguredApp extends StatelessWidget {
-  const _ConfiguredApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // Watch the Key value.
-    final AppKeyState keyState = context.watch<AppKeyState>();
-
-    // Watch the app theme state.
-    final AppThemeState themeState = context.watch<AppThemeState>();
-
-    // Create the app theme.
-    final SocfonyTheme theme = SocfonyTheme(themeState.primaryColor);
+    final SocfonyTheme theme = SocfonyTheme(primaryColor);
 
     return MaterialApp(
-      key: keyState.value,
-      themeMode: themeState.mode,
+      key: appKey,
+      themeMode: mode,
       theme: theme.light,
       darkTheme: theme.dark,
       routes: routes,
-      initialRoute: RouteNames.home,
+      initialRoute: RouteNames.login,
     );
   }
 }

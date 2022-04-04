@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../widgets/dynamic_app_bar.dart';
 import '../../widgets/unfocus.dart';
-import 'login_state.dart';
+import 'providers/login_mode_provider.dart';
 import 'widgets/forget_password.dart';
 import 'widgets/login_account_input.dart';
 import 'widgets/login_agreement.dart';
@@ -11,59 +11,59 @@ import 'widgets/login_button.dart';
 import 'widgets/login_logo.dart';
 import 'widgets/login_password_input.dart';
 
+List<Widget> _actionsBuilder(BuildContext context, double opacity) {
+  return const [_ToggleLoginModeButton()];
+}
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return UnfocusWidget(
-      child: ChangeNotifierProvider(
-        create: (BuildContext context) => LoginState(),
-        child: const _LoginScaffold(),
-      ),
-    );
-  }
-}
-
-class _LoginScaffold extends StatelessWidget {
-  const _LoginScaffold({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final bool useOTP =
-        context.select<LoginState, bool>((LoginState state) => state.useOTP);
-
-    return WillPopScope(
+    return const UnfocusWidget(
       child: Scaffold(
         appBar: DynamicAppBar(
           automaticallyImplyLeading: true,
-          actions: (_, __) => [
-            TextButton(
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                context.read<LoginState>().toggleUseOTP();
-              },
-              child: Text(useOTP ? '使用账号密码登录' : '使用验证码快捷登录注册'),
-            )
-          ],
+          actions: _actionsBuilder,
         ),
-        body: const _StatedListView(),
+        body: _StatedListView(),
       ),
-      onWillPop: () async {
-        return context.read<LoginState>().hasLogging == false;
-      },
     );
   }
 }
 
-class _StatedListView extends StatelessWidget {
+class _ToggleLoginModeButton extends ConsumerWidget {
+  const _ToggleLoginModeButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
+
+    return TextButton(
+      onPressed: () {
+        FocusScope.of(context).unfocus();
+        ref.read(loginModeProvider.notifier).update((state) {
+          return state == LoginMode.otp ? LoginMode.password : LoginMode.otp;
+        });
+      },
+      child: Text(isOtp ? '使用账号密码登录' : '使用验证码快捷登录注册'),
+    );
+  }
+}
+
+class _StatedListView extends ConsumerWidget {
   const _StatedListView({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final useOTP = context.select<LoginState, bool>((state) => state.useOTP);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final Widget widget =
+        isOtp ? const SizedBox(height: 20) : const LoginForgetPasswordWidget();
+
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       children: [
@@ -74,7 +74,7 @@ class _StatedListView extends StatelessWidget {
         const LoginPasswordInputWidget(),
         const SizedBox(height: 20),
         const LoginButton(),
-        useOTP ? const SizedBox(height: 20) : const LoginForgetPasswordWidget(),
+        widget,
         const LoginAgreementWidget(),
       ],
     );
