@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/login_message_provider.dart';
 import '../providers/login_mode_provider.dart';
+import '../providers/login_sending_provider.dart';
 import '../providers/login_text_editing_controller_provider.dart';
 
 class LoginAccountInputWidget extends ConsumerWidget {
@@ -16,10 +18,10 @@ class LoginAccountInputWidget extends ConsumerWidget {
     final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
 
     // Build the [TextField] enabled state.
-    final bool enabled = false;
+    final bool enabled = !ref.watch(loginSendingProvider);
 
     // Account input error message.
-    final String? errorMessage = null;
+    final String? errorMessage = ref.watch(loginAccountMessageProvider);
 
     return TextField(
       controller: ref.read(loginAccountTextEditingControllerProvider),

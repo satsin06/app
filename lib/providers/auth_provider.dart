@@ -16,12 +16,22 @@ mutation Login($account: String!, $password: String!, $usePhoneOtp: Boolean) {
 }
 ''';
 
-final MutationOptions<List<Authorization>> _loginOptions =
-    MutationOptions<List<Authorization>>(
-  document: gql(_loginDocument),
-  fetchPolicy: FetchPolicy.noCache,
-  parserFn: authorizationsParser,
-);
+MutationOptions<List<Authorization>> _createLoginOptions({
+  required String account,
+  required String password,
+  bool? usePhoneOtp = false,
+}) {
+  return MutationOptions<List<Authorization>>(
+    document: gql(_loginDocument),
+    fetchPolicy: FetchPolicy.noCache,
+    parserFn: (data) => authorizationsParser(data['login']),
+    variables: <String, dynamic>{
+      'account': account,
+      'password': password,
+      'usePhoneOtp': usePhoneOtp,
+    },
+  );
+}
 
 class AuthNotifier extends StateNotifier<String?> {
   AuthNotifier({
@@ -31,16 +41,25 @@ class AuthNotifier extends StateNotifier<String?> {
 
   final Ref ref;
 
-  Future<void> login() async {
+  Future<void> login({
+    required String account,
+    required String password,
+    bool? usePhoneOtp,
+  }) async {
     final manager = ref.read(authorizationManagerProvider);
     final client = ref.read(graphqlClientProvider);
+    final options = _createLoginOptions(
+        account: account, password: password, usePhoneOtp: usePhoneOtp);
 
-    final result = await client.mutate(_loginOptions);
+    final result = await client.mutate(options);
 
     for (Authorization item in result.parsedData ?? []) {
-      await manager.store(item.$type, item);
-      if (item.$type == AuthorizationType.access) {
-        state = item.payload;
+      final AuthorizationType type =
+          item.$type == AuthorizationType.access.value
+              ? AuthorizationType.access
+              : AuthorizationType.refresh;
+      if (type == AuthorizationType.access) {
+        await manager.store(AuthorizationType.access, item);
       }
     }
   }

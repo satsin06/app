@@ -9,7 +9,7 @@ import '../models/setting.dart';
 import '../models/user.dart';
 
 FutureOr<Isar> _create(Ref ref) async {
-  final supportDirectory = await getApplicationSupportDirectory();
+  final documentDirectory = await getApplicationDocumentsDirectory();
 
   return await Isar.open(
     schemas: [
@@ -17,8 +17,9 @@ FutureOr<Isar> _create(Ref ref) async {
       UserSchema,
       SettingSchema,
     ],
-    directory: supportDirectory.path,
-    name: r'Socfony Support',
+    directory: documentDirectory.path,
+    name: 'database',
+    inspector: true,
   );
 }
 

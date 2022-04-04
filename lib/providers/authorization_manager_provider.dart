@@ -8,16 +8,28 @@ import 'graphql_provider.dart' show graphqlBaseLinkProvider;
 import 'isar_provider.dart';
 
 List<Authorization> authorizationsParser(Map<String, dynamic> data) {
-  print(data);
-  return [];
+  final access = Authorization()
+    ..expiredAt = DateTime.parse(data['expiredAt'])
+    ..payload = data['userId']
+    ..token = data['token']
+    ..$type = AuthorizationType.access.value;
+  final refresh = Authorization()
+    ..expiredAt = DateTime.parse(data['refreshExpiredAt'])
+    ..payload = data['userId']
+    ..token = data['token']
+    ..$type = AuthorizationType.refresh.value;
+
+  return [access, refresh];
 }
 
 const String _refreshAccessTokenDocumment = r'''
-mutation refreshAccessToken() {
-  expiredAt
-  refreshExpiredAt
-  token
-  userId
+mutation RefreshAccessToken {
+  refreshAccessToken {
+    expiredAt
+    refreshExpiredAt
+    token
+    userId
+  }
 }
 ''';
 
@@ -25,7 +37,7 @@ final MutationOptions<List<Authorization>> _refreshAccessTokenOptions =
     MutationOptions<List<Authorization>>(
   document: gql(_refreshAccessTokenDocumment),
   fetchPolicy: FetchPolicy.noCache,
-  parserFn: authorizationsParser,
+  parserFn: (data) => authorizationsParser(data['refreshAccessToken']),
 );
 
 Future<void> _refresher(Ref ref, AuthorizationManager manager) async {
@@ -46,17 +58,24 @@ Future<void> _refresher(Ref ref, AuthorizationManager manager) async {
   );
 
   final result = await client.mutate(_refreshAccessTokenOptions);
+  if (result.hasException) {
+    return;
+  }
 
   // Store result in manager.
   for (Authorization item in result.parsedData ?? []) {
-    await manager.store(item.$type, item);
+    await manager.store(
+        item.$type == AuthorizationType.access.value
+            ? AuthorizationType.access
+            : AuthorizationType.refresh,
+        item);
   }
 }
 
 Future<Authorization?> _render(Ref ref, AuthorizationType type) async {
   final isar = await ref.read(isarProvider.future);
 
-  return isar.authorizations.getBy$type(type);
+  return isar.authorizations.getBy$type(type.value);
 }
 
 Future<void> _writer(
@@ -75,7 +94,9 @@ Future<void> _writer(
 
 Future<void> _clear(Ref ref) async {
   final isar = await ref.read(isarProvider.future);
-  await isar.authorizations.deleteAllBy$type(AuthorizationType.values);
+  await isar.authorizations.deleteAllBy$type(
+    [AuthorizationType.access.value, AuthorizationType.refresh.value],
+  );
 }
 
 final authorizationManagerProvider = Provider(

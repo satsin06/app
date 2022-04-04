@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/login_message_provider.dart';
 import '../providers/login_mode_provider.dart';
+import '../providers/login_sending_provider.dart';
 import '../providers/login_text_editing_controller_provider.dart';
 
 final _showPasswordProvider = StateProvider.autoDispose((ref) => false);
-final passwordErrorMessageProvider =
-    StateProvider.autoDispose<String?>((ref) => null);
 
 class LoginPasswordInputWidget extends ConsumerWidget {
   const LoginPasswordInputWidget({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class LoginPasswordInputWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? errorMessage = ref.watch(passwordErrorMessageProvider);
+    final String? errorMessage = ref.watch(loginPasswordMessageProvider);
     final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
     final bool showPassword = ref.watch(_showPasswordProvider);
     final Widget suffixIcon = useOTP
@@ -55,16 +55,16 @@ class LoginPasswordInputWidget extends ConsumerWidget {
   }
 }
 
-class _SendOTPButton extends StatefulWidget {
+class _SendOTPButton extends ConsumerStatefulWidget {
   const _SendOTPButton({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<_SendOTPButton> createState() => _SendOTPButtonState();
+  ConsumerState<_SendOTPButton> createState() => _SendOTPButtonState();
 }
 
-class _SendOTPButtonState extends State<_SendOTPButton> {
+class _SendOTPButtonState extends ConsumerState<_SendOTPButton> {
   Timer? _timer;
   final int _countdown = 60;
   int _currentCountdown = 0;
@@ -76,12 +76,12 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   }
 
   Widget get child {
-    // if (context.select<LoginState, bool>((value) => value.hasOTPIsSending)) {
-    //   return const SizedBox.square(
-    //     child: CircularProgressIndicator(strokeWidth: 2.0),
-    //     dimension: 20.0,
-    //   );
-    // }
+    if (ref.watch(loginOtpProvider).hasSending) {
+      return const SizedBox.square(
+        child: CircularProgressIndicator(strokeWidth: 2.0),
+        dimension: 20.0,
+      );
+    }
 
     return Text(_currentCountdown == 0 ? '获取验证码' : '$_currentCountdown s');
   }
@@ -92,14 +92,12 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
     void Function()? onPressed = _currentCountdown == 0 ? onSendOTP : null;
 
     // Has OTP is sending
-    // final bool hasOTPIsSending = context.select<LoginState, bool>(
-    //   (bloc) => bloc.hasOTPIsSending,
-    // );
+    final bool hasOTPIsSending = ref.watch(loginOtpProvider).hasSending;
 
     // If account is not China phone number, disable button
-    // if (hasOTPIsSending) {
-    //   onPressed = null;
-    // }
+    if (hasOTPIsSending) {
+      onPressed = null;
+    }
 
     return TextButton(
       onPressed: onPressed,
@@ -108,39 +106,31 @@ class _SendOTPButtonState extends State<_SendOTPButton> {
   }
 
   void onSendOTP() async {
-    // final LoginState state = context.read<LoginState>()
-    //   ..clearAccountInputErrorMessage()
-    //   ..clearPasswordInputErrorMessage();
-    // if (state.hasOTPIsSending) {
-    //   return;
-    // } else if (state.account.text.length != 11 ||
-    //     !state.account.text.startsWith('1')) {
-    //   state.setAccountInputErrorMessage('请输入正确的手机号码');
-    //   return;
-    // }
+    final account = ref.read(loginAccountTextEditingControllerProvider).text;
+    if (account.length != 11 || !account.startsWith('1')) {
+      ref.read(loginAccountMessageProvider.state).state = '请输入正确的手机号';
+      return;
+    }
 
-    // _timer?.cancel();
-    // state.isSendingOTP();
-    // try {
-    //   await sendPhoneOTP(state.account.text);
-    //   setState(() {
-    //     _currentCountdown = _countdown;
-    //   });
-    //   _timer = Timer.periodic(
-    //     const Duration(seconds: 1),
-    //     (Timer timer) {
-    //       setState(() {
-    //         _currentCountdown--;
-    //         if (_currentCountdown == 0) {
-    //           timer.cancel();
-    //         }
-    //       });
-    //     },
-    //   );
-    // } catch (e) {
-    //   state.setPasswordInputErrorMessage(e.toString());
-    // } finally {
-    //   state.isNotSendingOTP();
-    // }
+    _timer?.cancel();
+    ref.read(loginAccountMessageProvider.state).state = null;
+    ref.read(loginPasswordMessageProvider.state).state = null;
+    final sent = await ref.read(loginOtpProvider).send(account);
+    if (sent) {
+      setState(() {
+        _currentCountdown = _countdown;
+      });
+      _timer = Timer.periodic(
+        const Duration(seconds: 1),
+        (Timer timer) {
+          setState(() {
+            _currentCountdown--;
+            if (_currentCountdown == 0) {
+              timer.cancel();
+            }
+          });
+        },
+      );
+    }
   }
 }

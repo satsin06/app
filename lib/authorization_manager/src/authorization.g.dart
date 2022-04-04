@@ -17,7 +17,7 @@ extension GetAuthorizationCollection on Isar {
 final AuthorizationSchema = CollectionSchema(
   name: 'Authorization',
   schema:
-      '{"name":"Authorization","idName":"\$id","properties":[{"name":"\$type","type":"Long"},{"name":"expiredAt","type":"Long"},{"name":"payload","type":"String"},{"name":"token","type":"String"}],"indexes":[{"name":"\$type","unique":true,"properties":[{"name":"\$type","type":"Value","caseSensitive":false}]},{"name":"token","unique":true,"properties":[{"name":"token","type":"Hash","caseSensitive":true}]}],"links":[]}',
+      '{"name":"Authorization","idName":"\$id","properties":[{"name":"\$type","type":"String"},{"name":"expiredAt","type":"Long"},{"name":"payload","type":"String"},{"name":"token","type":"String"}],"indexes":[{"name":"\$type","unique":true,"properties":[{"name":"\$type","type":"Hash","caseSensitive":true}]},{"name":"token","unique":true,"properties":[{"name":"token","type":"Hash","caseSensitive":true}]}],"links":[]}',
   nativeAdapter: const _AuthorizationNativeAdapter(),
   webAdapter: const _AuthorizationWebAdapter(),
   idName: '\$id',
@@ -26,7 +26,7 @@ final AuthorizationSchema = CollectionSchema(
   indexIds: {'\$type': 0, 'token': 1},
   indexTypes: {
     '\$type': [
-      NativeIndexType.long,
+      NativeIndexType.stringHash,
     ],
     'token': [
       NativeIndexType.stringHash,
@@ -47,8 +47,6 @@ final AuthorizationSchema = CollectionSchema(
   version: 2,
 );
 
-const _authorizationAuthorizationTypeConverter = AuthorizationTypeConverter();
-
 class _AuthorizationWebAdapter extends IsarWebTypeAdapter<Authorization> {
   const _AuthorizationWebAdapter();
 
@@ -57,8 +55,7 @@ class _AuthorizationWebAdapter extends IsarWebTypeAdapter<Authorization> {
       IsarCollection<Authorization> collection, Authorization object) {
     final jsObj = IsarNative.newJsObject();
     IsarNative.jsObjectSet(jsObj, '\$id', object.$id);
-    IsarNative.jsObjectSet(jsObj, '\$type',
-        _authorizationAuthorizationTypeConverter.toIsar(object.$type));
+    IsarNative.jsObjectSet(jsObj, '\$type', object.$type);
     IsarNative.jsObjectSet(
         jsObj, 'expiredAt', object.expiredAt.toUtc().millisecondsSinceEpoch);
     IsarNative.jsObjectSet(jsObj, 'payload', object.payload);
@@ -71,8 +68,7 @@ class _AuthorizationWebAdapter extends IsarWebTypeAdapter<Authorization> {
       IsarCollection<Authorization> collection, dynamic jsObj) {
     final object = Authorization();
     object.$id = IsarNative.jsObjectGet(jsObj, '\$id');
-    object.$type = _authorizationAuthorizationTypeConverter.fromIsar(
-        IsarNative.jsObjectGet(jsObj, '\$type') ?? double.negativeInfinity);
+    object.$type = IsarNative.jsObjectGet(jsObj, '\$type') ?? '';
     object.expiredAt = IsarNative.jsObjectGet(jsObj, 'expiredAt') != null
         ? DateTime.fromMillisecondsSinceEpoch(
                 IsarNative.jsObjectGet(jsObj, 'expiredAt'),
@@ -90,9 +86,7 @@ class _AuthorizationWebAdapter extends IsarWebTypeAdapter<Authorization> {
       case '\$id':
         return (IsarNative.jsObjectGet(jsObj, '\$id')) as P;
       case '\$type':
-        return (_authorizationAuthorizationTypeConverter.fromIsar(
-            IsarNative.jsObjectGet(jsObj, '\$type') ??
-                double.negativeInfinity)) as P;
+        return (IsarNative.jsObjectGet(jsObj, '\$type') ?? '') as P;
       case 'expiredAt':
         return (IsarNative.jsObjectGet(jsObj, 'expiredAt') != null
             ? DateTime.fromMillisecondsSinceEpoch(
@@ -125,9 +119,9 @@ class _AuthorizationNativeAdapter extends IsarNativeTypeAdapter<Authorization> {
       List<int> offsets,
       AdapterAlloc alloc) {
     var dynamicSize = 0;
-    final value0 =
-        _authorizationAuthorizationTypeConverter.toIsar(object.$type);
-    final _$type = value0;
+    final value0 = object.$type;
+    final _$type = IsarBinaryWriter.utf8Encoder.convert(value0);
+    dynamicSize += (_$type.length) as int;
     final value1 = object.expiredAt;
     final _expiredAt = value1;
     final value2 = object.payload;
@@ -145,7 +139,7 @@ class _AuthorizationNativeAdapter extends IsarNativeTypeAdapter<Authorization> {
     rawObj.buffer_length = size;
     final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
     final writer = IsarBinaryWriter(buffer, staticSize);
-    writer.writeLong(offsets[0], _$type);
+    writer.writeBytes(offsets[0], _$type);
     writer.writeDateTime(offsets[1], _expiredAt);
     writer.writeBytes(offsets[2], _payload);
     writer.writeBytes(offsets[3], _token);
@@ -156,8 +150,7 @@ class _AuthorizationNativeAdapter extends IsarNativeTypeAdapter<Authorization> {
       IsarBinaryReader reader, List<int> offsets) {
     final object = Authorization();
     object.$id = id;
-    object.$type = _authorizationAuthorizationTypeConverter
-        .fromIsar(reader.readLong(offsets[0]));
+    object.$type = reader.readString(offsets[0]);
     object.expiredAt = reader.readDateTime(offsets[1]);
     object.payload = reader.readStringOrNull(offsets[2]);
     object.token = reader.readString(offsets[3]);
@@ -171,8 +164,7 @@ class _AuthorizationNativeAdapter extends IsarNativeTypeAdapter<Authorization> {
       case -1:
         return id as P;
       case 0:
-        return (_authorizationAuthorizationTypeConverter
-            .fromIsar(reader.readLong(offset))) as P;
+        return (reader.readString(offset)) as P;
       case 1:
         return (reader.readDateTime(offset)) as P;
       case 2:
@@ -189,39 +181,38 @@ class _AuthorizationNativeAdapter extends IsarNativeTypeAdapter<Authorization> {
 }
 
 extension AuthorizationByIndex on IsarCollection<Authorization> {
-  Future<Authorization?> getBy$type(AuthorizationType $type) {
+  Future<Authorization?> getBy$type(String $type) {
     return getByIndex('\$type', [$type]);
   }
 
-  Authorization? getBy$typeSync(AuthorizationType $type) {
+  Authorization? getBy$typeSync(String $type) {
     return getByIndexSync('\$type', [$type]);
   }
 
-  Future<bool> deleteBy$type(AuthorizationType $type) {
+  Future<bool> deleteBy$type(String $type) {
     return deleteByIndex('\$type', [$type]);
   }
 
-  bool deleteBy$typeSync(AuthorizationType $type) {
+  bool deleteBy$typeSync(String $type) {
     return deleteByIndexSync('\$type', [$type]);
   }
 
-  Future<List<Authorization?>> getAllBy$type(
-      List<AuthorizationType> $typeValues) {
+  Future<List<Authorization?>> getAllBy$type(List<String> $typeValues) {
     final values = $typeValues.map((e) => [e]).toList();
     return getAllByIndex('\$type', values);
   }
 
-  List<Authorization?> getAllBy$typeSync(List<AuthorizationType> $typeValues) {
+  List<Authorization?> getAllBy$typeSync(List<String> $typeValues) {
     final values = $typeValues.map((e) => [e]).toList();
     return getAllByIndexSync('\$type', values);
   }
 
-  Future<int> deleteAllBy$type(List<AuthorizationType> $typeValues) {
+  Future<int> deleteAllBy$type(List<String> $typeValues) {
     final values = $typeValues.map((e) => [e]).toList();
     return deleteAllByIndex('\$type', values);
   }
 
-  int deleteAllBy$typeSync(List<AuthorizationType> $typeValues) {
+  int deleteAllBy$typeSync(List<String> $typeValues) {
     final values = $typeValues.map((e) => [e]).toList();
     return deleteAllByIndexSync('\$type', values);
   }
@@ -354,77 +345,39 @@ extension AuthorizationQueryWhere
   }
 
   QueryBuilder<Authorization, Authorization, QAfterWhereClause> $typeEqualTo(
-      AuthorizationType $type) {
+      String $type) {
     return addWhereClauseInternal(WhereClause(
       indexName: '\$type',
-      lower: [_authorizationAuthorizationTypeConverter.toIsar($type)],
+      lower: [$type],
       includeLower: true,
-      upper: [_authorizationAuthorizationTypeConverter.toIsar($type)],
+      upper: [$type],
       includeUpper: true,
     ));
   }
 
   QueryBuilder<Authorization, Authorization, QAfterWhereClause> $typeNotEqualTo(
-      AuthorizationType $type) {
+      String $type) {
     if (whereSortInternal == Sort.asc) {
       return addWhereClauseInternal(WhereClause(
         indexName: '\$type',
-        upper: [_authorizationAuthorizationTypeConverter.toIsar($type)],
+        upper: [$type],
         includeUpper: false,
       )).addWhereClauseInternal(WhereClause(
         indexName: '\$type',
-        lower: [_authorizationAuthorizationTypeConverter.toIsar($type)],
+        lower: [$type],
         includeLower: false,
       ));
     } else {
       return addWhereClauseInternal(WhereClause(
         indexName: '\$type',
-        lower: [_authorizationAuthorizationTypeConverter.toIsar($type)],
+        lower: [$type],
         includeLower: false,
       )).addWhereClauseInternal(WhereClause(
         indexName: '\$type',
-        upper: [_authorizationAuthorizationTypeConverter.toIsar($type)],
+        upper: [$type],
         includeUpper: false,
       ));
     }
-  }
-
-  QueryBuilder<Authorization, Authorization, QAfterWhereClause>
-      $typeGreaterThan(
-    AuthorizationType $type, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: '\$type',
-      lower: [_authorizationAuthorizationTypeConverter.toIsar($type)],
-      includeLower: include,
-    ));
-  }
-
-  QueryBuilder<Authorization, Authorization, QAfterWhereClause> $typeLessThan(
-    AuthorizationType $type, {
-    bool include = false,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: '\$type',
-      upper: [_authorizationAuthorizationTypeConverter.toIsar($type)],
-      includeUpper: include,
-    ));
-  }
-
-  QueryBuilder<Authorization, Authorization, QAfterWhereClause> $typeBetween(
-    AuthorizationType lower$type,
-    AuthorizationType upper$type, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: '\$type',
-      lower: [lower$type],
-      includeLower: includeLower,
-      upper: [upper$type],
-      includeUpper: includeUpper,
-    ));
   }
 
   QueryBuilder<Authorization, Authorization, QAfterWhereClause> tokenEqualTo(
@@ -525,53 +478,109 @@ extension AuthorizationQueryFilter
   }
 
   QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
-      $typeEqualTo(AuthorizationType value) {
+      $typeEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.eq,
       property: '\$type',
-      value: _authorizationAuthorizationTypeConverter.toIsar(value),
+      value: value,
+      caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
       $typeGreaterThan(
-    AuthorizationType value, {
+    String value, {
+    bool caseSensitive = true,
     bool include = false,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.gt,
       include: include,
       property: '\$type',
-      value: _authorizationAuthorizationTypeConverter.toIsar(value),
+      value: value,
+      caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
       $typeLessThan(
-    AuthorizationType value, {
+    String value, {
+    bool caseSensitive = true,
     bool include = false,
   }) {
     return addFilterConditionInternal(FilterCondition(
       type: ConditionType.lt,
       include: include,
       property: '\$type',
-      value: _authorizationAuthorizationTypeConverter.toIsar(value),
+      value: value,
+      caseSensitive: caseSensitive,
     ));
   }
 
   QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
       $typeBetween(
-    AuthorizationType lower,
-    AuthorizationType upper, {
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
     bool includeLower = true,
     bool includeUpper = true,
   }) {
     return addFilterConditionInternal(FilterCondition.between(
       property: '\$type',
-      lower: _authorizationAuthorizationTypeConverter.toIsar(lower),
+      lower: lower,
       includeLower: includeLower,
-      upper: _authorizationAuthorizationTypeConverter.toIsar(upper),
+      upper: upper,
       includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
+      $typeStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: '\$type',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
+      $typeEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: '\$type',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
+      $typeContains(String value, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: '\$type',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<Authorization, Authorization, QAfterFilterCondition>
+      $typeMatches(String pattern, {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: '\$type',
+      value: pattern,
+      caseSensitive: caseSensitive,
     ));
   }
 
@@ -947,8 +956,9 @@ extension AuthorizationQueryWhereDistinct
     return addDistinctByInternal('\$id');
   }
 
-  QueryBuilder<Authorization, Authorization, QDistinct> distinctBy$type() {
-    return addDistinctByInternal('\$type');
+  QueryBuilder<Authorization, Authorization, QDistinct> distinctBy$type(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('\$type', caseSensitive: caseSensitive);
   }
 
   QueryBuilder<Authorization, Authorization, QDistinct> distinctByExpiredAt() {
@@ -972,8 +982,7 @@ extension AuthorizationQueryProperty
     return addPropertyNameInternal('\$id');
   }
 
-  QueryBuilder<Authorization, AuthorizationType, QQueryOperations>
-      $typeProperty() {
+  QueryBuilder<Authorization, String, QQueryOperations> $typeProperty() {
     return addPropertyNameInternal('\$type');
   }
 

@@ -1,20 +1,11 @@
-import 'package:isar/isar.dart';
+class AuthorizationType {
+  const AuthorizationType._(this.value);
 
-enum AuthorizationType {
-  access,
-  refresh,
-}
+  static const AuthorizationType access = AuthorizationType._('Access');
+  static const AuthorizationType refresh = AuthorizationType._('Refresh');
 
-class AuthorizationTypeConverter extends TypeConverter<AuthorizationType, int> {
-  const AuthorizationTypeConverter();
+  final String value;
 
   @override
-  AuthorizationType fromIsar(int object) {
-    return AuthorizationType.values[object];
-  }
-
-  @override
-  int toIsar(AuthorizationType object) {
-    return object.index;
-  }
+  String toString() => value;
 }

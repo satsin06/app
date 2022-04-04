@@ -37,7 +37,7 @@ class AuthorizationManager with ChangeNotifier {
     AuthorizationType type,
     Authorization authorization,
   ) async {
-    await writer(type, authorization..$type = type);
+    await writer(type, authorization..$type = type.value);
     if (type == AuthorizationType.access) {
       _createTimer();
     }

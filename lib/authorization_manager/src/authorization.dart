@@ -1,17 +1,14 @@
 import 'package:isar/isar.dart';
 
-import 'authorization_type.dart';
-
 part 'authorization.g.dart';
 
-@Collection()
+@Collection(accessor: 'authorizations')
 class Authorization {
   @Id()
   int? $id;
 
-  @AuthorizationTypeConverter()
   @Index(unique: true)
-  late AuthorizationType $type;
+  late String $type;
 
   @Index(unique: true)
   late String token;
