@@ -7,21 +7,28 @@ import 'route/route_names.dart';
 import 'route/routes.dart';
 import 'theme.dart';
 
-class Application extends ConsumerWidget {
+class Application extends ConsumerStatefulWidget {
   const Application({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(loadThemeProvider);
-    final mode = ref.watch(themeModeProvider);
-    final primaryColor = ref.watch(themePrimaryColorProvider);
-    final appKey = ref.watch(appKeyProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => _ApplicationState();
+}
 
-    final SocfonyTheme theme = SocfonyTheme(primaryColor);
+class _ApplicationState extends ConsumerState<Application> {
+  @override
+  void initState() {
+    super.initState();
+    ref.read(loadThemeProvider);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final SocfonyTheme theme =
+        SocfonyTheme(ref.watch(themePrimaryColorProvider));
 
     return MaterialApp(
-      key: appKey,
-      themeMode: mode,
+      key: ref.watch(appKeyProvider),
+      themeMode: ref.watch(themeModeProvider),
       theme: theme.light,
       darkTheme: theme.dark,
       routes: routes,
