@@ -41,6 +41,8 @@ class AuthNotifier extends StateNotifier<String?> {
 
   final Ref ref;
 
+  set userId(String? userId) => state = userId;
+
   Future<void> login({
     required String account,
     required String password,
@@ -69,7 +71,7 @@ class AuthNotifier extends StateNotifier<String?> {
               : AuthorizationType.refresh;
       if (type == AuthorizationType.access) {
         await manager.store(AuthorizationType.access, item);
-        state = item.payload!;
+        userId = item.payload!;
       }
     }
   }
@@ -82,4 +84,23 @@ class AuthNotifier extends StateNotifier<String?> {
   }
 }
 
-final authProvider = StateProvider((ref) => AuthNotifier(ref: ref));
+final authProvider = StateNotifierProvider<AuthNotifier, String?>(
+  (ref) => AuthNotifier(ref: ref),
+);
+
+final loadAuthProvider = FutureProvider<void>(
+  (Ref ref) async {
+    final manager = ref.read(authorizationManagerProvider);
+    manager.addListener(() => _managerChangeNotofier(ref));
+
+    return await _managerChangeNotofier(ref);
+  },
+);
+
+Future<void> _managerChangeNotofier(Ref ref) async {
+  final manager = ref.read(authorizationManagerProvider);
+  final accessToken = await manager.getAccessToken();
+  if (accessToken != null && accessToken.payload != null) {
+    ref.read(authProvider.notifier).userId = accessToken.payload;
+  }
+}
