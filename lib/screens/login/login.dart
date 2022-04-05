@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../widgets/dynamic_app_bar.dart';
 import '../../widgets/unfocus.dart';
 import 'providers/login_mode_provider.dart';
+import 'providers/login_text_editing_controller_provider.dart';
 import 'widgets/forget_password.dart';
 import 'widgets/login_account_input.dart';
 import 'widgets/login_agreement.dart';
@@ -42,14 +43,36 @@ class _ToggleLoginModeButton extends ConsumerWidget {
     final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
 
     return TextButton(
-      onPressed: () {
-        FocusScope.of(context).unfocus();
-        ref.read(loginModeProvider.notifier).update((state) {
-          return state == LoginMode.otp ? LoginMode.password : LoginMode.otp;
-        });
-      },
+      onPressed: _createToggleModeHandler(context, ref),
       child: Text(isOtp ? '使用账号密码登录' : '使用验证码快捷登录注册'),
     );
+  }
+
+  VoidCallback _createToggleModeHandler(BuildContext context, WidgetRef ref) {
+    return () {
+      // Unfocus the input fields.
+      FocusScope.of(context).unfocus();
+
+      // Toggle the login mode.
+      ref.read(loginModeProvider.notifier).update((state) {
+        // If state is password, Check account is phone number, if it's not,
+        // clear account input.
+        if (state == LoginMode.password) {
+          final TextEditingController controller =
+              ref.read(loginAccountTextEditingControllerProvider);
+          final String account = controller.text.trim();
+          if (account.length != 11 || !account.startsWith('1')) {
+            ref.read(loginAccountTextEditingControllerProvider).clear();
+          }
+        }
+
+        // Toggle the login mode.
+        return state == LoginMode.otp ? LoginMode.password : LoginMode.otp;
+      });
+
+      // Clear the password input.
+      ref.read(loginPasswordTextEditingControllerProvider).clear();
+    };
   }
 }
 
