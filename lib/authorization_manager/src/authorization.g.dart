@@ -17,18 +17,15 @@ extension GetAuthorizationCollection on Isar {
 final AuthorizationSchema = CollectionSchema(
   name: 'Authorization',
   schema:
-      '{"name":"Authorization","idName":"\$id","properties":[{"name":"\$type","type":"String"},{"name":"expiredAt","type":"Long"},{"name":"payload","type":"String"},{"name":"token","type":"String"}],"indexes":[{"name":"\$type","unique":true,"properties":[{"name":"\$type","type":"Hash","caseSensitive":true}]},{"name":"token","unique":true,"properties":[{"name":"token","type":"Hash","caseSensitive":true}]}],"links":[]}',
+      '{"name":"Authorization","idName":"\$id","properties":[{"name":"\$type","type":"String"},{"name":"expiredAt","type":"Long"},{"name":"payload","type":"String"},{"name":"token","type":"String"}],"indexes":[{"name":"\$type","unique":true,"properties":[{"name":"\$type","type":"Hash","caseSensitive":true}]}],"links":[]}',
   nativeAdapter: const _AuthorizationNativeAdapter(),
   webAdapter: const _AuthorizationWebAdapter(),
   idName: '\$id',
   propertyIds: {'\$type': 0, 'expiredAt': 1, 'payload': 2, 'token': 3},
   listProperties: {},
-  indexIds: {'\$type': 0, 'token': 1},
+  indexIds: {'\$type': 0},
   indexTypes: {
     '\$type': [
-      NativeIndexType.stringHash,
-    ],
-    'token': [
       NativeIndexType.stringHash,
     ]
   },
@@ -216,42 +213,6 @@ extension AuthorizationByIndex on IsarCollection<Authorization> {
     final values = $typeValues.map((e) => [e]).toList();
     return deleteAllByIndexSync('\$type', values);
   }
-
-  Future<Authorization?> getByToken(String token) {
-    return getByIndex('token', [token]);
-  }
-
-  Authorization? getByTokenSync(String token) {
-    return getByIndexSync('token', [token]);
-  }
-
-  Future<bool> deleteByToken(String token) {
-    return deleteByIndex('token', [token]);
-  }
-
-  bool deleteByTokenSync(String token) {
-    return deleteByIndexSync('token', [token]);
-  }
-
-  Future<List<Authorization?>> getAllByToken(List<String> tokenValues) {
-    final values = tokenValues.map((e) => [e]).toList();
-    return getAllByIndex('token', values);
-  }
-
-  List<Authorization?> getAllByTokenSync(List<String> tokenValues) {
-    final values = tokenValues.map((e) => [e]).toList();
-    return getAllByIndexSync('token', values);
-  }
-
-  Future<int> deleteAllByToken(List<String> tokenValues) {
-    final values = tokenValues.map((e) => [e]).toList();
-    return deleteAllByIndex('token', values);
-  }
-
-  int deleteAllByTokenSync(List<String> tokenValues) {
-    final values = tokenValues.map((e) => [e]).toList();
-    return deleteAllByIndexSync('token', values);
-  }
 }
 
 extension AuthorizationQueryWhereSort
@@ -262,10 +223,6 @@ extension AuthorizationQueryWhereSort
 
   QueryBuilder<Authorization, Authorization, QAfterWhere> any$type() {
     return addWhereClauseInternal(const WhereClause(indexName: '\$type'));
-  }
-
-  QueryBuilder<Authorization, Authorization, QAfterWhere> anyToken() {
-    return addWhereClauseInternal(const WhereClause(indexName: 'token'));
   }
 }
 
@@ -375,42 +332,6 @@ extension AuthorizationQueryWhere
       )).addWhereClauseInternal(WhereClause(
         indexName: '\$type',
         upper: [$type],
-        includeUpper: false,
-      ));
-    }
-  }
-
-  QueryBuilder<Authorization, Authorization, QAfterWhereClause> tokenEqualTo(
-      String token) {
-    return addWhereClauseInternal(WhereClause(
-      indexName: 'token',
-      lower: [token],
-      includeLower: true,
-      upper: [token],
-      includeUpper: true,
-    ));
-  }
-
-  QueryBuilder<Authorization, Authorization, QAfterWhereClause> tokenNotEqualTo(
-      String token) {
-    if (whereSortInternal == Sort.asc) {
-      return addWhereClauseInternal(WhereClause(
-        indexName: 'token',
-        upper: [token],
-        includeUpper: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: 'token',
-        lower: [token],
-        includeLower: false,
-      ));
-    } else {
-      return addWhereClauseInternal(WhereClause(
-        indexName: 'token',
-        lower: [token],
-        includeLower: false,
-      )).addWhereClauseInternal(WhereClause(
-        indexName: 'token',
-        upper: [token],
         includeUpper: false,
       ));
     }

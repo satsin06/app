@@ -76,30 +76,38 @@ class _ToggleLoginModeButton extends ConsumerWidget {
   }
 }
 
-class _StatedListView extends ConsumerWidget {
+class _StatedListView extends StatelessWidget {
   const _StatedListView({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
-    final Widget widget =
-        isOtp ? const SizedBox(height: 20) : const LoginForgetPasswordWidget();
-
+  Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      children: [
-        const LoginLogoWidget(),
-        const SizedBox(height: 60),
-        const LoginAccountInputWidget(),
-        const SizedBox(height: 20),
-        const LoginPasswordInputWidget(),
-        const SizedBox(height: 20),
-        const LoginButton(),
-        widget,
-        const LoginAgreementWidget(),
+      children: const [
+        LoginLogoWidget(),
+        SizedBox(height: 60),
+        LoginAccountInputWidget(),
+        SizedBox(height: 20),
+        LoginPasswordInputWidget(),
+        SizedBox(height: 40),
+        LoginButton(),
+        _ForgetOrSizedWidget(),
+        LoginAgreementWidget(),
       ],
     );
+  }
+}
+
+class _ForgetOrSizedWidget extends ConsumerWidget {
+  const _ForgetOrSizedWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    return isOtp
+        ? const SizedBox(height: 20)
+        : const LoginForgetPasswordWidget();
   }
 }

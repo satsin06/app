@@ -53,6 +53,15 @@ class AuthNotifier extends StateNotifier<String?> {
 
     final result = await client.mutate(options);
 
+    if (result.hasException) {
+      final exception = result.exception!;
+      if (exception.graphqlErrors.isNotEmpty) {
+        throw FormatException(exception.graphqlErrors.first.message);
+      }
+
+      throw exception;
+    }
+
     for (Authorization item in result.parsedData ?? []) {
       final AuthorizationType type =
           item.$type == AuthorizationType.access.value

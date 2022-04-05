@@ -12,6 +12,12 @@ import '../models/user.dart';
 FutureOr<Isar> _create(Ref ref) async {
   final documentDirectory = await getApplicationDocumentsDirectory();
 
+  // Debug mode, output document directory.
+  assert(() {
+    print.call(documentDirectory);
+    return true;
+  }());
+
   return await Isar.open(
     schemas: [
       AuthorizationSchema,

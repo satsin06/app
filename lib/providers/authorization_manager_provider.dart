@@ -75,7 +75,9 @@ Future<void> _refresher(Ref ref, AuthorizationManager manager) async {
 Future<Authorization?> _render(Ref ref, AuthorizationType type) async {
   final isar = await ref.read(isarProvider.future);
 
-  return isar.authorizations.getBy$type(type.value);
+  return isar.txn((isar) async {
+    return isar.authorizations.getBy$type(type.value);
+  });
 }
 
 Future<void> _writer(
@@ -83,13 +85,12 @@ Future<void> _writer(
   // Get Isar instance.
   final isar = await ref.read(isarProvider.future);
 
-  // Get stored authorization.
-  final stored = await _render(ref, type);
+  await isar.writeTxn((isar) async {
+    final stored = await isar.authorizations.getBy$type(type.value);
 
-  // Upset authorization.
-  await isar.authorizations.put(
-    authorization..$id = stored?.$id ?? authorization.$id,
-  );
+    // Update stored authorization.
+    await isar.authorizations.put(authorization..$id = stored?.$id);
+  });
 }
 
 Future<void> _clear(Ref ref) async {

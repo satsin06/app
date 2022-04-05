@@ -10,7 +10,6 @@ class Authorization {
   @Index(unique: true)
   late String $type;
 
-  @Index(unique: true)
   late String token;
 
   late DateTime expiredAt;

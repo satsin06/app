@@ -63,6 +63,7 @@ class AuthorizationManager with ChangeNotifier {
     final accessToken = await getAccessToken();
     final diff = accessToken?.expiredAt.difference(DateTime.now());
     final int inMinutes = diff?.inMinutes ?? 0;
+    print(inMinutes);
 
     if (first || inMinutes <= 5) {
       return await refresh();
