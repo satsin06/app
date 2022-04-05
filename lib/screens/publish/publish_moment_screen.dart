@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socfony/widgets/card_wrapper.dart';
 
 import '../../widgets/dynamic_app_bar.dart';
-import 'publish_controller.dart';
-import 'publish_mutation.dart';
+import 'providers/text_editing_controller_provider.dart';
 
 class PublishMomentScreen extends StatelessWidget {
   const PublishMomentScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => PublishController(),
-      child: const _Scaffold(),
-    );
-  }
-}
-
-class _Scaffold extends StatelessWidget {
-  const _Scaffold({
-    Key? key,
-  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -32,28 +17,40 @@ class _Scaffold extends StatelessWidget {
           const _PublishButton(),
         ],
       ),
-      body: const _Body(),
+      body: ListView(
+        children: [
+          CardWrapper(
+            child: Column(
+              children: const [
+                _TitleFieldInput(),
+                Divider(),
+                _ContentFieldInput(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _PublishButton extends StatelessWidget {
+class _PublishButton extends ConsumerWidget {
   const _PublishButton({
     Key? key,
   }) : super(key: key);
 
   void _onPushlishHandler(BuildContext context) async {
-    final PublishController controller = PublishController.of(context);
-    final result = await createMoment(controller);
+    // final PublishController controller = PublishController.of(context);
+    // final result = await createMoment(controller);
 
-    print(result);
+    // print(result);
   }
 
   @override
-  Widget build(BuildContext context) {
-    final bool isValid = context.select<PublishController, bool>(
-      (controller) => controller.content.isNotEmpty,
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isValid =
+        ref.watch(contentTextEditingControllerProvider).text.trim().isNotEmpty;
+
     VoidCallback? onPressed;
     if (isValid) {
       onPressed = () => _onPushlishHandler(context);
@@ -78,42 +75,17 @@ class _PublishButton extends StatelessWidget {
   }
 }
 
-class _Body extends StatelessWidget {
-  const _Body({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        CardWrapper(
-          child: Column(
-            children: const [
-              _TitleFieldInput(),
-              Divider(),
-              _ContentFieldInput(),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _ContentFieldInput extends StatelessWidget {
+class _ContentFieldInput extends ConsumerWidget {
   const _ContentFieldInput({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController controller =
-        context.read<PublishController>().contentTextEditingController;
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(16.0).copyWith(top: 0),
       child: TextField(
-        controller: controller,
+        controller: ref.read(contentTextEditingControllerProvider),
         decoration: const InputDecoration(
           hintText: '请输入动态内容...',
           border: InputBorder.none,
@@ -126,19 +98,17 @@ class _ContentFieldInput extends StatelessWidget {
   }
 }
 
-class _TitleFieldInput extends StatelessWidget {
+class _TitleFieldInput extends ConsumerWidget {
   const _TitleFieldInput({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController controller =
-        context.read<PublishController>().titleTextEditingController;
+  Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextField(
-        controller: controller,
+        controller: ref.read(titleTextEditingControllerProvider),
         decoration: const InputDecoration(
           hintText: '标题（可选）',
           border: InputBorder.none,

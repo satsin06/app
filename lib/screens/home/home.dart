@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 
 import '../../route/route_names.dart';
+import 'widgets/jump_publish_button.dart';
 import 'widgets/user_profile_avatar_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -62,12 +63,7 @@ class _HomeScreenState extends State<HomeScreen>
           const UserProfileAvatarButton(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(RouteNames.publish);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: const JumpPublishButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: TabBarView(
         controller: tabController,
