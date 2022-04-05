@@ -4,7 +4,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../../route/route_names.dart';
 import 'widgets/jump_publish_button.dart';
 import 'widgets/user_profile_avatar_button.dart';
 
