@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,6 +34,7 @@ class _ApplicationState extends ConsumerState<Application> {
       darkTheme: theme.dark,
       routes: routes,
       initialRoute: RouteNames.login,
+      debugShowCheckedModeBanner: kDebugMode,
     );
   }
 }

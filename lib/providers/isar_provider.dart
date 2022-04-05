@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,7 +20,7 @@ FutureOr<Isar> _create(Ref ref) async {
     ],
     directory: documentDirectory.path,
     name: 'database',
-    inspector: true,
+    inspector: kDebugMode,
   );
 }
 
