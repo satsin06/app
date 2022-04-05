@@ -1,83 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../provider/states/app_auth.dart';
-import '../../provider/states/users.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/user_provider.dart';
 import '../../widgets/card_wrapper.dart';
 import '../../widgets/dynamic_app_bar.dart';
-import '../../widgets/ghost_screen.dart';
-import 'controllers/profile_controller.dart';
-import 'graphql/query_profile_user.dart';
+import 'widgets/user_refresh_load.dart';
 
-class EditUserScreen extends StatelessWidget {
-  const EditUserScreen({Key? key}) : super(key: key);
-
-  String? _watchCurrentUserOnAuth(BuildContext context) {
-    return context.select<AppAuthState, String?>((state) => state.userId);
-  }
-
-  String? _currentUserId(BuildContext context) {
-    return context.read<AppAuthState>().userId;
-  }
-
-  Future<UserProfileController> _createFuture(BuildContext context) async {
-    final userId = _currentUserId(context);
-    final user = await queryProfileUser(userId!);
-
-    // Upsert user
-    context.read<UsersState>().upsert(
-          where: (where) => where.id == user.id,
-          create: () => user,
-          update: (update) {
-            update
-              ..username = user.username
-              ..profile ??= user.profile
-              ..profile?.bio = user.profile?.bio
-              ..profile?.avatar = user.profile?.avatar
-              ..profile?.birthday = user.profile?.birthday;
-          },
-        );
-
-    return UserProfileController(user.id);
-  }
+class UserEditScreen extends ConsumerWidget {
+  const UserEditScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final userId = _watchCurrentUserOnAuth(context);
-    if (userId == null) {
-      return const GhostScreen();
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String userId = ref.read(authProvider)!;
 
-    return FutureBuilder<UserProfileController>(
-      future: _createFuture(context),
-      builder: _builder,
-    );
-  }
-
-  Widget _builder(
-      BuildContext context, AsyncSnapshot<UserProfileController> snapshot) {
-    if (snapshot.hasError) {
-      return const GhostScreen();
-    }
-
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Scaffold(
-        appBar: DynamicAppBar(),
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    return ChangeNotifierProvider.value(
-      value: snapshot.data,
-      child: const _Screen(),
+    return UserRefreshLoad(
+      userId: userId,
+      builder: (_) => const _ScreenScaffold(),
     );
   }
 }
 
-class _Screen extends StatelessWidget {
-  const _Screen({Key? key}) : super(key: key);
+class _ScreenScaffold extends StatelessWidget {
+  const _ScreenScaffold({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -153,15 +98,16 @@ class _UserDataCard extends StatelessWidget {
   }
 }
 
-class _UserBio extends StatelessWidget {
+class _UserBio extends ConsumerWidget {
   const _UserBio({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final String? bio = UserProfileController.proxy(context)
-        .select<String?>((user) => user.profile?.bio);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String userId = ref.read(authProvider)!;
+    final privider = userProvider(userId);
+    final String? bio = ref.watch(privider).profile?.bio;
 
     Widget child;
     if (bio == null || bio.isEmpty) {
@@ -181,17 +127,16 @@ class _UserBio extends StatelessWidget {
   }
 }
 
-class _AccountUsername extends StatelessWidget {
+class _AccountUsername extends ConsumerWidget {
   const _AccountUsername({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final String? username =
-        UserProfileController.proxy(context).select<String?>(
-      (user) => user.username,
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String userId = ref.read(authProvider)!;
+    final privider = userProvider(userId);
+    final String? username = ref.watch(privider).username;
 
     Widget? child;
     if (username == null) {

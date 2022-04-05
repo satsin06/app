@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../provider/states/app_auth.dart';
-import '../../provider/states/app_key.dart';
+import '../../providers/app_key_provider.dart';
 import '../../route/route_names.dart';
 import '../../widgets/dynamic_app_bar.dart';
 
@@ -148,30 +147,45 @@ class UserSettingScreen extends StatelessWidget {
           ),
           // 退出登录
           const SizedBox(height: 36),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                await context.read<AppAuthState>().delete();
-                context.read<AppKeyState>().change();
-              },
-              child: const Text('退出登录'),
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(60),
-                  ),
-                ),
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(
-                    horizontal: 64,
-                    vertical: 12,
-                  ),
-                ),
-              ),
-            ),
-          )
+          const _LogoutButton()
         ],
       ),
     );
+  }
+}
+
+class _LogoutButton extends ConsumerWidget {
+  const _LogoutButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: _createLogoutHandler(ref),
+        child: const Text('退出登录'),
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(60),
+            ),
+          ),
+          padding: MaterialStateProperty.all(
+            const EdgeInsets.symmetric(
+              horizontal: 64,
+              vertical: 12,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  VoidCallback _createLogoutHandler(WidgetRef ref) {
+    return () {
+      ref.read(appKeyProvider.state).state = UniqueKey();
+      // TODO: Remove stored authorization
+    };
   }
 }

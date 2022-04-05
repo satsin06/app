@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:socfony/models/user.dart';
 
 import '../authorization_manager/authorization_manager.dart';
 import '../models/setting.dart';
-import '../models/user.dart';
 
 FutureOr<Isar> _create(Ref ref) async {
   final documentDirectory = await getApplicationDocumentsDirectory();

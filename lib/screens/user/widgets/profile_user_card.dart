@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/profile_controller.dart';
+import '../../../mixins/route_arguments_reader.dart';
+import '../../../providers/user_provider.dart';
 
 class ProfileUserCard extends StatelessWidget {
   const ProfileUserCard({
@@ -169,17 +171,25 @@ class _UserStatisticsWidget extends StatelessWidget {
   }
 }
 
-class _UserBioWidget extends StatelessWidget {
+final _bioProvider = Provider.autoDispose.family<String?, String>(
+  (ref, userId) {
+    final provider = userProvider(userId);
+    final user = ref.watch(provider);
+
+    return user.profile?.bio;
+  },
+);
+
+class _UserBioWidget extends ConsumerWidget with RouteArgumentsReader<String> {
   const _UserBioWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final String? bio =
-        UserProfileController.proxy(context).select<String?>((user) {
-      return user.profile?.bio;
-    });
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? userId = getRouteArguments(context);
+    final provider = _bioProvider(userId!);
+    final bio = ref.watch(provider);
     final String bioText =
         bio != null && bio.isNotEmpty ? bio : '这个人很懒，什么都没有留下~';
 
@@ -193,18 +203,25 @@ class _UserBioWidget extends StatelessWidget {
   }
 }
 
-class _UsernameWidget extends StatelessWidget {
+final _usernameProvider = Provider.autoDispose.family<String?, String>(
+  (ref, userId) {
+    final provider = userProvider(userId);
+    final user = ref.watch(provider);
+
+    return user.username;
+  },
+);
+
+class _UsernameWidget extends ConsumerWidget with RouteArgumentsReader<String> {
   const _UsernameWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final String? username =
-        UserProfileController.proxy(context).select<String?>((user) {
-      return user.username;
-    });
-    final String userId = UserProfileController.of(context).userId;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userId = getRouteArguments(context);
+    final provider = _usernameProvider(userId);
+    final username = ref.watch(provider);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,

@@ -1228,3 +1228,912 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
     return addPropertyNameInternal('username');
   }
 }
+
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast
+
+extension GetUserProfileCollection on Isar {
+  IsarCollection<UserProfile> get userProfiles {
+    return getCollection('UserProfile');
+  }
+}
+
+final UserProfileSchema = CollectionSchema(
+  name: 'UserProfile',
+  schema:
+      '{"name":"UserProfile","idName":"\$storeId","properties":[{"name":"avatar","type":"String"},{"name":"bio","type":"String"},{"name":"birthday","type":"Long"},{"name":"id","type":"String"}],"indexes":[{"name":"id","unique":true,"properties":[{"name":"id","type":"Hash","caseSensitive":true}]}],"links":[]}',
+  nativeAdapter: const _UserProfileNativeAdapter(),
+  webAdapter: const _UserProfileWebAdapter(),
+  idName: '\$storeId',
+  propertyIds: {'avatar': 0, 'bio': 1, 'birthday': 2, 'id': 3},
+  listProperties: {},
+  indexIds: {'id': 0},
+  indexTypes: {
+    'id': [
+      NativeIndexType.stringHash,
+    ]
+  },
+  linkIds: {},
+  backlinkIds: {},
+  linkedCollections: [],
+  getId: (obj) {
+    if (obj.$storeId == Isar.autoIncrement) {
+      return null;
+    } else {
+      return obj.$storeId;
+    }
+  },
+  setId: (obj, id) => obj.$storeId = id,
+  getLinks: (obj) => [],
+  version: 2,
+);
+
+class _UserProfileWebAdapter extends IsarWebTypeAdapter<UserProfile> {
+  const _UserProfileWebAdapter();
+
+  @override
+  Object serialize(IsarCollection<UserProfile> collection, UserProfile object) {
+    final jsObj = IsarNative.newJsObject();
+    IsarNative.jsObjectSet(jsObj, '\$storeId', object.$storeId);
+    IsarNative.jsObjectSet(jsObj, 'avatar', object.avatar);
+    IsarNative.jsObjectSet(jsObj, 'bio', object.bio);
+    IsarNative.jsObjectSet(jsObj, 'birthday', object.birthday);
+    IsarNative.jsObjectSet(jsObj, 'id', object.id);
+    return jsObj;
+  }
+
+  @override
+  UserProfile deserialize(
+      IsarCollection<UserProfile> collection, dynamic jsObj) {
+    final object = UserProfile();
+    object.$storeId = IsarNative.jsObjectGet(jsObj, '\$storeId');
+    object.avatar = IsarNative.jsObjectGet(jsObj, 'avatar');
+    object.bio = IsarNative.jsObjectGet(jsObj, 'bio');
+    object.birthday = IsarNative.jsObjectGet(jsObj, 'birthday');
+    object.id = IsarNative.jsObjectGet(jsObj, 'id') ?? '';
+    return object;
+  }
+
+  @override
+  P deserializeProperty<P>(Object jsObj, String propertyName) {
+    switch (propertyName) {
+      case '\$storeId':
+        return (IsarNative.jsObjectGet(jsObj, '\$storeId')) as P;
+      case 'avatar':
+        return (IsarNative.jsObjectGet(jsObj, 'avatar')) as P;
+      case 'bio':
+        return (IsarNative.jsObjectGet(jsObj, 'bio')) as P;
+      case 'birthday':
+        return (IsarNative.jsObjectGet(jsObj, 'birthday')) as P;
+      case 'id':
+        return (IsarNative.jsObjectGet(jsObj, 'id') ?? '') as P;
+      default:
+        throw 'Illegal propertyName';
+    }
+  }
+
+  @override
+  void attachLinks(Isar isar, int id, UserProfile object) {}
+}
+
+class _UserProfileNativeAdapter extends IsarNativeTypeAdapter<UserProfile> {
+  const _UserProfileNativeAdapter();
+
+  @override
+  void serialize(
+      IsarCollection<UserProfile> collection,
+      IsarRawObject rawObj,
+      UserProfile object,
+      int staticSize,
+      List<int> offsets,
+      AdapterAlloc alloc) {
+    var dynamicSize = 0;
+    final value0 = object.avatar;
+    IsarUint8List? _avatar;
+    if (value0 != null) {
+      _avatar = IsarBinaryWriter.utf8Encoder.convert(value0);
+    }
+    dynamicSize += (_avatar?.length ?? 0) as int;
+    final value1 = object.bio;
+    IsarUint8List? _bio;
+    if (value1 != null) {
+      _bio = IsarBinaryWriter.utf8Encoder.convert(value1);
+    }
+    dynamicSize += (_bio?.length ?? 0) as int;
+    final value2 = object.birthday;
+    final _birthday = value2;
+    final value3 = object.id;
+    final _id = IsarBinaryWriter.utf8Encoder.convert(value3);
+    dynamicSize += (_id.length) as int;
+    final size = staticSize + dynamicSize;
+
+    rawObj.buffer = alloc(size);
+    rawObj.buffer_length = size;
+    final buffer = IsarNative.bufAsBytes(rawObj.buffer, size);
+    final writer = IsarBinaryWriter(buffer, staticSize);
+    writer.writeBytes(offsets[0], _avatar);
+    writer.writeBytes(offsets[1], _bio);
+    writer.writeLong(offsets[2], _birthday);
+    writer.writeBytes(offsets[3], _id);
+  }
+
+  @override
+  UserProfile deserialize(IsarCollection<UserProfile> collection, int id,
+      IsarBinaryReader reader, List<int> offsets) {
+    final object = UserProfile();
+    object.$storeId = id;
+    object.avatar = reader.readStringOrNull(offsets[0]);
+    object.bio = reader.readStringOrNull(offsets[1]);
+    object.birthday = reader.readLongOrNull(offsets[2]);
+    object.id = reader.readString(offsets[3]);
+    return object;
+  }
+
+  @override
+  P deserializeProperty<P>(
+      int id, IsarBinaryReader reader, int propertyIndex, int offset) {
+    switch (propertyIndex) {
+      case -1:
+        return id as P;
+      case 0:
+        return (reader.readStringOrNull(offset)) as P;
+      case 1:
+        return (reader.readStringOrNull(offset)) as P;
+      case 2:
+        return (reader.readLongOrNull(offset)) as P;
+      case 3:
+        return (reader.readString(offset)) as P;
+      default:
+        throw 'Illegal propertyIndex';
+    }
+  }
+
+  @override
+  void attachLinks(Isar isar, int id, UserProfile object) {}
+}
+
+extension UserProfileByIndex on IsarCollection<UserProfile> {
+  Future<UserProfile?> getById(String id) {
+    return getByIndex('id', [id]);
+  }
+
+  UserProfile? getByIdSync(String id) {
+    return getByIndexSync('id', [id]);
+  }
+
+  Future<bool> deleteById(String id) {
+    return deleteByIndex('id', [id]);
+  }
+
+  bool deleteByIdSync(String id) {
+    return deleteByIndexSync('id', [id]);
+  }
+
+  Future<List<UserProfile?>> getAllById(List<String> idValues) {
+    final values = idValues.map((e) => [e]).toList();
+    return getAllByIndex('id', values);
+  }
+
+  List<UserProfile?> getAllByIdSync(List<String> idValues) {
+    final values = idValues.map((e) => [e]).toList();
+    return getAllByIndexSync('id', values);
+  }
+
+  Future<int> deleteAllById(List<String> idValues) {
+    final values = idValues.map((e) => [e]).toList();
+    return deleteAllByIndex('id', values);
+  }
+
+  int deleteAllByIdSync(List<String> idValues) {
+    final values = idValues.map((e) => [e]).toList();
+    return deleteAllByIndexSync('id', values);
+  }
+}
+
+extension UserProfileQueryWhereSort
+    on QueryBuilder<UserProfile, UserProfile, QWhere> {
+  QueryBuilder<UserProfile, UserProfile, QAfterWhere> any$storeId() {
+    return addWhereClauseInternal(const WhereClause(indexName: null));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhere> anyId() {
+    return addWhereClauseInternal(const WhereClause(indexName: 'id'));
+  }
+}
+
+extension UserProfileQueryWhere
+    on QueryBuilder<UserProfile, UserProfile, QWhereClause> {
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> $storeIdEqualTo(
+      int? $storeId) {
+    return addWhereClauseInternal(WhereClause(
+      indexName: null,
+      lower: [$storeId],
+      includeLower: true,
+      upper: [$storeId],
+      includeUpper: true,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> $storeIdNotEqualTo(
+      int? $storeId) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(WhereClause(
+        indexName: null,
+        upper: [$storeId],
+        includeUpper: false,
+      )).addWhereClauseInternal(WhereClause(
+        indexName: null,
+        lower: [$storeId],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(WhereClause(
+        indexName: null,
+        lower: [$storeId],
+        includeLower: false,
+      )).addWhereClauseInternal(WhereClause(
+        indexName: null,
+        upper: [$storeId],
+        includeUpper: false,
+      ));
+    }
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> $storeIdGreaterThan(
+    int? $storeId, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(WhereClause(
+      indexName: null,
+      lower: [$storeId],
+      includeLower: include,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> $storeIdLessThan(
+    int? $storeId, {
+    bool include = false,
+  }) {
+    return addWhereClauseInternal(WhereClause(
+      indexName: null,
+      upper: [$storeId],
+      includeUpper: include,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> $storeIdBetween(
+    int? lower$storeId,
+    int? upper$storeId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addWhereClauseInternal(WhereClause(
+      indexName: null,
+      lower: [lower$storeId],
+      includeLower: includeLower,
+      upper: [upper$storeId],
+      includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> idEqualTo(
+      String id) {
+    return addWhereClauseInternal(WhereClause(
+      indexName: 'id',
+      lower: [id],
+      includeLower: true,
+      upper: [id],
+      includeUpper: true,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterWhereClause> idNotEqualTo(
+      String id) {
+    if (whereSortInternal == Sort.asc) {
+      return addWhereClauseInternal(WhereClause(
+        indexName: 'id',
+        upper: [id],
+        includeUpper: false,
+      )).addWhereClauseInternal(WhereClause(
+        indexName: 'id',
+        lower: [id],
+        includeLower: false,
+      ));
+    } else {
+      return addWhereClauseInternal(WhereClause(
+        indexName: 'id',
+        lower: [id],
+        includeLower: false,
+      )).addWhereClauseInternal(WhereClause(
+        indexName: 'id',
+        upper: [id],
+        includeUpper: false,
+      ));
+    }
+  }
+}
+
+extension UserProfileQueryFilter
+    on QueryBuilder<UserProfile, UserProfile, QFilterCondition> {
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      $storeIdIsNull() {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.isNull,
+      property: '\$storeId',
+      value: null,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> $storeIdEqualTo(
+      int? value) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: '\$storeId',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      $storeIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: '\$storeId',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      $storeIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: '\$storeId',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> $storeIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: '\$storeId',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarIsNull() {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.isNull,
+      property: 'avatar',
+      value: null,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'avatar',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      avatarGreaterThan(
+    String? value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'avatar',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarLessThan(
+    String? value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'avatar',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarBetween(
+    String? lower,
+    String? upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'avatar',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      avatarStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'avatar',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'avatar',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'avatar',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> avatarMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'avatar',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioIsNull() {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.isNull,
+      property: 'bio',
+      value: null,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'bio',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioGreaterThan(
+    String? value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'bio',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioLessThan(
+    String? value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'bio',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioBetween(
+    String? lower,
+    String? upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'bio',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'bio',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'bio',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'bio',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> bioMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'bio',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      birthdayIsNull() {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.isNull,
+      property: 'birthday',
+      value: null,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> birthdayEqualTo(
+      int? value) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'birthday',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      birthdayGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'birthday',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition>
+      birthdayLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'birthday',
+      value: value,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> birthdayBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'birthday',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.eq,
+      property: 'id',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.gt,
+      include: include,
+      property: 'id',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idLessThan(
+    String value, {
+    bool caseSensitive = true,
+    bool include = false,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.lt,
+      include: include,
+      property: 'id',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition.between(
+      property: 'id',
+      lower: lower,
+      includeLower: includeLower,
+      upper: upper,
+      includeUpper: includeUpper,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.startsWith,
+      property: 'id',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.endsWith,
+      property: 'id',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.contains,
+      property: 'id',
+      value: value,
+      caseSensitive: caseSensitive,
+    ));
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterFilterCondition> idMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return addFilterConditionInternal(FilterCondition(
+      type: ConditionType.matches,
+      property: 'id',
+      value: pattern,
+      caseSensitive: caseSensitive,
+    ));
+  }
+}
+
+extension UserProfileQueryLinks
+    on QueryBuilder<UserProfile, UserProfile, QFilterCondition> {}
+
+extension UserProfileQueryWhereSortBy
+    on QueryBuilder<UserProfile, UserProfile, QSortBy> {
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortBy$storeId() {
+    return addSortByInternal('\$storeId', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortBy$storeIdDesc() {
+    return addSortByInternal('\$storeId', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByAvatar() {
+    return addSortByInternal('avatar', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByAvatarDesc() {
+    return addSortByInternal('avatar', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByBio() {
+    return addSortByInternal('bio', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByBioDesc() {
+    return addSortByInternal('bio', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByBirthday() {
+    return addSortByInternal('birthday', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByBirthdayDesc() {
+    return addSortByInternal('birthday', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortById() {
+    return addSortByInternal('id', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> sortByIdDesc() {
+    return addSortByInternal('id', Sort.desc);
+  }
+}
+
+extension UserProfileQueryWhereSortThenBy
+    on QueryBuilder<UserProfile, UserProfile, QSortThenBy> {
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenBy$storeId() {
+    return addSortByInternal('\$storeId', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenBy$storeIdDesc() {
+    return addSortByInternal('\$storeId', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByAvatar() {
+    return addSortByInternal('avatar', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByAvatarDesc() {
+    return addSortByInternal('avatar', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByBio() {
+    return addSortByInternal('bio', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByBioDesc() {
+    return addSortByInternal('bio', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByBirthday() {
+    return addSortByInternal('birthday', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByBirthdayDesc() {
+    return addSortByInternal('birthday', Sort.desc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenById() {
+    return addSortByInternal('id', Sort.asc);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QAfterSortBy> thenByIdDesc() {
+    return addSortByInternal('id', Sort.desc);
+  }
+}
+
+extension UserProfileQueryWhereDistinct
+    on QueryBuilder<UserProfile, UserProfile, QDistinct> {
+  QueryBuilder<UserProfile, UserProfile, QDistinct> distinctBy$storeId() {
+    return addDistinctByInternal('\$storeId');
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QDistinct> distinctByAvatar(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('avatar', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QDistinct> distinctByBio(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('bio', caseSensitive: caseSensitive);
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QDistinct> distinctByBirthday() {
+    return addDistinctByInternal('birthday');
+  }
+
+  QueryBuilder<UserProfile, UserProfile, QDistinct> distinctById(
+      {bool caseSensitive = true}) {
+    return addDistinctByInternal('id', caseSensitive: caseSensitive);
+  }
+}
+
+extension UserProfileQueryProperty
+    on QueryBuilder<UserProfile, UserProfile, QQueryProperty> {
+  QueryBuilder<UserProfile, int?, QQueryOperations> $storeIdProperty() {
+    return addPropertyNameInternal('\$storeId');
+  }
+
+  QueryBuilder<UserProfile, String?, QQueryOperations> avatarProperty() {
+    return addPropertyNameInternal('avatar');
+  }
+
+  QueryBuilder<UserProfile, String?, QQueryOperations> bioProperty() {
+    return addPropertyNameInternal('bio');
+  }
+
+  QueryBuilder<UserProfile, int?, QQueryOperations> birthdayProperty() {
+    return addPropertyNameInternal('birthday');
+  }
+
+  QueryBuilder<UserProfile, String, QQueryOperations> idProperty() {
+    return addPropertyNameInternal('id');
+  }
+}
