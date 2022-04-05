@@ -66,7 +66,7 @@ class LoginButton extends ConsumerWidget {
     ref.read(loginSendingProvider.state).state = true;
 
     // Get auth notifier.
-    final AuthNotifier authNotifier = ref.read(authProvider);
+    final AuthNotifier authNotifier = ref.read(authProvider.notifier);
 
     try {
       final account =
@@ -81,7 +81,6 @@ class LoginButton extends ConsumerWidget {
         usePhoneOtp: isOtpMode,
       );
     } catch (e) {
-      print(e);
       if (e is FormatException) {
         ref.read(loginPasswordMessageProvider.state).state = e.message;
       } else {

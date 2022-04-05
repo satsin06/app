@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers/app_key_provider.dart';
+import 'providers/auth_provider.dart';
 import 'providers/theme_provider.dart';
 import 'route/route_names.dart';
 import 'route/routes.dart';
@@ -20,6 +21,7 @@ class _ApplicationState extends ConsumerState<Application> {
   void initState() {
     super.initState();
     ref.read(loadThemeProvider);
+    ref.read(loadAuthProvider);
   }
 
   @override
@@ -33,7 +35,7 @@ class _ApplicationState extends ConsumerState<Application> {
       theme: theme.light,
       darkTheme: theme.dark,
       routes: routes,
-      initialRoute: RouteNames.login,
+      initialRoute: RouteNames.home,
       debugShowCheckedModeBanner: kDebugMode,
     );
   }
