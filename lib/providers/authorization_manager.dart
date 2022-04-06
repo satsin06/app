@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:authorization_manager/authorization_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql/client.dart';
 
-import '../authorization_manager/authorization_manager.dart';
 import 'graphql.dart' show graphqlBaseLinkProvider;
 import 'shared_preferences.dart';
 
@@ -97,7 +97,7 @@ Future<void> _clear(Ref ref) async {
   }
 }
 
-final authorizationManagerProvider = ChangeNotifierProvider(
+final authorizationManagerProvider = Provider<AuthorizationManager>(
   (Ref ref) => AuthorizationManager(
     clear: (manager) => _clear(ref),
     refresher: (manager) => _refresher(ref, manager),

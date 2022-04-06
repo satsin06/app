@@ -1,7 +1,7 @@
+import 'package:authorization_manager/authorization_manager.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql/client.dart';
 
-import '../authorization_manager/authorization_manager.dart';
 import 'authorization_manager.dart';
 import 'graphql.dart';
 
