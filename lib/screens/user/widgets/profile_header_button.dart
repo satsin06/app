@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../mixins/route_arguments_reader.dart';
-import '../../../providers/auth_provider.dart';
+import '../../../providers/auth.dart';
 import '../../../route/route_names.dart';
 import 'profile_header_open_more_button.dart';
 

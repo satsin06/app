@@ -8,8 +8,7 @@ import 'authorization_type.dart';
 
 typedef AuthorizationReader = FutureOr<Authorization?> Function(
     AuthorizationType);
-typedef AuthorizationWriter = FutureOr<void> Function(
-    AuthorizationType, Authorization);
+typedef AuthorizationWriter = FutureOr<void> Function(Authorization);
 typedef AuthorizationRefresher = FutureOr<void> Function(AuthorizationManager);
 typedef AuthorizationClear = FutureOr<void> Function(AuthorizationManager);
 
@@ -33,12 +32,9 @@ class AuthorizationManager with ChangeNotifier {
   FutureOr<Authorization?> getRefreshToken() =>
       reader(AuthorizationType.refresh);
 
-  Future<void> store(
-    AuthorizationType type,
-    Authorization authorization,
-  ) async {
-    await writer(type, authorization..$type = type.value);
-    if (type == AuthorizationType.access) {
+  Future<void> store(Authorization authorization) async {
+    await writer(authorization);
+    if (authorization.type == AuthorizationType.access) {
       _createTimer();
     }
     notifyListeners();

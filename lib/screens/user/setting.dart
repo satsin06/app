@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/app_key_provider.dart';
+import '../../providers/app.dart';
 import '../../route/route_names.dart';
 import '../../widgets/dynamic_app_bar.dart';
 
@@ -184,7 +184,7 @@ class _LogoutButton extends ConsumerWidget {
 
   VoidCallback _createLogoutHandler(WidgetRef ref) {
     return () {
-      ref.read(appKeyProvider.state).state = UniqueKey();
+      ref.read(appProvider.notifier).restart();
       // TODO: Remove stored authorization
     };
   }

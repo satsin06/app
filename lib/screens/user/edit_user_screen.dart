@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/auth_provider.dart';
-import '../../providers/user_provider.dart';
+import '../../providers/auth.dart';
+import '../../providers/user.dart';
 import '../../widgets/card_wrapper.dart';
 import '../../widgets/dynamic_app_bar.dart';
 import 'widgets/user_refresh_load.dart';
@@ -106,8 +106,9 @@ class _UserBio extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String userId = ref.read(authProvider)!;
-    final privider = userProvider(userId);
-    final String? bio = ref.watch(privider).profile?.bio;
+    final privider =
+        userProfileProvider(userId).select((profile) => profile.bio);
+    final String? bio = ref.watch(privider);
 
     Widget child;
     if (bio == null || bio.isEmpty) {

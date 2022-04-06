@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../mixins/route_arguments_reader.dart';
-import '../../../providers/user_provider.dart';
+import '../../../providers/user.dart';
 
 final _usernameProvider = Provider.autoDispose.family<String?, String>(
   (ref, userId) {

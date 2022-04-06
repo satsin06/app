@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../providers/user_provider.dart';
+import '../../../providers/user.dart';
 import '../../../widgets/dynamic_app_bar.dart';
 import '../../../widgets/ghost_screen.dart';
 
@@ -17,7 +17,7 @@ class UserRefreshLoad extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = refreshUserProvider(userId);
+    final provider = loadUserProvider(userId);
     return ref.watch(provider).when<Widget>(
           data: (_) => builder(context),
           error: _errorBuilder,

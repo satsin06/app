@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql/client.dart';
 
 import '../configure.dart';
-import 'authorization_manager_provider.dart';
+import 'authorization_manager.dart';
 
 final graphqlBaseLinkProvider = Provider((Ref ref) => HttpLink(graphqlApiUrl));
 
@@ -24,3 +24,15 @@ final graphqlClientProvider = Provider(
     link: ref.read(_graphqlAuthLinkPrvider),
   ),
 );
+
+void thenGraphQLResultException<T>(QueryResult<T> result) {
+  if (result.hasException) {
+    if (result.exception!.graphqlErrors.isNotEmpty) {
+      throw FormatException(result.exception!.graphqlErrors.first.message);
+    }
+
+    throw result.exception!;
+  } else if (result.data == null) {
+    throw const FormatException('GraphQL result data is null');
+  }
+}

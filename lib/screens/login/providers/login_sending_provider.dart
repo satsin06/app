@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql/client.dart';
 
-import '../../../providers/graphql_provider.dart';
+import '../../../providers/graphql.dart';
 import 'login_message_provider.dart';
 
 final loginSendingProvider = StateProvider.autoDispose<bool>((ref) => false);

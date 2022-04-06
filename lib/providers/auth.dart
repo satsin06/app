@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql/client.dart';
 
 import '../authorization_manager/authorization_manager.dart';
-import 'authorization_manager_provider.dart';
-import 'graphql_provider.dart';
+import 'authorization_manager.dart';
+import 'graphql.dart';
 
 const String _loginDocument = r'''
 mutation Login($account: String!, $password: String!, $usePhoneOtp: Boolean) {
@@ -54,23 +54,11 @@ class AuthNotifier extends StateNotifier<String?> {
         account: account, password: password, usePhoneOtp: usePhoneOtp);
 
     final result = await client.mutate(options);
-
-    if (result.hasException) {
-      final exception = result.exception!;
-      if (exception.graphqlErrors.isNotEmpty) {
-        throw FormatException(exception.graphqlErrors.first.message);
-      }
-
-      throw exception;
-    }
+    thenGraphQLResultException(result);
 
     for (Authorization item in result.parsedData ?? []) {
-      final AuthorizationType type =
-          item.$type == AuthorizationType.access.value
-              ? AuthorizationType.access
-              : AuthorizationType.refresh;
-      if (type == AuthorizationType.access) {
-        await manager.store(AuthorizationType.access, item);
+      manager.store(item);
+      if (item.type == AuthorizationType.access) {
         userId = item.payload!;
       }
     }
@@ -82,25 +70,16 @@ class AuthNotifier extends StateNotifier<String?> {
     await manager.clear();
     state = null;
   }
+
+  Future<void> load() async {
+    final manager = ref.read(authorizationManagerProvider);
+    final accessToken = await manager.getAccessToken();
+    if (accessToken != null) {
+      state = accessToken.payload!;
+    }
+  }
 }
 
 final authProvider = StateNotifierProvider<AuthNotifier, String?>(
   (ref) => AuthNotifier(ref: ref),
 );
-
-final loadAuthProvider = FutureProvider<void>(
-  (Ref ref) async {
-    final manager = ref.read(authorizationManagerProvider);
-    manager.addListener(() => _managerChangeNotofier(ref));
-
-    return await _managerChangeNotofier(ref);
-  },
-);
-
-Future<void> _managerChangeNotofier(Ref ref) async {
-  final manager = ref.read(authorizationManagerProvider);
-  final accessToken = await manager.getAccessToken();
-  if (accessToken != null && accessToken.payload != null) {
-    ref.read(authProvider.notifier).userId = accessToken.payload;
-  }
-}

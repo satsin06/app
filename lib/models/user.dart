@@ -1,36 +1,36 @@
-import 'package:isar/isar.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-@Collection(accessor: 'users')
+@JsonSerializable()
 class User {
-  @Id()
-  int? $storeId;
+  final String id;
+  final String? username;
+  final String? phone;
+  final String? email;
 
-  @Index(unique: true)
-  late String id;
+  const User({
+    required this.id,
+    this.email,
+    this.phone,
+    this.username,
+  });
 
-  @Index(unique: true)
-  String? email;
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  @Index(unique: true)
-  String? phone;
+  toJson() => _$UserToJson(this);
 
-  @Index(unique: true)
-  String? username;
-
-  UserProfile? profile;
-}
-
-@Collection(accessor: 'userProfiles')
-class UserProfile {
-  @Id()
-  int? $storeId;
-
-  @Index(unique: true)
-  late String id;
-
-  String? avatar;
-  String? bio;
-  int? birthday;
+  /// Copy with new [User]
+  User copyWith({
+    String? email,
+    String? phone,
+    String? username,
+  }) {
+    return User(
+      id: id,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      username: username ?? this.username,
+    );
+  }
 }

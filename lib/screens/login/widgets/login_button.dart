@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../providers/auth_provider.dart';
+import '../../../providers/auth.dart';
 import '../providers/login_agreement_provider.dart';
 import '../providers/login_message_provider.dart';
 import '../providers/login_mode_provider.dart';
@@ -80,6 +80,8 @@ class LoginButton extends ConsumerWidget {
         password: password,
         usePhoneOtp: isOtpMode,
       );
+
+      Navigator.of(context).pop();
     } catch (e) {
       if (e is FormatException) {
         ref.read(loginPasswordMessageProvider.state).state = e.message;

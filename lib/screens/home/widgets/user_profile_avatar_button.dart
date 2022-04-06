@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../providers/auth_provider.dart';
+import '../../../providers/auth.dart';
 import '../../../route/route_names.dart';
 
 class UserProfileAvatarButton extends ConsumerWidget {
