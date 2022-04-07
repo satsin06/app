@@ -16,6 +16,7 @@ class PublishMomentScreen extends StatelessWidget {
         actions: (_, __) => [
           const _PublishButton(),
         ],
+        // leading: dynamicCloseButtonBuilder,
       ),
       body: ListView(
         children: [
@@ -85,7 +86,7 @@ class _ContentFieldInput extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0).copyWith(top: 0),
       child: TextField(
-        controller: ref.read(contentTextEditingControllerProvider),
+        controller: ref.watch(contentTextEditingControllerProvider),
         decoration: const InputDecoration(
           hintText: '请输入动态内容...',
           border: InputBorder.none,
@@ -108,7 +109,7 @@ class _TitleFieldInput extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: TextField(
-        controller: ref.read(titleTextEditingControllerProvider),
+        controller: ref.watch(titleTextEditingControllerProvider),
         decoration: const InputDecoration(
           hintText: '标题（可选）',
           border: InputBorder.none,

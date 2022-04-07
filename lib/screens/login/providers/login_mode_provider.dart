@@ -5,12 +5,6 @@ enum LoginMode {
   otp,
 }
 
-final loginModeProvider = StateProvider(
+final loginModeProvider = StateProvider.autoDispose(
   (Ref ref) => LoginMode.otp,
-);
-
-final hasLoginModeProvider = Provider.autoDispose.family(
-  (Ref ref, LoginMode value) {
-    return ref.watch(loginModeProvider) == value;
-  },
 );

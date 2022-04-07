@@ -6,6 +6,6 @@ class PublishController {
   final Ref ref;
 }
 
-final publishControllerProvider = Provider<PublishController>(
+final publishControllerProvider = Provider.autoDispose<PublishController>(
   (Ref ref) => PublishController(ref),
 );

@@ -13,6 +13,8 @@ class DynamicAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.actions,
     this.title,
+    this.leading,
+    this.leadingWidth,
   }) : super(key: key);
 
   final bool automaticallyImplyLeading;
@@ -21,6 +23,8 @@ class DynamicAppBar extends StatefulWidget implements PreferredSizeWidget {
   final _Type<Color?>? backgroundColor;
   final _Type<List<Widget>?>? actions;
   final _Type<Widget?>? title;
+  final double? leadingWidth;
+  final _Type<Widget>? leading;
 
   @override
   State<DynamicAppBar> createState() => _DynamicAppBarState();
@@ -85,6 +89,8 @@ class _DynamicAppBarState extends State<DynamicAppBar> {
       backgroundColor: backgroundColor.call(context, _opacity),
       bottom: widget.bottom,
       title: widget.title?.call(context, _opacity),
+      leadingWidth: widget.leadingWidth,
+      leading: widget.leading?.call(context, _opacity),
     );
   }
 

@@ -21,7 +21,7 @@ class LoginPasswordInputWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String? errorMessage = ref.watch(loginPasswordMessageProvider);
-    final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final bool useOTP = ref.watch(loginModeProvider) == LoginMode.otp;
     final bool showPassword = ref.watch(_showPasswordProvider);
     final Widget suffixIcon = useOTP
         ? const Padding(
@@ -34,7 +34,7 @@ class LoginPasswordInputWidget extends ConsumerWidget {
           );
 
     return TextField(
-      controller: ref.read(loginPasswordTextEditingControllerProvider),
+      controller: ref.watch(loginPasswordTextEditingControllerProvider),
       keyboardType: TextInputType.visiblePassword,
       obscureText: useOTP ? false : !showPassword,
       decoration: InputDecoration(

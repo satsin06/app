@@ -6,8 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'providers/app.dart';
 import 'providers/theme.dart';
-import 'route/route_names.dart';
-import 'route/routes.dart';
+import 'router/router.dart';
 import 'theme/theme.dart';
 import 'widgets/ghost_screen.dart';
 
@@ -33,14 +32,14 @@ class _MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Key key = ref.watch(appProvider);
     final Theme theme = ref.watch(themeProvider);
-    return MaterialApp(
+    return MaterialApp.router(
       key: key,
       themeMode: theme.mode,
       theme: theme.lightThemeData,
       darkTheme: theme.darkThemeData,
-      routes: routes,
-      initialRoute: RouteNames.home,
       debugShowCheckedModeBanner: kDebugMode,
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
     );
   }
 }

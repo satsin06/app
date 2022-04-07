@@ -1,88 +1,86 @@
 import 'package:flutter/material.dart';
-import '../../mixins/route_arguments_reader.dart';
+
 import '../../widgets/dynamic_app_bar.dart';
-import '../../widgets/ghost_screen.dart';
 import 'widgets/profile_header_button.dart';
 import 'widgets/profile_user_card.dart';
 import 'widgets/user_refresh_load.dart';
 
-List<Widget> _appBarActionsBuilder(BuildContext context, double opacity) {
-  return const <Widget>[ProfileHeaderButton()];
-}
+class UserProfileScreen extends StatelessWidget {
+  const UserProfileScreen({Key? key, required this.userId}) : super(key: key);
 
-class UserProfileScreen extends StatelessWidget
-    with RouteArgumentsReader<String> {
-  const UserProfileScreen({Key? key}) : super(key: key);
-
-  String? resolveUserId(BuildContext context) {
-    final Object? currentUserId = ModalRoute.of(context)?.settings.arguments;
-    if (currentUserId is String) {
-      return currentUserId;
-    }
-
-    return null;
-  }
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
-    final String? userId = getRouteArguments(context);
-
-    if (userId == null) {
-      return const GhostScreen();
-    }
-
     return UserRefreshLoad(
       userId: userId,
-      builder: (_) => const _ScreenScaffold(),
+      builder: _builder,
     );
   }
-}
 
-class _ScreenScaffold extends StatelessWidget {
-  const _ScreenScaffold({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
+  Widget _builder(BuildContext context) {
+    return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: DynamicAppBar(
-        automaticallyImplyLeading: true,
-        actions: _appBarActionsBuilder,
-      ),
-      body: _ScreenBody(),
+      appBar: _appBarBuilder(context),
+      body: _bodyBuilder(context),
     );
+  }
+
+  PreferredSizeWidget _appBarBuilder(BuildContext context) {
+    return DynamicAppBar(
+      automaticallyImplyLeading: true,
+      actions: _appBarActionsBuilder,
+    );
+  }
+
+  List<Widget> _appBarActionsBuilder(BuildContext context, double opacity) {
+    return <Widget>[ProfileHeaderButton(userId)];
+  }
+
+  Widget _bodyBuilder(BuildContext context) {
+    return _ProfileScreenBackguardWrapper(
+      child: CustomScrollView(
+        slivers: _bodySliversBuilder(context),
+      ),
+    );
+  }
+
+  List<Widget> _bodySliversBuilder(BuildContext context) {
+    return <Widget>[
+      SliverToBoxAdapter(
+        child: ProfileUserCard(userId),
+      ),
+    ];
   }
 }
 
-class _ScreenBody extends StatelessWidget {
-  const _ScreenBody({
-    Key? key,
-  }) : super(key: key);
+class _ProfileScreenBackguardWrapper extends StatelessWidget {
+  const _ProfileScreenBackguardWrapper({Key? key, this.child})
+      : super(key: key);
+
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: const [
-        _ScreenBackground(),
-        SafeArea(
-          top: true,
-          left: false,
-          right: false,
-          bottom: false,
-          child: _ScreenContent(),
-        ),
+      children: [
+        _backguardBuilder(context),
+        _safeAreaChildBuilder(context),
       ],
     );
   }
-}
 
-class _ScreenBackground extends StatelessWidget {
-  const _ScreenBackground({Key? key}) : super(key: key);
+  Widget _safeAreaChildBuilder(BuildContext context) {
+    return SafeArea(
+      top: true,
+      left: false,
+      right: false,
+      bottom: false,
+      child: child ?? const SizedBox.shrink(),
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _backguardBuilder(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final ThemeData theme = Theme.of(context);
 
@@ -103,21 +101,6 @@ class _ScreenBackground extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ScreenContent extends StatelessWidget {
-  const _ScreenContent({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: ProfileUserCard(),
-        ),
-      ],
     );
   }
 }

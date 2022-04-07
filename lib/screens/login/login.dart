@@ -12,22 +12,26 @@ import 'widgets/login_button.dart';
 import 'widgets/login_logo.dart';
 import 'widgets/login_password_input.dart';
 
+typedef LoginCallback = void Function(String userId);
+
 List<Widget> _actionsBuilder(BuildContext context, double opacity) {
   return const [_ToggleLoginModeButton()];
 }
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen(this.callback, {Key? key}) : super(key: key);
+
+  final LoginCallback callback;
 
   @override
   Widget build(BuildContext context) {
-    return const UnfocusWidget(
+    return UnfocusWidget(
       child: Scaffold(
-        appBar: DynamicAppBar(
+        appBar: const DynamicAppBar(
           automaticallyImplyLeading: true,
           actions: _actionsBuilder,
         ),
-        body: _StatedListView(),
+        body: _StatedListView(callback),
       ),
     );
   }
@@ -40,7 +44,7 @@ class _ToggleLoginModeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final bool isOtp = ref.watch(loginModeProvider) == LoginMode.otp;
 
     return TextButton(
       onPressed: _createToggleModeHandler(context, ref),
@@ -77,24 +81,27 @@ class _ToggleLoginModeButton extends ConsumerWidget {
 }
 
 class _StatedListView extends StatelessWidget {
-  const _StatedListView({
+  const _StatedListView(
+    this.callback, {
     Key? key,
   }) : super(key: key);
+
+  final LoginCallback callback;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      children: const [
-        LoginLogoWidget(),
-        SizedBox(height: 60),
-        LoginAccountInputWidget(),
-        SizedBox(height: 20),
-        LoginPasswordInputWidget(),
-        SizedBox(height: 40),
-        LoginButton(),
-        _ForgetOrSizedWidget(),
-        LoginAgreementWidget(),
+      children: [
+        const LoginLogoWidget(),
+        const SizedBox(height: 60),
+        const LoginAccountInputWidget(),
+        const SizedBox(height: 20),
+        const LoginPasswordInputWidget(),
+        const SizedBox(height: 40),
+        LoginButton(callback),
+        const _ForgetOrSizedWidget(),
+        const LoginAgreementWidget(),
       ],
     );
   }
@@ -105,7 +112,7 @@ class _ForgetOrSizedWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool isOtp = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final bool isOtp = ref.watch(loginModeProvider) == LoginMode.otp;
     return isOtp
         ? const SizedBox(height: 20)
         : const LoginForgetPasswordWidget();

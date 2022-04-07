@@ -7,8 +7,18 @@ import 'package:flutter/material.dart';
 import 'widgets/jump_publish_button.dart';
 import 'widgets/user_profile_avatar_button.dart';
 
+enum HomeScreenTab {
+  timeline,
+  follow,
+}
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+    required this.tab,
+  }) : super(key: key);
+
+  final HomeScreenTab? tab;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -16,22 +26,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin<HomeScreen> {
-  late TabController tabController;
+  late TabController _controller;
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(
-      initialIndex: 0,
-      length: 2,
+    _controller = TabController(
+      initialIndex: HomeScreenTab.timeline.index,
+      length: HomeScreenTab.values.length,
       vsync: this,
     );
   }
 
   @override
   void dispose() {
-    tabController.dispose();
+    _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _controller.index = HomeScreenTab.timeline.index;
   }
 
   @override
@@ -40,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
       appBar: AppBar(
         centerTitle: false,
         title: TabBar(
-          controller: tabController,
+          controller: _controller,
           isScrollable: true,
           tabs: const [
             Tab(text: 'Timeline'),
@@ -65,10 +81,9 @@ class _HomeScreenState extends State<HomeScreen>
       floatingActionButton: const JumpPublishButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: TabBarView(
-        controller: tabController,
-        children: const [
-          Text('A'),
-          Text('B'),
+        controller: _controller,
+        children: [
+          for (HomeScreenTab tab in HomeScreenTab.values) Text(tab.name),
         ],
       ),
     );

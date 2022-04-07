@@ -14,8 +14,7 @@ class LoginAccountInputWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Fetch the [useOTP] value from the [LoginState]
-    final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final bool isOtp = ref.watch(loginModeProvider) == LoginMode.otp;
 
     // Build the [TextField] enabled state.
     final bool enabled = !ref.watch(loginSendingProvider);
@@ -24,11 +23,11 @@ class LoginAccountInputWidget extends ConsumerWidget {
     final String? errorMessage = ref.watch(loginAccountMessageProvider);
 
     return TextField(
-      controller: ref.read(loginAccountTextEditingControllerProvider),
+      controller: ref.watch(loginAccountTextEditingControllerProvider),
       enabled: enabled,
-      keyboardType: useOTP ? TextInputType.number : TextInputType.emailAddress,
+      keyboardType: isOtp ? TextInputType.number : TextInputType.emailAddress,
       decoration: InputDecoration(
-        hintText: useOTP ? '手机号码' : 'E-Mail/手机号码/用户名',
+        hintText: isOtp ? '手机号码' : 'E-Mail/手机号码/用户名',
         errorText: errorMessage,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(100),
@@ -41,8 +40,8 @@ class LoginAccountInputWidget extends ConsumerWidget {
         ),
       ),
       inputFormatters: [
-        LengthLimitingTextInputFormatter(useOTP ? 11 : 32),
-        useOTP
+        LengthLimitingTextInputFormatter(isOtp ? 11 : 32),
+        isOtp
             ? FilteringTextInputFormatter.digitsOnly
             : FilteringTextInputFormatter.allow(RegExp(r'[a-z0-9@._]')),
       ],

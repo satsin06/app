@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/auth.dart';
+import '../login.dart';
 import '../providers/login_agreement_provider.dart';
 import '../providers/login_message_provider.dart';
 import '../providers/login_mode_provider.dart';
@@ -9,13 +10,16 @@ import '../providers/login_sending_provider.dart';
 import '../providers/login_text_editing_controller_provider.dart';
 
 class LoginButton extends ConsumerWidget {
-  const LoginButton({
+  const LoginButton(
+    this.callback, {
     Key? key,
   }) : super(key: key);
 
+  final LoginCallback callback;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool useOTP = ref.watch(hasLoginModeProvider(LoginMode.otp));
+    final bool useOTP = ref.watch(loginModeProvider) == LoginMode.otp;
     final bool isSending = ref.watch(loginSendingProvider);
 
     final Widget child = isSending
@@ -73,15 +77,15 @@ class LoginButton extends ConsumerWidget {
           ref.watch(loginAccountTextEditingControllerProvider).text.trim();
       final password =
           ref.watch(loginPasswordTextEditingControllerProvider).text;
-      final isOtpMode = ref.read(hasLoginModeProvider(LoginMode.otp));
+      final isOtpMode = ref.read(loginModeProvider) == LoginMode.otp;
 
-      await authNotifier.login(
+      final String userId = await authNotifier.login(
         account: _accountWrapper(account),
         password: password,
         usePhoneOtp: isOtpMode,
       );
 
-      Navigator.of(context).pop();
+      callback(userId);
     } catch (e) {
       if (e is FormatException) {
         ref.read(loginPasswordMessageProvider.state).state = e.message;
@@ -112,7 +116,7 @@ class LoginButton extends ConsumerWidget {
   bool _validatePassword(WidgetRef ref) {
     final String? password =
         ref.read(loginPasswordTextEditingControllerProvider).text;
-    final isOtpMode = ref.read(hasLoginModeProvider(LoginMode.otp));
+    final isOtpMode = ref.read(loginModeProvider) == LoginMode.otp;
 
     // Validate password empty
     if (password == null || password.isEmpty) {
@@ -130,7 +134,7 @@ class LoginButton extends ConsumerWidget {
   bool _validateAccount(WidgetRef ref) {
     final account =
         ref.read(loginAccountTextEditingControllerProvider).text.trim();
-    final isOtpMode = ref.read(hasLoginModeProvider(LoginMode.otp));
+    final isOtpMode = ref.read(loginModeProvider) == LoginMode.otp;
 
     // Validate account is empty
     if (account.isEmpty) {

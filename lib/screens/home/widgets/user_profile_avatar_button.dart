@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+
 import '../../../providers/auth.dart';
-import '../../../route/route_names.dart';
+import '../../../router/routes.dart';
 
 class UserProfileAvatarButton extends ConsumerWidget {
   const UserProfileAvatarButton({Key? key}) : super(key: key);
@@ -19,27 +21,11 @@ class UserProfileAvatarButton extends ConsumerWidget {
     );
   }
 
-  Future<void> onJump(BuildContext context, WidgetRef ref) async {
-    final String? userId = ref.read(authProvider);
-
-    if (userId == null || userId.isEmpty) {
-      await Navigator.of(context).pushNamed(RouteNames.login);
-
-      final String? userId = ref.read(authProvider);
-      if (userId != null && userId.isNotEmpty) {
-        jump(context, userId);
-      }
-
-      return;
-    }
-
-    jump(context, userId);
-  }
-
-  void jump(BuildContext context, String userId) {
-    Navigator.of(context).pushNamed(
-      RouteNames.userProfile,
-      arguments: userId,
+  void onJump(BuildContext context, WidgetRef ref) {
+    loginRoute.canAuthPush(
+      context: context,
+      ref: ref,
+      callback: userProfileRoute.push(context).call,
     );
   }
 }

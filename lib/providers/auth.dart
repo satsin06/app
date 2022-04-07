@@ -43,7 +43,7 @@ class AuthNotifier extends StateNotifier<String?> {
 
   set userId(String? userId) => state = userId;
 
-  Future<void> login({
+  Future<String> login({
     required String account,
     required String password,
     bool? usePhoneOtp,
@@ -58,10 +58,11 @@ class AuthNotifier extends StateNotifier<String?> {
 
     for (Authorization item in result.parsedData ?? []) {
       manager.store(item);
-      if (item.type == AuthorizationType.access) {
-        userId = item.payload!;
-      }
     }
+
+    return userId = result.parsedData!
+        .firstWhere((element) => element.type == AuthorizationType.access)
+        .payload!;
   }
 
   Future<void> logout() async {

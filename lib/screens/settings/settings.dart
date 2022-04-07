@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../providers/app.dart';
-import '../../route/route_names.dart';
+import '../../providers/auth.dart';
+import '../../router/routes.dart';
 import '../../widgets/dynamic_app_bar.dart';
 
 Widget _titleBuilder(BuildContext context, double opacity) {
   return const Text('设置');
 }
 
-class UserSettingScreen extends StatelessWidget {
-  const UserSettingScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,8 @@ class UserSettingScreen extends StatelessWidget {
                     leading: const Icon(Icons.person),
                     title: const Text('账户资料'),
                     onTap: () {
-                      Navigator.of(context).pushNamed(RouteNames.userEdit);
+                      GoRouter.of(context)
+                          .pushNamed(settingEditUserRoute.name!);
                     },
                   ),
                   ListTile(
@@ -163,7 +165,7 @@ class _LogoutButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Center(
       child: ElevatedButton(
-        onPressed: _createLogoutHandler(ref),
+        onPressed: _createLogoutHandler(context, ref),
         child: const Text('退出登录'),
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
@@ -182,10 +184,10 @@ class _LogoutButton extends ConsumerWidget {
     );
   }
 
-  VoidCallback _createLogoutHandler(WidgetRef ref) {
+  VoidCallback _createLogoutHandler(BuildContext context, WidgetRef ref) {
     return () {
-      ref.read(appProvider.notifier).restart();
-      // TODO: Remove stored authorization
+      homeTimelineRoute.go(context);
+      ref.read(authProvider.notifier).logout();
     };
   }
 }

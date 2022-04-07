@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../mixins/route_arguments_reader.dart';
 import '../../../providers/user.dart';
 
 class ProfileUserCard extends StatelessWidget {
-  const ProfileUserCard({
+  const ProfileUserCard(
+    this.userId, {
     Key? key,
   }) : super(key: key);
+
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.loose,
-      children: const [
-        _UserInfoCard(),
-        Positioned(
+      children: [
+        _UserInfoCard(userId),
+        const Positioned(
           top: 0,
           left: 0,
           right: 0,
@@ -27,9 +29,12 @@ class ProfileUserCard extends StatelessWidget {
 }
 
 class _UserInfoCard extends StatelessWidget {
-  const _UserInfoCard({
+  const _UserInfoCard(
+    this.userId, {
     Key? key,
   }) : super(key: key);
+
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +47,15 @@ class _UserInfoCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24)
             .copyWith(top: 42),
         child: Column(
-          children: const [
-            _UsernameWidget(),
-            SizedBox(height: 8),
-            _UserBioWidget(),
-            SizedBox(height: 12),
-            _UserStatisticsWidget(),
-            SizedBox(height: 12),
-            _AutoSelectPrimaryButton(),
-            _AutoSecondaryIconButton(),
+          children: [
+            _UsernameWidget(userId),
+            const SizedBox(height: 8),
+            _UserBioWidget(userId),
+            const SizedBox(height: 12),
+            _UserStatisticsWidget(userId),
+            const SizedBox(height: 12),
+            _AutoSelectPrimaryButton(userId),
+            _AutoSecondaryIconButton(userId),
           ],
         ),
       ),
@@ -59,9 +64,12 @@ class _UserInfoCard extends StatelessWidget {
 }
 
 class _AutoSecondaryIconButton extends StatelessWidget {
-  const _AutoSecondaryIconButton({
+  const _AutoSecondaryIconButton(
+    this.userId, {
     Key? key,
   }) : super(key: key);
+
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +91,12 @@ class _AutoSecondaryIconButton extends StatelessWidget {
 }
 
 class _AutoSelectPrimaryButton extends StatelessWidget {
-  const _AutoSelectPrimaryButton({
+  const _AutoSelectPrimaryButton(
+    this.userId, {
     Key? key,
   }) : super(key: key);
+
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +119,12 @@ class _AutoSelectPrimaryButton extends StatelessWidget {
 }
 
 class _UserStatisticsWidget extends StatelessWidget {
-  const _UserStatisticsWidget({
+  const _UserStatisticsWidget(
+    this.userId, {
     Key? key,
   }) : super(key: key);
+
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
@@ -171,15 +185,17 @@ class _UserStatisticsWidget extends StatelessWidget {
   }
 }
 
-class _UserBioWidget extends ConsumerWidget with RouteArgumentsReader<String> {
-  const _UserBioWidget({
+class _UserBioWidget extends ConsumerWidget {
+  const _UserBioWidget(
+    this.userId, {
     Key? key,
   }) : super(key: key);
 
+  final String userId;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? userId = getRouteArguments(context);
-    final provider = userProfileProvider(userId!).select((value) => value.bio);
+    final provider = userProfileProvider(userId).select((value) => value.bio);
     final bio = ref.watch(provider);
     final String bioText =
         bio != null && bio.isNotEmpty ? bio : '这个人很懒，什么都没有留下~';
@@ -194,14 +210,16 @@ class _UserBioWidget extends ConsumerWidget with RouteArgumentsReader<String> {
   }
 }
 
-class _UsernameWidget extends ConsumerWidget with RouteArgumentsReader<String> {
-  const _UsernameWidget({
+class _UsernameWidget extends ConsumerWidget {
+  const _UsernameWidget(
+    this.userId, {
     Key? key,
   }) : super(key: key);
 
+  final String userId;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userId = getRouteArguments(context);
     final provider = userProvider(userId).select((value) => value.username);
     final username = ref.watch(provider);
 

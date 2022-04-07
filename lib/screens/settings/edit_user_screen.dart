@@ -5,10 +5,10 @@ import '../../providers/auth.dart';
 import '../../providers/user.dart';
 import '../../widgets/card_wrapper.dart';
 import '../../widgets/dynamic_app_bar.dart';
-import 'widgets/user_refresh_load.dart';
+import '../user/widgets/user_refresh_load.dart';
 
-class UserEditScreen extends ConsumerWidget {
-  const UserEditScreen({Key? key}) : super(key: key);
+class EditUserScreen extends ConsumerWidget {
+  const EditUserScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

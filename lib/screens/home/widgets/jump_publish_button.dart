@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../providers/auth.dart';
-import '../../../route/route_names.dart';
+import '../../../router/routes.dart';
 
 class JumpPublishButton extends ConsumerWidget {
   const JumpPublishButton({
@@ -21,17 +22,11 @@ class JumpPublishButton extends ConsumerWidget {
     return () => _jump(context, ref);
   }
 
-  _jump(BuildContext context, WidgetRef ref) async {
-    final String? userId = ref.read(authProvider);
-    if (userId == null) {
-      await Navigator.pushNamed(context, RouteNames.login);
-
-      final String? userId = ref.read(authProvider);
-      if (userId != null) {
-        return Navigator.pushNamed(context, RouteNames.publish);
-      }
-    }
-
-    return Navigator.pushNamed(context, RouteNames.publish);
+  _jump(BuildContext context, WidgetRef ref) {
+    loginRoute.canAuthPush(
+      context: context,
+      ref: ref,
+      callback: (_) => publishRoute.push(context),
+    );
   }
 }

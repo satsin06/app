@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../mixins/route_arguments_reader.dart';
 import '../../../providers/user.dart';
 
-final _usernameProvider = Provider.autoDispose.family<String?, String>(
-  (ref, userId) {
-    final provider = userProvider(userId);
-    final user = ref.watch(provider);
-
-    return user.username;
-  },
-);
-
-class ProfileHeaderTitle extends ConsumerWidget
-    with RouteArgumentsReader<String> {
+class ProfileHeaderTitle extends ConsumerWidget {
   const ProfileHeaderTitle({
     Key? key,
     required this.userId,
@@ -24,8 +13,7 @@ class ProfileHeaderTitle extends ConsumerWidget
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userId = getRouteArguments(context);
-    final provider = _usernameProvider(userId);
+    final provider = userProvider(userId).select((value) => value.username);
     final username = ref.watch(provider);
 
     return Text(username ?? 'User Profile');
