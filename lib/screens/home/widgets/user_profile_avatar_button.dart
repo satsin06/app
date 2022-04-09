@@ -42,8 +42,7 @@ class _AccountAvatarIconWidget extends ConsumerWidget {
       return const Icon(Icons.account_circle_rounded);
     }
 
-    final provider = loadUserProvider(userId);
-    final loader = ref.watch(provider);
+    final loader = ref.watch(loadUserProvider(userId));
 
     return loader.when(
       data: (_) => UserAvatar(userId, radius: 12),
