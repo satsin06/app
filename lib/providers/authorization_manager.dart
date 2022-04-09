@@ -60,6 +60,14 @@ Future<void> _refresher(Ref ref, AuthorizationManager manager) async {
 
   final result = await client.mutate(_refreshAccessTokenOptions);
   if (result.hasException) {
+    final errors = result.exception?.graphqlErrors;
+    for (GraphQLError error in errors ?? []) {
+      if (error.message.toUpperCase() == 'Unauthorized'.toUpperCase()) {
+        await manager.clear();
+        break;
+      }
+    }
+
     return;
   }
 
@@ -97,11 +105,16 @@ Future<void> _clear(Ref ref) async {
   }
 }
 
-final authorizationManagerProvider = Provider<AuthorizationManager>(
-  (Ref ref) => AuthorizationManager(
-    clear: (manager) => _clear(ref),
-    refresher: (manager) => _refresher(ref, manager),
-    reader: (type) => _render(ref, type),
-    writer: (entity) => _writer(ref, entity),
-  ),
+final authorizationManagerProvider = FutureProvider<AuthorizationManager>(
+  (Ref ref) async {
+    final manager = AuthorizationManager(
+      clear: (manager) => _clear(ref),
+      refresher: (manager) => _refresher(ref, manager),
+      reader: (type) => _render(ref, type),
+      writer: (entity) => _writer(ref, entity),
+    );
+    await manager.init();
+
+    return manager;
+  },
 );

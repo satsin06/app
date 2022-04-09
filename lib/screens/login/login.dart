@@ -48,7 +48,7 @@ class _ToggleLoginModeButton extends ConsumerWidget {
 
     return TextButton(
       onPressed: _createToggleModeHandler(context, ref),
-      child: Text(isOtp ? '使用账号密码登录' : '使用验证码快捷登录注册'),
+      child: Text(isOtp ? '账号密码登录' : '快捷登录注册'),
     );
   }
 

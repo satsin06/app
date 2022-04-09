@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../providers/auth.dart';
-import '../../providers/user.dart';
-import '../../widgets/card_wrapper.dart';
-import '../../widgets/dynamic_app_bar.dart';
-import '../user/widgets/user_refresh_load.dart';
+import '../../../providers/auth.dart';
+import '../../../providers/user.dart';
+import '../../../widgets/card_wrapper.dart';
+import '../../../widgets/dynamic_app_bar.dart';
+import '../../user/widgets/user_refresh_load.dart';
+import 'widgets/change_user_avatar_button.dart';
 
 class EditUserScreen extends ConsumerWidget {
   const EditUserScreen({Key? key}) : super(key: key);
@@ -46,12 +47,7 @@ class _ScreenBody extends StatelessWidget {
         const CircleAvatar(
           radius: 36,
         ),
-        Center(
-          child: TextButton(
-            onPressed: () {},
-            child: const Text('更换头像'),
-          ),
-        ),
+        const ChangeUserAvatarButton(),
         const _CardWrapper(child: _AccountUsername()),
         Padding(
           padding: const EdgeInsets.symmetric(

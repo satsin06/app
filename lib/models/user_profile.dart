@@ -14,14 +14,14 @@ enum UserGender {
 @JsonSerializable()
 class UserProfile {
   final String userId;
-  final String? avatar;
+  final String? avatarStorageId;
   final String? bio;
   final UserGender gender;
   final int? birthday;
 
   const UserProfile({
     required this.userId,
-    this.avatar,
+    this.avatarStorageId,
     this.bio,
     this.gender = UserGender.unknown,
     this.birthday,
@@ -36,14 +36,14 @@ class UserProfile {
 
   /// Copy with new [UserProfile]
   UserProfile copyWith({
-    String? avatar,
+    String? avatarStorageId,
     String? bio,
     UserGender? gender,
     int? birthday,
   }) {
     return UserProfile(
       userId: userId,
-      avatar: avatar ?? this.avatar,
+      avatarStorageId: avatarStorageId ?? this.avatarStorageId,
       bio: bio ?? this.bio,
       gender: gender ?? this.gender,
       birthday: birthday ?? this.birthday,

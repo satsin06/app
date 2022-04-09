@@ -14,7 +14,7 @@ query User($where: UserWhereUniqueInput!) {
     username,
     profile {
       userId
-      avatar
+      avatarStorageId
       bio
       birthday
       gender

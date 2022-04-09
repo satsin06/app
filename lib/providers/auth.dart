@@ -48,7 +48,7 @@ class AuthNotifier extends StateNotifier<String?> {
     required String password,
     bool? usePhoneOtp,
   }) async {
-    final manager = ref.read(authorizationManagerProvider);
+    final manager = await ref.read(authorizationManagerProvider.future);
     final client = ref.read(graphqlClientProvider);
     final options = _createLoginOptions(
         account: account, password: password, usePhoneOtp: usePhoneOtp);
@@ -66,14 +66,14 @@ class AuthNotifier extends StateNotifier<String?> {
   }
 
   Future<void> logout() async {
-    final manager = ref.read(authorizationManagerProvider);
+    final manager = await ref.read(authorizationManagerProvider.future);
 
     await manager.clear();
     state = null;
   }
 
   Future<void> load() async {
-    final manager = ref.read(authorizationManagerProvider);
+    final manager = await ref.read(authorizationManagerProvider.future);
     final accessToken = await manager.getAccessToken();
     if (accessToken != null) {
       state = accessToken.payload!;

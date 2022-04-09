@@ -10,7 +10,7 @@ final _graphqlAuthLinkPrvider = Provider(
   (Ref ref) => AuthLink(
     headerKey: r'Authorization',
     getToken: () async {
-      final manager = ref.read(authorizationManagerProvider);
+      final manager = await ref.read(authorizationManagerProvider.future);
       final accessToken = await manager.getAccessToken();
 
       return accessToken?.token;
@@ -27,8 +27,8 @@ final graphqlClientProvider = Provider(
 
 void thenGraphQLResultException<T>(QueryResult<T> result) {
   if (result.hasException) {
-    if (result.exception!.graphqlErrors.isNotEmpty) {
-      throw FormatException(result.exception!.graphqlErrors.first.message);
+    for (GraphQLError error in result.exception?.graphqlErrors ?? []) {
+      throw FormatException(error.message);
     }
 
     throw result.exception!;

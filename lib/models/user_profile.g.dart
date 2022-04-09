@@ -8,7 +8,7 @@ part of 'user_profile.dart';
 
 UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
       userId: json['userId'] as String,
-      avatar: json['avatar'] as String?,
+      avatarStorageId: json['avatarStorageId'] as String?,
       bio: json['bio'] as String?,
       gender: $enumDecodeNullable(_$UserGenderEnumMap, json['gender']) ??
           UserGender.unknown,
@@ -18,7 +18,7 @@ UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => UserProfile(
 Map<String, dynamic> _$UserProfileToJson(UserProfile instance) =>
     <String, dynamic>{
       'userId': instance.userId,
-      'avatar': instance.avatar,
+      'avatarStorageId': instance.avatarStorageId,
       'bio': instance.bio,
       'gender': _$UserGenderEnumMap[instance.gender],
       'birthday': instance.birthday,
