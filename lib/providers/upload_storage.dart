@@ -70,8 +70,9 @@ Future<bool> _uploadFile(File file, UploadStorageMetadata metadata) async {
   request.contentLength = await file.length();
 
   file.openRead().listen(request.sink.add, onDone: () => request.sink.close());
+  final response = await http.Response.fromStream(await request.send());
 
-  return (await request.send()).statusCode == 200;
+  return response.statusCode == 200;
 }
 
 Future<UploadStorageMetadata> Function(File) uploadFile(WidgetRef ref) =>
