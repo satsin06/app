@@ -54,8 +54,8 @@ final loadUserProvider = FutureProvider.autoDispose.family<void, String>(
 
     final data = result.parsedData!;
 
-    ref.read(userProvider.create(userId).state).state = User.fromJson(data);
-    ref.read(userProfileProvider.create(userId).state).state =
+    ref.read(userProvider(userId).state).state = User.fromJson(data);
+    ref.read(userProfileProvider(userId).state).state =
         UserProfile.fromJson(data['profile']);
   },
 );

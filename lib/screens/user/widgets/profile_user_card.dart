@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/user.dart';
+import '../../../widgets/user_avatar.dart';
 
 class ProfileUserCard extends StatelessWidget {
   const ProfileUserCard(
@@ -17,11 +18,11 @@ class ProfileUserCard extends StatelessWidget {
       fit: StackFit.loose,
       children: [
         _UserInfoCard(userId),
-        const Positioned(
+        Positioned(
           top: 0,
           left: 0,
           right: 0,
-          child: _UserAvatar(),
+          child: _UserAvatar(userId),
         ),
       ],
     );
@@ -236,29 +237,24 @@ class _UsernameWidget extends ConsumerWidget {
 }
 
 class _UserAvatar extends StatelessWidget {
-  const _UserAvatar({
+  const _UserAvatar(
+    this.userId, {
     Key? key,
   }) : super(key: key);
 
+  final String userId;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: show user avatar.
-    // final String? path =
-    // UserProfileController.proxy(context).select<dynamic?>((users) {
-    //   return users.first.profile?.avatar?.path;
-    // });
-
     return Center(
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(36),
         ),
-        child: const Padding(
-          padding: EdgeInsets.all(2.0),
-          child: CircleAvatar(
-            radius: 36.0,
-          ),
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: UserAvatar(userId, radius: 36),
         ),
       ),
     );

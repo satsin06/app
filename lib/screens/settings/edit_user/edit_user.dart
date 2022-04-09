@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:socfony/widgets/user_avatar.dart';
 
 import '../../../providers/auth.dart';
 import '../../../providers/user.dart';
@@ -44,9 +45,7 @@ class _ScreenBody extends StatelessWidget {
     return ListView(
       children: [
         const SizedBox(height: 16),
-        const CircleAvatar(
-          radius: 36,
-        ),
+        const _UserAvatar(),
         const ChangeUserAvatarButton(),
         const _CardWrapper(child: _AccountUsername()),
         Padding(
@@ -62,6 +61,17 @@ class _ScreenBody extends StatelessWidget {
         const _UserDataCard(),
       ],
     );
+  }
+}
+
+class _UserAvatar extends ConsumerWidget {
+  const _UserAvatar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String userId = ref.watch(authProvider)!;
+
+    return UserAvatar(userId, radius: 36);
   }
 }
 
