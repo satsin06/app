@@ -45,15 +45,13 @@ class SettingsScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('账户资料'),
-                    onTap: () {
-                      GoRouter.of(context)
-                          .pushNamed(settingEditUserRoute.name!);
-                    },
+                    onTap: () => context.pushNamed(settingEditUserRoute.name!),
                   ),
                   ListTile(
                     leading: const Icon(Icons.verified_user),
                     title: const Text('安全设置'),
-                    onTap: () {},
+                    onTap: () =>
+                        context.pushNamed(settingsAccountSecurityRoute.name!),
                   ),
                 ],
               ).toList(),
