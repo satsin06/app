@@ -7,7 +7,9 @@ import '../../../providers/user.dart';
 import '../../../widgets/card_wrapper.dart';
 import '../../../widgets/dynamic_app_bar.dart';
 import '../../user/widgets/user_refresh_load.dart';
+import 'widgets/gender_tile.dart';
 import 'widgets/change_user_avatar_button.dart';
+import 'widgets/username_card.dart';
 
 class EditUserScreen extends ConsumerWidget {
   const EditUserScreen({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class _ScreenBody extends StatelessWidget {
         const SizedBox(height: 16),
         const _UserAvatar(),
         const ChangeUserAvatarButton(),
-        const _CardWrapper(child: _AccountUsername()),
+        const UsernameCard(),
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
@@ -91,14 +93,7 @@ class _UserDataCard extends StatelessWidget {
           child: const Text('2020-01-01'),
         ),
       ),
-      ListTile(
-        dense: true,
-        title: const Text('性别'),
-        trailing: TextButton(
-          onPressed: () {},
-          child: const Text('男'),
-        ),
-      ),
+      const GenderTile(),
       const _UserBio(),
     ]);
   }
@@ -134,36 +129,6 @@ class _UserBio extends ConsumerWidget {
   }
 }
 
-class _AccountUsername extends ConsumerWidget {
-  const _AccountUsername({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.read(authProvider)!;
-    final privider = userProvider(userId);
-    final String? username = ref.watch(privider).username;
-
-    Widget? child;
-    if (username == null) {
-      child = const Text('设置用户名');
-    }
-
-    return ListTile(
-      title: _LabelRow(
-        labelText: '用户名',
-        text: username,
-        child: child,
-      ),
-      trailing: IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.edit),
-      ),
-    );
-  }
-}
-
 class _CardWrapper extends StatelessWidget {
   factory _CardWrapper.tiles(Iterable<Widget> tiles) {
     final List<Widget> widgets = [];
@@ -190,47 +155,6 @@ class _CardWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return CardWrapper(
       child: child,
-    );
-  }
-}
-
-class _LabelRow extends StatelessWidget {
-  const _LabelRow({
-    Key? key,
-    this.label,
-    this.child,
-    this.labelText,
-    this.text,
-  }) : super(key: key);
-
-  final String? labelText;
-  final String? text;
-  final Widget? label;
-  final Widget? child;
-
-  @override
-  Widget build(BuildContext context) {
-    final Widget labelWidget = label ??
-        Text(
-          labelText!,
-          style: Theme.of(context).textTheme.bodyMedium,
-        );
-    final Widget textWidget = child ??
-        Text(
-          text!,
-          style: Theme.of(context).textTheme.bodyLarge,
-        );
-
-    return Row(
-      children: [
-        SizedBox(
-          width: 60,
-          child: labelWidget,
-        ),
-        Expanded(
-          child: textWidget,
-        ),
-      ],
     );
   }
 }

@@ -26,7 +26,7 @@ class UserProfileAvatarButton extends ConsumerWidget {
     loginRoute.canAuthPush(
       context: context,
       ref: ref,
-      callback: userProfileRoute.push(context).call,
+      callback: userProfileRoute.push(context),
     );
   }
 }
