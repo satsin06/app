@@ -36,15 +36,18 @@ QueryOptions<Map<String, dynamic>> _createQueryUserOptions(String id) {
   );
 }
 
-final userProvider = StateProvider.family<User, String>(
+final StateProviderFamily<User, String> userProvider =
+    StateProvider.family<User, String>(
   (Ref ref, String userId) => User(id: userId),
 );
 
-final userProfileProvider = StateProvider.family<UserProfile, String>(
+final StateProviderFamily<UserProfile, String> userProfileProvider =
+    StateProvider.family<UserProfile, String>(
   (Ref ref, String userId) => UserProfile(userId: userId),
 );
 
-final loadUserProvider = FutureProvider.autoDispose.family<void, String>(
+final AutoDisposeFutureProviderFamily<void, String> loadUserProvider =
+    FutureProvider.autoDispose.family<void, String>(
   (Ref ref, String userId) async {
     final client = ref.read(graphqlClientProvider);
     final options = _createQueryUserOptions(userId);
