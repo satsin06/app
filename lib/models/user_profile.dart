@@ -11,6 +11,9 @@ enum UserGender {
   unknown,
 }
 
+// ignore: constant_identifier_names
+const Map<UserGender, String> UserGenderEnumMap = _$UserGenderEnumMap;
+
 @JsonSerializable()
 class UserProfile {
   final String userId;
@@ -31,8 +34,6 @@ class UserProfile {
       _$UserProfileFromJson(json);
 
   toJson() => _$UserProfileToJson(this);
-
-  const UserProfile.empty() : this(userId: '');
 
   /// Copy with new [UserProfile]
   UserProfile copyWith({
