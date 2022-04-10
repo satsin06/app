@@ -7,6 +7,8 @@ import '../../../providers/user.dart';
 import '../../../widgets/card_wrapper.dart';
 import '../../../widgets/dynamic_app_bar.dart';
 import '../../user/widgets/user_refresh_load.dart';
+import 'widgets/bio_tile.dart';
+import 'widgets/birthday_tile.dart';
 import 'widgets/gender_tile.dart';
 import 'widgets/change_user_avatar_button.dart';
 import 'widgets/username_card.dart';
@@ -84,48 +86,11 @@ class _UserDataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _CardWrapper.tiles([
-      ListTile(
-        dense: true,
-        title: const Text('生日'),
-        trailing: TextButton(
-          onPressed: () {},
-          child: const Text('2020-01-01'),
-        ),
-      ),
-      const GenderTile(),
-      const _UserBio(),
+    return _CardWrapper.tiles(const [
+      BirthdayTile(),
+      GenderTile(),
+      BioTile(),
     ]);
-  }
-}
-
-class _UserBio extends ConsumerWidget {
-  const _UserBio({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.read(authProvider)!;
-    final privider =
-        userProfileProvider(userId).select((profile) => profile.bio);
-    final String? bio = ref.watch(privider);
-
-    Widget child;
-    if (bio == null || bio.isEmpty) {
-      child = const Text('这个人很懒，什么都没有留下。');
-    } else {
-      child = Text(bio);
-    }
-
-    return ListTile(
-      title: Text('简介', style: Theme.of(context).textTheme.bodyMedium),
-      subtitle: child,
-      trailing: IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.chevron_right),
-      ),
-    );
   }
 }
 
