@@ -6,13 +6,9 @@ part 'user.g.dart';
 class User {
   final String id;
   final String? username;
-  final String? phone;
-  final String? email;
 
   const User({
     required this.id,
-    this.email,
-    this.phone,
     this.username,
   });
 
@@ -22,14 +18,10 @@ class User {
 
   /// Copy with new [User]
   User copyWith({
-    String? email,
-    String? phone,
     String? username,
   }) {
     return User(
       id: id,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
       username: username ?? this.username,
     );
   }

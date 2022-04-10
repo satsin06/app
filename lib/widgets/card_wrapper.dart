@@ -19,15 +19,12 @@ class CardWrapper extends StatelessWidget {
         : child;
 
     final Widget card = Card(
+      margin: margin,
       child: widget,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
     );
-
-    if (margin is EdgeInsetsGeometry) {
-      return Padding(padding: margin!, child: card);
-    }
 
     return card;
   }

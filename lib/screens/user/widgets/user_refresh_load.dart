@@ -26,6 +26,7 @@ class UserRefreshLoad extends ConsumerWidget {
   }
 
   Widget _errorBuilder(Object object, StackTrace? stack) {
+    print(object);
     return const GhostScreen();
   }
 

@@ -8,9 +8,7 @@ import 'graphql.dart';
 final _queryUserDocumentNode = gql(r'''
 query User($where: UserWhereUniqueInput!) {
   user(where: $where) {
-    email
     id
-    phone
     username,
     profile {
       userId
