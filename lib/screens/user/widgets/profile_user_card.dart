@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../providers/auth.dart';
 import '../../../providers/user.dart';
 import '../../../widgets/user_avatar.dart';
+import 'profile_card/primary_auto_switch_button.dart';
 
 class ProfileUserCard extends StatelessWidget {
   const ProfileUserCard(
@@ -55,7 +57,7 @@ class _UserInfoCard extends StatelessWidget {
             const SizedBox(height: 12),
             _UserStatisticsWidget(userId),
             const SizedBox(height: 12),
-            _AutoSelectPrimaryButton(userId),
+            PrimaryAuthSwitchButton(userId),
             _AutoSecondaryIconButton(userId),
           ],
         ),
@@ -87,34 +89,6 @@ class _AutoSecondaryIconButton extends StatelessWidget {
           color: Theme.of(context).primaryColor,
         ),
       ),
-    );
-  }
-}
-
-class _AutoSelectPrimaryButton extends StatelessWidget {
-  const _AutoSelectPrimaryButton(
-    this.userId, {
-    Key? key,
-  }) : super(key: key);
-
-  final String userId;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(60),
-          ),
-        ),
-        padding: MaterialStateProperty.all(
-          const EdgeInsets.symmetric(horizontal: 64, vertical: 8),
-        ),
-        elevation: MaterialStateProperty.all(12),
-      ),
-      onPressed: () {},
-      child: const Text('关注'),
     );
   }
 }
