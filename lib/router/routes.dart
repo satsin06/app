@@ -1,9 +1,10 @@
 import '../screens/home/home.dart';
 import '../screens/login/login.dart';
 import '../screens/publish/publish_moment_screen.dart';
-import '../screens/settings/account_security/account_security.dart';
-import '../screens/settings/edit_user/edit_user.dart';
-import '../screens/settings/settings.dart';
+import '../screens/setting/edit/edit_account.dart';
+import '../screens/setting/security/account_security.dart';
+import '../screens/setting/security/password.dart';
+import '../screens/setting/setting.dart';
 import '../screens/user/profile.dart';
 import 'named_route.dart';
 import 'route_names.dart' as route_names;
@@ -52,19 +53,28 @@ final List<NamedRoute> routes = <NamedRoute>[
   NamedRoute(
     route_names.setting,
     path: '/setting',
-    builder: (context, state) => SettingsScreen(key: state.pageKey),
+    builder: (context, state) => SettingScreen(key: state.pageKey),
     routes: <NamedRoute>[
       // Setting -> Edit Account data
       NamedRoute(
         route_names.settingEditAccount,
         path: 'edit',
-        builder: (context, state) => EditUserScreen(key: state.pageKey),
+        builder: (context, state) => EditAccountScreen(key: state.pageKey),
       ),
       // Setting -> Security
       NamedRoute(
         route_names.settingSecurity,
         path: 'security',
         builder: (context, state) => AccountSecurityScreen(key: state.pageKey),
+        routes: <NamedRoute>[
+          // Setting -> Security -> Password
+          NamedRoute(
+            route_names.settingSecurityPassword,
+            path: 'password',
+            builder: (context, state) =>
+                AccountSecurityPasswordScreen(key: state.pageKey),
+          ),
+        ],
       ),
     ],
   ),

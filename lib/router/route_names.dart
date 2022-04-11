@@ -6,3 +6,4 @@ const String userProfile = 'user profile';
 const String setting = 'setting';
 const String settingEditAccount = 'setting > edit account';
 const String settingSecurity = 'setting > security';
+const String settingSecurityPassword = 'setting > security > password';

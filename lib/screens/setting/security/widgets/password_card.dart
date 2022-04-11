@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../models/account_security_health.dart';
 import '../../../../widgets/card_wrapper.dart';
+import '../../../../router/route_names.dart' as route_names
+    show settingSecurityPassword;
 import '../providers.dart';
 import 'load_health_widget.dart';
 
@@ -30,12 +33,11 @@ class PasswordCard extends LoadHealthWidget {
           child: Text(text, style: buttonStyle),
         ),
       ),
-      onTap: () => onChangePassword(context, ref, health.status),
+      onTap: () => onChangePassword(context),
     );
   }
 
-  void onChangePassword(BuildContext context, WidgetRef ref, bool status) {
-    // Navigator.of(context).pushNamed('/settings/account_security/password');
-    // TODO: jump to set/change password page
+  void onChangePassword(BuildContext context) {
+    context.pushNamed(route_names.settingSecurityPassword);
   }
 }

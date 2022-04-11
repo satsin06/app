@@ -12,8 +12,8 @@ import 'widgets/gender_tile.dart';
 import 'widgets/change_user_avatar_button.dart';
 import 'widgets/username_card.dart';
 
-class EditUserScreen extends ConsumerWidget {
-  const EditUserScreen({Key? key}) : super(key: key);
+class EditAccountScreen extends ConsumerWidget {
+  const EditAccountScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

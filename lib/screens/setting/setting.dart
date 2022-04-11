@@ -10,8 +10,8 @@ Widget _titleBuilder(BuildContext context, double opacity) {
   return const Text('设置');
 }
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+class SettingScreen extends StatelessWidget {
+  const SettingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
