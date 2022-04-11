@@ -1,1 +1,1 @@
-const String graphqlApiUrl = r'http://127.0.0.1:3000/graphql';
+const String graphqlApiUrl = r'http://192.168.31.6:3000/graphql';
