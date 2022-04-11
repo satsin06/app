@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../providers/auth.dart';
 import '../../../providers/user.dart';
 import '../../../widgets/user_avatar.dart';
 import 'profile_card/primary_auto_switch_button.dart';

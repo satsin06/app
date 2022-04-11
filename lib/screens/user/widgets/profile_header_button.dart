@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../providers/auth.dart';
-import '../../../router/routes/settings.dart';
+import '../../../router/route_names.dart' as route_names;
 import 'profile_header_open_more_button.dart';
 
 class ProfileHeaderButton extends ConsumerWidget {
@@ -18,7 +18,7 @@ class ProfileHeaderButton extends ConsumerWidget {
     if (auth == userId) {
       return IconButton(
         onPressed: () {
-          GoRouter.of(context).push(settingsRoute.path);
+          context.pushNamed(route_names.setting);
         },
         icon: const Icon(Icons.crop_square),
       );

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../providers/auth.dart';
-import '../../router/routes.dart';
 import '../../widgets/dynamic_app_bar.dart';
+import '../../router/route_names.dart' as route_names;
 
 Widget _titleBuilder(BuildContext context, double opacity) {
   return const Text('设置');
@@ -45,13 +45,13 @@ class SettingsScreen extends StatelessWidget {
                   ListTile(
                     leading: const Icon(Icons.person),
                     title: const Text('编辑资料'),
-                    onTap: () => context.pushNamed(settingEditUserRoute.name!),
+                    onTap: () =>
+                        context.pushNamed(route_names.settingEditAccount),
                   ),
                   ListTile(
                     leading: const Icon(Icons.verified_user),
                     title: const Text('账户安全'),
-                    onTap: () =>
-                        context.pushNamed(settingsAccountSecurityRoute.name!),
+                    onTap: () => context.pushNamed(route_names.settingSecurity),
                   ),
                 ],
               ).toList(),
@@ -184,7 +184,7 @@ class _LogoutButton extends ConsumerWidget {
 
   VoidCallback _createLogoutHandler(BuildContext context, WidgetRef ref) {
     return () {
-      homeTimelineRoute.go(context);
+      context.goNamed(route_names.homeTimeline);
       ref.read(authProvider.notifier).logout();
     };
   }

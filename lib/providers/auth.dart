@@ -1,9 +1,12 @@
 import 'package:authorization_manager/authorization_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graphql/client.dart';
 
 import 'authorization_manager.dart';
 import 'graphql.dart';
+import '../router/route_names.dart' as route_names show login;
 
 const String _loginDocument = r'''
 mutation Login($account: String!, $password: String!, $usePhoneOtp: Boolean) {
@@ -78,6 +81,20 @@ class AuthNotifier extends StateNotifier<String?> {
     if (accessToken != null) {
       state = accessToken.payload!;
     }
+  }
+
+  void can(BuildContext context, void Function(String) fn) {
+    if (state != null) {
+      return fn.call(state!);
+    }
+
+    context.pushNamed(
+      route_names.login,
+      extra: (String userId) {
+        context.pop();
+        fn(userId);
+      },
+    );
   }
 }
 

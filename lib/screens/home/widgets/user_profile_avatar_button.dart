@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../providers/auth.dart';
 import '../../../providers/user.dart';
-import '../../../router/routes.dart';
 import '../../../widgets/user_avatar.dart';
+import '../../../router/route_names.dart' as route_names;
 
 class UserProfileAvatarButton extends ConsumerWidget {
   const UserProfileAvatarButton({Key? key}) : super(key: key);
@@ -23,11 +24,11 @@ class UserProfileAvatarButton extends ConsumerWidget {
   }
 
   void onJump(BuildContext context, WidgetRef ref) {
-    loginRoute.canAuthPush(
-      context: context,
-      ref: ref,
-      callback: userProfileRoute.push(context),
-    );
+    ref.read(authProvider.notifier).can(context, (String userId) {
+      context.pushNamed(route_names.userProfile, params: {
+        'id': userId,
+      });
+    });
   }
 }
 

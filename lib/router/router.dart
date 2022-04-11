@@ -4,13 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'routes.dart';
 
 final GoRouter router = GoRouter(
-  routes: <GoRoute>[
-    homeTimelineRoute,
-    homeFollowRoute,
-    loginRoute,
-    publishRoute,
-    settingsRoute,
-    userProfileRoute,
-  ],
+  routes: routes,
   debugLogDiagnostics: kDebugMode,
 );

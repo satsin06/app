@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:socfony/widgets/user_avatar.dart';
 
 import '../../../providers/auth.dart';
-import '../../../providers/user.dart';
 import '../../../widgets/card_wrapper.dart';
 import '../../../widgets/dynamic_app_bar.dart';
 import '../../user/widgets/user_refresh_load.dart';

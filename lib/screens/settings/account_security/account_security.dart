@@ -9,11 +9,6 @@ class AccountSecurityScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    final TextStyle? buttonStyle = theme.textTheme.button?.copyWith(
-      color: theme.primaryColor,
-    );
-
     return Scaffold(
       appBar: DynamicAppBar(
         automaticallyImplyLeading: true,
@@ -23,14 +18,6 @@ class AccountSecurityScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 24),
           const PasswordCard(),
-          // GestureDetector(
-          //   child: CardWrapper(
-          //     padding: const EdgeInsets.symmetric(vertical: 12),
-          //     child: Center(
-          //       child: Text('更改密码', style: buttonStyle),
-          //     ),
-          //   ),
-          // ),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -62,9 +49,9 @@ class AccountSecurityScreen extends StatelessWidget {
           ),
           CardWrapper(
             child: ListTile(
-              leading: Icon(Icons.smartphone),
-              title: Text('+8617*******34'),
-              trailing: TextButton(onPressed: () {}, child: Text('更换')),
+              leading: const Icon(Icons.smartphone),
+              title: const Text('+8617*******34'),
+              trailing: TextButton(onPressed: () {}, child: const Text('更换')),
             ),
           ),
         ],

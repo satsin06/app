@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../providers/auth.dart';
-import '../../../../router/routes.dart';
+import '../../../../router/route_names.dart' as route_names;
 
 class PrimaryAuthSwitchButton extends ConsumerWidget {
   const PrimaryAuthSwitchButton(this.userId, {Key? key}) : super(key: key);
@@ -41,12 +41,12 @@ class PrimaryAuthSwitchButton extends ConsumerWidget {
   VoidCallback buildAutoSwitchOnPressed(BuildContext context, String? auth) {
     if (auth == userId) return () => jumpEditUserScreen(context);
 
-    return () => {
-          // TODO: Follow/Unfollow user
-        };
+    return () {
+      // TODO: Follow/Unfollow user
+    };
   }
 
   void jumpEditUserScreen(BuildContext context) {
-    context.pushNamed(settingEditUserRoute.name!);
+    context.pushNamed(route_names.settingEditAccount);
   }
 }
