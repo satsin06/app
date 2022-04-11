@@ -96,6 +96,13 @@ class AuthNotifier extends StateNotifier<String?> {
       },
     );
   }
+
+  Future<String?> authorizationTokenReader() async {
+    final manager = await ref.read(authorizationManagerProvider.future);
+    final accessToken = await manager.getAccessToken();
+
+    return accessToken?.token;
+  }
 }
 
 final authProvider = StateNotifierProvider<AuthNotifier, String?>(

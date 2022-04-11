@@ -103,28 +103,13 @@ class _SwitchVerificationChildren extends ConsumerWidget {
   }
 
   Widget buildEmail(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        const TextField(
-          obscureText: true,
-          keyboardType: TextInputType.visiblePassword,
-          decoration: InputDecoration(
-            hintText: '输入你绑定的邮箱',
-            border: OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-          ),
-        ),
-        Divider(),
-        const TextField(
-          obscureText: true,
-          keyboardType: TextInputType.visiblePassword,
-          decoration: InputDecoration(
-            hintText: '输入验证码',
-            border: OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding: EdgeInsets.symmetric(horizontal: 0),
-          ),
-        ),
-      ],
+    return const TextField(
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        hintText: '输入验证码',
+        border: OutlineInputBorder(borderSide: BorderSide.none),
+        contentPadding: EdgeInsets.symmetric(horizontal: 0),
+      ),
     );
   }
 
@@ -133,7 +118,7 @@ class _SwitchVerificationChildren extends ConsumerWidget {
       obscureText: true,
       keyboardType: TextInputType.visiblePassword,
       decoration: InputDecoration(
-        hintText: '请输入原密码',
+        hintText: '请输入验证码',
         border: OutlineInputBorder(borderSide: BorderSide.none),
         contentPadding: EdgeInsets.symmetric(horizontal: 0),
       ),
