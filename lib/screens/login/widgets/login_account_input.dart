@@ -25,7 +25,7 @@ class LoginAccountInputWidget extends ConsumerWidget {
     return TextField(
       controller: ref.watch(loginAccountTextEditingControllerProvider),
       enabled: enabled,
-      keyboardType: isOtp ? TextInputType.number : TextInputType.emailAddress,
+      keyboardType: isOtp ? TextInputType.phone : TextInputType.emailAddress,
       decoration: InputDecoration(
         hintText: isOtp ? '手机号码' : 'E-Mail/手机号码/用户名',
         errorText: errorMessage,
@@ -40,9 +40,9 @@ class LoginAccountInputWidget extends ConsumerWidget {
         ),
       ),
       inputFormatters: [
-        LengthLimitingTextInputFormatter(isOtp ? 11 : 32),
+        LengthLimitingTextInputFormatter(isOtp ? 18 : 32),
         isOtp
-            ? FilteringTextInputFormatter.digitsOnly
+            ? FilteringTextInputFormatter.allow(RegExp(r'[0-9\-\+]'))
             : FilteringTextInputFormatter.allow(RegExp(r'[a-z0-9@._]')),
       ],
     );

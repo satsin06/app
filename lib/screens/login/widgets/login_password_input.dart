@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../widgets/send_ont_time_password_binder.dart';
 import '../providers/login_message_provider.dart';
 import '../providers/login_mode_provider.dart';
 import '../providers/login_sending_provider.dart';
@@ -55,82 +56,45 @@ class LoginPasswordInputWidget extends ConsumerWidget {
   }
 }
 
-class _SendOTPButton extends ConsumerStatefulWidget {
-  const _SendOTPButton({
-    Key? key,
-  }) : super(key: key);
+class _SendOTPButton extends ConsumerWidget {
+  const _SendOTPButton({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<_SendOTPButton> createState() => _SendOTPButtonState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String account =
+        ref.watch(loginAccountTextEditingControllerProvider).text.trim();
 
-class _SendOTPButtonState extends ConsumerState<_SendOTPButton> {
-  Timer? _timer;
-  final int _countdown = 60;
-  int _currentCountdown = 0;
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  Widget get child {
-    if (ref.watch(loginOtpProvider).hasSending) {
-      return const SizedBox.square(
-        child: CircularProgressIndicator(strokeWidth: 2.0),
-        dimension: 20.0,
-      );
-    }
-
-    return Text(_currentCountdown == 0 ? '获取验证码' : '$_currentCountdown s');
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // TextButton onPressed
-    void Function()? onPressed = _currentCountdown == 0 ? onSendOTP : null;
-
-    // Has OTP is sending
-    final bool hasOTPIsSending = ref.watch(loginOtpProvider).hasSending;
-
-    // If account is not China phone number, disable button
-    if (hasOTPIsSending) {
-      onPressed = null;
-    }
-
-    return TextButton(
-      onPressed: onPressed,
-      child: child,
+    return SendOntTimePasswordBinder.forTarget(
+      phone: account,
+      errorNotifier: _createErrorNotifier(ref),
+      builder: _createBuilder(ref, account),
     );
   }
 
-  void onSendOTP() async {
-    final account = ref.read(loginAccountTextEditingControllerProvider).text;
-    if (account.length != 11 || !account.startsWith('1')) {
-      ref.read(loginAccountMessageProvider.state).state = '请输入正确的手机号';
-      return;
-    }
+  SendOntTimePasswordWidgetBuilder _createBuilder(
+      WidgetRef ref, String account) {
+    return (
+      BuildContext context, {
+      required bool sending,
+      required int seconds,
+      required VoidCallback onPressed,
+    }) {
+      if (account.isEmpty && seconds == 0 && sending == false) {
+        return const TextButton(
+          onPressed: null,
+          child: Text('获取验证码'),
+        );
+      }
 
-    _timer?.cancel();
-    ref.read(loginAccountMessageProvider.state).state = null;
-    ref.read(loginPasswordMessageProvider.state).state = null;
-    final sent = await ref.read(loginOtpProvider).send(account);
-    if (sent) {
-      setState(() {
-        _currentCountdown = _countdown;
-      });
-      _timer = Timer.periodic(
-        const Duration(seconds: 1),
-        (Timer timer) {
-          setState(() {
-            _currentCountdown--;
-            if (_currentCountdown == 0) {
-              timer.cancel();
-            }
-          });
-        },
-      );
-    }
+      return defaultSendOneTimePasswordWidgetBuilder(context,
+          sending: sending, seconds: seconds, onPressed: onPressed);
+    };
+  }
+
+  SendOntTimePasswordErrorNotifier _createErrorNotifier(WidgetRef ref) {
+    return (BuildContext context, Object error, [StackTrace? stackTrace]) {
+      ref.read(loginAccountMessageProvider.state).state =
+          error is FormatException ? error.message : error.toString();
+    };
   }
 }
