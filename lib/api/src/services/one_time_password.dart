@@ -21,10 +21,12 @@ class OneTimePasswordService {
   /// api.oneTimePassword.send(phone: '+123456789');
   /// ```
   Future<void> send({String? email, String? phone}) async {
-    assert(email != null && phone != null,
-        'email and phone are mutually exclusive');
-    assert(email == null && phone == null,
-        'Either email or phone must be provided');
+    if (email == null || email.isEmpty == true) {
+      assert(phone != null && phone.isNotEmpty == true, 'phone is required');
+    }
+    if (phone == null || phone.isEmpty == true) {
+      assert(email != null && email.isNotEmpty == true, 'email is required');
+    }
 
     const String query = r'''
 mutation SendOneTimePassword($type: OneTimePasswordType!, $value: String!) {
@@ -46,11 +48,8 @@ mutation SendOneTimePassword($type: OneTimePasswordType!, $value: String!) {
   /// Send a One-time password to current authenticated user.
   ///
   /// [email] and [phone] are mutually exclusive.
-  Future<void> sendForAuth({bool? email, bool? phone}) async {
-    assert(email == null && phone == null,
-        'Either email or phone must be provided');
-    assert(email == false && phone == false, 'One type must be provided');
-    assert(email == true && phone == true, 'Only one type can be provided');
+  Future<void> sendForAuth({bool email = false, bool phone = false}) async {
+    assert(email != phone, 'email and phone are mutually exclusive');
 
     const String query = r'''
 mutation SendMeOtp($type: OneTimePasswordType!) {
