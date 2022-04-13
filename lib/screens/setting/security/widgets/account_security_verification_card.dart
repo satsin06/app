@@ -49,7 +49,7 @@ class _SwitchVerificationChildren extends ConsumerWidget {
     if (field == null) return const SizedBox.shrink();
 
     final String hintText =
-        field == UserSecurityFields.password ? '请输入原密码' : '请输入验证码';
+        field == UserSecurityFields.password ? '请输入密码' : '请输入验证码';
     Widget? sendOneTimePasswordButton;
     if (field != UserSecurityFields.password) {
       sendOneTimePasswordButton = SendOntTimePasswordBinder.forAuth(
