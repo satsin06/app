@@ -44,7 +44,7 @@ class AccountSecurityHealthNotifier
 
   Future<void> fetch() async {
     final AccountSecurityService service =
-        ref.read(apiProvider).accountSecurity;
+        ref.read($APIProvider).accountSecurity;
     state = await service.health();
   }
 }

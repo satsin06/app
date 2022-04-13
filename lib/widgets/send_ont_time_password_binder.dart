@@ -182,7 +182,7 @@ class SendOntTimePasswordBinder extends ConsumerWidget {
 
       /// Find One-time password service.
       final OneTimePasswordService service =
-          ref.read(apiProvider).oneTimePassword;
+          ref.read($APIProvider).oneTimePassword;
 
       /// Find sender.
       final bool forTarget = isEmail == false && isPhone == false;

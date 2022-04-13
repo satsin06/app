@@ -13,7 +13,7 @@ AuthenticationTokenReader _createAuthorizationTokenReader(Ref ref) {
   };
 }
 
-final apiProvider = Provider(
+final $APIProvider = Provider(
   (ref) => API(
     endpoint: Uri.parse(graphqlApiUrl),
     auth: Authentication(_createAuthorizationTokenReader(ref)),
