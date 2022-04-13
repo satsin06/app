@@ -206,19 +206,8 @@ class SendOntTimePasswordBinder extends ConsumerWidget {
   }
 
   Future<void> _forTargetSender(OneTimePasswordService service) =>
-      service.send(email: email, phone: _formatPhoneNumber(phone));
+      service.send(email: email, phone: phone);
 
   Future<void> _forAuthSender(OneTimePasswordService service) =>
       service.sendForAuth(phone: isPhone, email: isEmail);
-
-  String? _formatPhoneNumber(String? phone) {
-    /// If [phone] is null or empty, return null.
-    if (phone == null || phone.isEmpty) return null;
-
-    /// If [phone] starts with '+\d{1,3}', return [phone].
-    if (phone.startsWith(RegExp(r'\+\d{1,3}'), 0)) return phone;
-
-    /// Default add country code '+86'.
-    return '+86' + phone;
-  }
 }

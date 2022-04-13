@@ -1,9 +1,10 @@
+import '../api/api.dart' show UserSecurityFields;
 import '../screens/home/home.dart';
 import '../screens/login/login.dart';
 import '../screens/publish/publish_moment_screen.dart';
 import '../screens/setting/edit/edit_account.dart';
 import '../screens/setting/security/account_security.dart';
-import '../screens/setting/security/password.dart';
+import '../screens/setting/security/account_security_field_update.dart';
 import '../screens/setting/setting.dart';
 import '../screens/user/profile.dart';
 import 'named_route.dart';
@@ -71,8 +72,30 @@ final List<NamedRoute> routes = <NamedRoute>[
           NamedRoute(
             route_names.settingSecurityPassword,
             path: 'password',
-            builder: (context, state) =>
-                AccountSecurityPasswordScreen(key: state.pageKey),
+            builder: (context, state) => AccountSecurityUpdateFieldScreen(
+              UserSecurityFields.password,
+              key: state.pageKey,
+            ),
+          ),
+
+          /// Setting -> Security -> Phone
+          NamedRoute(
+            route_names.settingSecurityPhone,
+            path: 'phone',
+            builder: (context, state) => AccountSecurityUpdateFieldScreen(
+              UserSecurityFields.phone,
+              key: state.pageKey,
+            ),
+          ),
+
+          /// Setting -> Security -> E-Mail
+          NamedRoute(
+            route_names.settingSecurityEmail,
+            path: 'email',
+            builder: (context, state) => AccountSecurityUpdateFieldScreen(
+              UserSecurityFields.email,
+              key: state.pageKey,
+            ),
           ),
         ],
       ),

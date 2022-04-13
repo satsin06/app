@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../widgets/card_wrapper.dart';
+import '../../../api/api.dart';
 import '../../../widgets/dynamic_app_bar.dart';
-import 'widgets/email_card.dart';
-import 'widgets/password_card.dart';
+import 'widgets/account_security_child_card.dart';
 
 class AccountSecurityScreen extends StatelessWidget {
   const AccountSecurityScreen({Key? key}) : super(key: key);
@@ -18,7 +17,7 @@ class AccountSecurityScreen extends StatelessWidget {
       body: ListView(
         children: [
           const SizedBox(height: 24),
-          const PasswordCard(),
+          const AccountSecurityChildCard(UserSecurityFields.password),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -27,10 +26,10 @@ class AccountSecurityScreen extends StatelessWidget {
             ),
             child: Text(
               '电子邮箱',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
-          const EmailCard(),
+          const AccountSecurityChildCard(UserSecurityFields.email),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -39,16 +38,10 @@ class AccountSecurityScreen extends StatelessWidget {
             ),
             child: Text(
               '手机号码',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
-          CardWrapper(
-            child: ListTile(
-              leading: const Icon(Icons.smartphone),
-              title: const Text('+8617*******34'),
-              trailing: TextButton(onPressed: () {}, child: const Text('更换')),
-            ),
-          ),
+          const AccountSecurityChildCard(UserSecurityFields.phone),
         ],
       ),
     );

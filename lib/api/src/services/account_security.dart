@@ -1,7 +1,9 @@
 import '../api.dart';
 import '../models/account_security_health_result.dart';
 import '../models/user_security_fields.dart';
+import '../utils/email_address.dart';
 import '../utils/password.dart';
+import '../utils/phone_number.dart';
 
 class AccountSecurityService {
   final API api;
@@ -58,14 +60,20 @@ query AccountSecurityHealth {
     required String otp,
     required UserSecurityFields verificationField,
     required String verificationValue,
-  }) =>
-      _updateAccountSecurity(
-        field: UserSecurityFields.phone,
-        value: phone,
-        otp: otp,
-        verificationField: verificationField,
-        verificationValue: verificationValue,
-      );
+  }) {
+    final parsedPhoneNumber = PhoneNumber.parse(phone);
+    if (parsedPhoneNumber == null) {
+      throw const FormatException('Invalid phone number.');
+    }
+
+    return _updateAccountSecurity(
+      field: UserSecurityFields.phone,
+      value: parsedPhoneNumber,
+      otp: otp,
+      verificationField: verificationField,
+      verificationValue: verificationValue,
+    );
+  }
 
   /// Update account binding email.
   ///
@@ -78,14 +86,20 @@ query AccountSecurityHealth {
     required String otp,
     required UserSecurityFields verificationField,
     required String verificationValue,
-  }) =>
-      _updateAccountSecurity(
-        field: UserSecurityFields.email,
-        value: email,
-        otp: otp,
-        verificationField: verificationField,
-        verificationValue: verificationValue,
-      );
+  }) {
+    final String? emailAddress = EmailAddress.parse(email);
+    if (emailAddress == null) {
+      throw const FormatException('Invalid email address');
+    }
+
+    return _updateAccountSecurity(
+      field: UserSecurityFields.email,
+      value: emailAddress,
+      otp: otp,
+      verificationField: verificationField,
+      verificationValue: verificationValue,
+    );
+  }
 }
 
 extension _UpdateUserSecurityRequest on AccountSecurityService {
@@ -107,17 +121,24 @@ mutation UpdateUserSecurity($field: UserSecurityFields!, $value: String!, $verif
   ) { id }
 }
 ''';
+    final String? parsedPhoneNumber = PhoneNumber.parse(value);
+    if (parsedPhoneNumber != null &&
+        verificationField == UserSecurityFields.phone) {
+      throw const FormatException('Invalid phone number');
+    }
+
     await api.request(
       query: query,
       variables: {
         'field': $UserSecurityFieldsEnumMap[field],
-        'value': field == UserSecurityFields.password
-            ? convertPassword(value)
-            : value,
+        'value':
+            field == UserSecurityFields.password ? Password.hash(value) : value,
         'verifyField': $UserSecurityFieldsEnumMap[verificationField],
         'verifyValue': verificationField == UserSecurityFields.password
-            ? convertPassword(verificationValue)
-            : verificationValue,
+            ? Password.hash(verificationValue)
+            : verificationField == UserSecurityFields.phone
+                ? parsedPhoneNumber
+                : verificationValue,
         'otp': otp,
       },
       operationName: 'UpdateUserSecurity',

@@ -1,4 +1,5 @@
 import '../api.dart';
+import '../utils/phone_number.dart';
 
 class OneTimePasswordService {
   final API api;
@@ -28,6 +29,11 @@ class OneTimePasswordService {
       assert(email != null && email.isNotEmpty == true, 'email is required');
     }
 
+    final parsedPhoneNumber = PhoneNumber.parse(phone);
+    if (email == null && parsedPhoneNumber == null) {
+      throw const FormatException('Invalid phone number.');
+    }
+
     const String query = r'''
 mutation SendOneTimePassword($type: OneTimePasswordType!, $value: String!) {
   sendOTP(type: $type, value: $value)
@@ -35,7 +41,7 @@ mutation SendOneTimePassword($type: OneTimePasswordType!, $value: String!) {
 ''';
     final Map<String, dynamic> variables = <String, dynamic>{
       'type': email != null ? 'EMAIL' : 'SMS',
-      'value': email ?? phone,
+      'value': email ?? parsedPhoneNumber,
     };
 
     await api.request(
