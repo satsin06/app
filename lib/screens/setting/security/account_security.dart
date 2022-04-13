@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../widgets/card_wrapper.dart';
 import '../../../widgets/dynamic_app_bar.dart';
+import 'widgets/email_card.dart';
 import 'widgets/password_card.dart';
 
 class AccountSecurityScreen extends StatelessWidget {
@@ -29,13 +30,7 @@ class AccountSecurityScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),
-          const CardWrapper(
-            child: ListTile(
-              leading: Icon(Icons.email),
-              title: Text('s******u@outlook.com'),
-              trailing: Icon(Icons.chevron_right),
-            ),
-          ),
+          const EmailCard(),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(
