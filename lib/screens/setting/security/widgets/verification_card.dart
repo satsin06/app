@@ -77,7 +77,10 @@ class _SwitchVerificationChildren extends ConsumerWidget {
 
     return TextField(
       controller: ref.watch($VerificationValueControllerProvider),
-      keyboardType: TextInputType.text,
+      keyboardType: method == UserSecurityFields.password
+          ? TextInputType.visiblePassword
+          : TextInputType.text,
+      obscureText: method == UserSecurityFields.password,
       decoration: InputDecoration(
         hintText: hintText,
         border: const OutlineInputBorder(borderSide: BorderSide.none),
@@ -124,6 +127,7 @@ class _SelectVerificationMethod extends ConsumerWidget {
       }).toList(),
       onChanged: (field) {
         ref.read($VerificationMethodProvider.notifier).update((state) => field);
+        ref.read($VerificationValueControllerProvider).clear();
       },
     );
   }

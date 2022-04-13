@@ -100,8 +100,8 @@ class _SubmitButton extends ConsumerWidget {
           ref.read($VerificationValueControllerProvider).text;
 
       // If password is empty or length < 12, show error.
-      if (password.isEmpty || password.length < 12) {
-        return _showErrorMessage(context, '密码长度不能小于12位');
+      if (password.isEmpty || password.length < 6) {
+        return _showErrorMessage(context, '密码长度不能小于6位');
       }
 
       // If verification method is null, show error.
