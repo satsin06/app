@@ -12,13 +12,14 @@ import '../providers/api.dart';
 ///
 /// - [context] is the context of the widget.
 /// - [sending] is the sending state of the widget.
-/// - [onPressed] is the callback when the button is pressed.
+/// - [onPressed] is the callback when the button is pressed. Tips: sending
+///  is true or secounds is not 0, the button will be disabled.
 /// - [seconds] is the seconds of the countdown.
 typedef SendOntTimePasswordWidgetBuilder = Widget Function(
   BuildContext context, {
   required bool sending,
   required int seconds,
-  required VoidCallback onPressed,
+  VoidCallback? onPressed,
 });
 
 /// Send One-time password error notifier.
@@ -32,7 +33,7 @@ Widget defaultSendOneTimePasswordWidgetBuilder(
   BuildContext context, {
   required bool sending,
   required int seconds,
-  required VoidCallback onPressed,
+  VoidCallback? onPressed,
 }) {
   /// If [sending] is true, return a [CircularProgressIndicator]
   if (sending) {
@@ -46,7 +47,7 @@ Widget defaultSendOneTimePasswordWidgetBuilder(
   }
 
   /// If [countDown] is 0, return a [TextButton]
-  if (seconds == 0) {
+  if (seconds == 0 && onPressed != null) {
     return TextButton(
       onPressed: onPressed,
       child: const Text('获取验证码'),
@@ -60,8 +61,57 @@ Widget defaultSendOneTimePasswordWidgetBuilder(
   );
 }
 
+class _CounterNotifier extends StateNotifier<int> {
+  _CounterNotifier(this.duration) : super(0);
+
+  final int duration;
+  Timer? _timer;
+
+  int get counter => state;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _timer = null;
+    super.dispose();
+  }
+
+  void start() {
+    state = duration;
+    _timer?.cancel();
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      _timerPeriodicCallback,
+    );
+  }
+
+  void cancel([Timer? timer]) {
+    state = 0;
+    timer?.cancel();
+    _timer?.cancel();
+    _timer = null;
+  }
+
+  void _timerPeriodicCallback(Timer timer) {
+    if (timer.tick >= duration) {
+      return cancel(timer);
+    }
+
+    state = duration - timer.tick;
+  }
+}
+
+final AutoDisposeStateNotifierProviderFamily<_CounterNotifier, int, int>
+    _$CounterNotifierProvider =
+    StateNotifierProvider.autoDispose.family<_CounterNotifier, int, int>(
+  (Ref ref, int duration) => _CounterNotifier(duration),
+);
+
+final AutoDisposeStateProvider<bool> _$SendingProvider =
+    StateProvider.autoDispose((Ref ref) => false);
+
 /// Send One-time password binder widget.
-class SendOntTimePasswordBinder extends ConsumerStatefulWidget {
+class SendOntTimePasswordBinder extends ConsumerWidget {
   final String? email;
   final String? phone;
   final bool isEmail;
@@ -85,7 +135,7 @@ class SendOntTimePasswordBinder extends ConsumerStatefulWidget {
     Key? key,
     bool phone = false,
     bool email = false,
-    required this.builder,
+    this.builder = defaultSendOneTimePasswordWidgetBuilder,
     this.seconds = 60,
     this.errorNotifier,
   })  : email = null,
@@ -94,113 +144,81 @@ class SendOntTimePasswordBinder extends ConsumerStatefulWidget {
         isPhone = phone,
         super(key: key);
 
-  @override
-  ConsumerState<SendOntTimePasswordBinder> createState() =>
-      _SendOntTimePasswordBinderState();
-}
-
-class _SendOntTimePasswordBinderState
-    extends ConsumerState<SendOntTimePasswordBinder> {
-  Timer? _timer;
-  late int _countdown;
-  late bool _sending;
-  late final Duration _duration;
+  AutoDisposeStateNotifierProvider<_CounterNotifier, int>
+      get $CounterProvider => _$CounterNotifierProvider(seconds);
 
   @override
-  void initState() {
-    _countdown = 0;
-    _sending = false;
-    _duration = const Duration(seconds: 1);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool sending = ref.watch(_$SendingProvider);
+    final int counter = ref.watch($CounterProvider);
 
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (_timer?.isActive == true) {
-      _timer?.cancel();
+    VoidCallback? onPressed;
+    if (sending == false && counter == 0) {
+      onPressed = _createOnPressed(context, ref);
     }
 
-    _countdown = 0;
-    _sending = false;
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    _timer = null;
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(
+    return builder(
       context,
-      sending: _sending,
-      seconds: _countdown,
-      onPressed: _onPressed,
+      sending: sending,
+      seconds: counter,
+      onPressed: onPressed,
     );
   }
 
-  void _onPressed() {
-    /// If [_countdown] is not 0, return.
-    if (_countdown > 0) return;
+  VoidCallback _createOnPressed(BuildContext context, WidgetRef ref) {
+    return () async {
+      /// Find counter notifier
+      final _CounterNotifier counterNotifier =
+          ref.read($CounterProvider.notifier);
 
-    // Send One-time password
-    final bool forTarget = widget.isEmail == false && widget.isPhone == false;
-    return _onSendOneTimePassword(
-      forTarget ? _forTargetSender : _forAuthSender,
-    );
-  }
-
-  void _onSendOneTimePassword(
-      Future<void> Function(OneTimePasswordService) sender) async {
-    // Find the One-time password service
-    final OneTimePasswordService service =
-        ref.watch(apiProvider).oneTimePassword;
-
-    try {
-      // Set sending state.
-      setState(() => _sending = true);
-
-      // run sender.
-      await sender.call(service);
-
-      _timer?.cancel();
-      _timer = Timer.periodic(_duration, _timerPeriodicCallback);
-    } catch (error, stackTrace) {
-      widget.errorNotifier?.call(context, error, stackTrace);
-
-      rethrow;
-    } finally {
-      setState(() => _sending = false);
-    }
-  }
-
-  void _timerPeriodicCallback(Timer timer) {
-    setState(() {
-      _countdown = widget.seconds - timer.tick;
-      if (_countdown <= 0) {
-        timer.cancel();
-        _timer = null;
+      /// If sending is true, or the timer is active, return.
+      final bool sending = ref.read(_$SendingProvider);
+      if (sending || counterNotifier.counter > 0) {
+        return;
       }
-    });
+
+      /// Set sending to true.
+      ref.read(_$SendingProvider.notifier).state = true;
+
+      /// Find One-time password service.
+      final OneTimePasswordService service =
+          ref.read(apiProvider).oneTimePassword;
+
+      /// Find sender.
+      final bool forTarget = isEmail == false && isPhone == false;
+      final Future<void> Function(OneTimePasswordService) sender =
+          forTarget ? _forTargetSender : _forAuthSender;
+
+      try {
+        /// Send One-time password.
+        await sender.call(service);
+
+        /// Counter start.
+        counterNotifier.start();
+      } catch (error, stackTrace) {
+        errorNotifier?.call(context, error, stackTrace);
+        rethrow;
+      } finally {
+        /// Set sending to false.
+        ref.read(_$SendingProvider.notifier).state = false;
+      }
+    };
   }
 
-  Future<void> _forTargetSender(OneTimePasswordService service) => service.send(
-      email: widget.email,
-      phone:
-          widget.phone?.isEmpty == true ? null : _formatPhone(widget.phone!));
+  Future<void> _forTargetSender(OneTimePasswordService service) =>
+      service.send(email: email, phone: _formatPhoneNumber(phone));
 
   Future<void> _forAuthSender(OneTimePasswordService service) =>
-      service.sendForAuth(email: widget.isEmail, phone: widget.isPhone);
+      service.sendForAuth(phone: isPhone, email: isEmail);
 
-  String _formatPhone(String phone) {
+  String? _formatPhoneNumber(String? phone) {
+    /// If [phone] is null or empty, return null.
+    if (phone == null || phone.isEmpty) return null;
+
+    /// If [phone] starts with '+\d{1,3}', return [phone].
     if (phone.startsWith(RegExp(r'\+\d{1,3}'), 0)) return phone;
 
-    return '+86$phone';
+    /// Default add country code '+86'.
+    return '+86' + phone;
   }
 }
