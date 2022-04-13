@@ -77,7 +77,7 @@ class _SendOTPButton extends ConsumerWidget {
       BuildContext context, {
       required bool sending,
       required int seconds,
-      required VoidCallback onPressed,
+      VoidCallback? onPressed,
     }) {
       if (account.isEmpty && seconds == 0 && sending == false) {
         return const TextButton(
@@ -86,8 +86,15 @@ class _SendOTPButton extends ConsumerWidget {
         );
       }
 
-      return defaultSendOneTimePasswordWidgetBuilder(context,
-          sending: sending, seconds: seconds, onPressed: onPressed);
+      return defaultSendOneTimePasswordWidgetBuilder(
+        context,
+        sending: sending,
+        seconds: seconds,
+        onPressed: () {
+          ref.read(loginAccountMessageProvider.state).state = null;
+          onPressed?.call();
+        },
+      );
     };
   }
 

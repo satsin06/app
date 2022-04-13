@@ -53,7 +53,13 @@ class API {
     return data;
   }
 
+  /// One-time password.
   services.OneTimePasswordService? _oneTimePasswordService;
   services.OneTimePasswordService get oneTimePassword =>
       _oneTimePasswordService ??= services.OneTimePasswordService(this);
+
+  /// Account security.
+  services.AccountSecurityService? _accountSecurityService;
+  services.AccountSecurityService get accountSecurity =>
+      _accountSecurityService ??= services.AccountSecurityService(this);
 }
