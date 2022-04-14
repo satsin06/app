@@ -17,7 +17,7 @@ class API {
     http.Client? client,
   }) : client = client ?? http.Client();
 
-  Future<Map<String, dynamic>?> request({
+  Future<Map<String, dynamic>> request({
     required String query,
     String? operationName,
     Map<String, dynamic>? variables,
@@ -48,9 +48,11 @@ class API {
       for (final item in errors) {
         throw FormatException(item['message']);
       }
+    } else if (data == null || data.isEmpty) {
+      throw const FormatException('Invalid response.');
     }
 
-    return data;
+    return data!;
   }
 
   /// One-time password.
@@ -62,4 +64,9 @@ class API {
   services.AccountSecurityService? _accountSecurityService;
   services.AccountSecurityService get accountSecurity =>
       _accountSecurityService ??= services.AccountSecurityService(this);
+
+  /// Access token.
+  services.AccessTokenService? _accessTokenService;
+  services.AccessTokenService get accessToken =>
+      _accessTokenService ??= services.AccessTokenService(this);
 }
