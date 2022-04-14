@@ -1,25 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:graphql/client.dart';
 
-import '../../../providers/graphql.dart';
+import '../../../api/api.dart';
+import '../../../providers/api.dart';
 import 'login_message_provider.dart';
-
-final loginSendingProvider = StateProvider.autoDispose<bool>((ref) => false);
-
-const String _sendOtpDocument = r'''
-mutation SendOTP($phone: String!) {
-  sendOTP(type: SMS, value: $phone)
-}
-''';
-MutationOptions<void> _createSendOtpOptions(String phone) {
-  return MutationOptions(
-    document: gql(_sendOtpDocument),
-    variables: <String, dynamic>{
-      'phone': phone,
-    },
-    fetchPolicy: FetchPolicy.networkOnly,
-  );
-}
 
 class LoginOtpNotifier extends StateNotifier<bool> {
   LoginOtpNotifier(this.ref) : super(false);
@@ -34,15 +17,11 @@ class LoginOtpNotifier extends StateNotifier<bool> {
 
   Future<bool> send(String phone) async {
     setSending(true);
-
-    final client = ref.read(graphqlClientProvider);
-    final options = _createSendOtpOptions('+86' + phone);
+    final OneTimePasswordService service =
+        ref.read($APIProvider).oneTimePassword;
 
     try {
-      final result = await client.mutate(options);
-      if (result.hasException) {
-        throw result.exception!;
-      }
+      service.send(phone: phone);
 
       return true;
     } catch (e) {
@@ -57,3 +36,4 @@ class LoginOtpNotifier extends StateNotifier<bool> {
 
 final loginOtpProvider =
     StateProvider.autoDispose((ref) => LoginOtpNotifier(ref));
+final loginSendingProvider = StateProvider.autoDispose<bool>((ref) => false);

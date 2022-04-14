@@ -40,6 +40,7 @@ class API {
     final http.Response response = await http.Response.fromStream(
       await client.send(request),
     );
+
     final result = json.decode(response.body) as Map<String, dynamic>;
     final data = result['data'] as Map<String, dynamic>?;
     final errors = result['errors'] as List<dynamic>?;
@@ -69,4 +70,13 @@ class API {
   services.AccessTokenService? _accessTokenService;
   services.AccessTokenService get accessToken =>
       _accessTokenService ??= services.AccessTokenService(this);
+
+  /// User
+  services.UserService? _userService;
+  services.UserService get user => _userService ??= services.UserService(this);
+
+  /// Storage
+  services.StorageService? _storageService;
+  services.StorageService get storage =>
+      _storageService ??= services.StorageService(this);
 }

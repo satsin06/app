@@ -23,7 +23,7 @@ class JumpPublishButton extends ConsumerWidget {
   }
 
   _jump(BuildContext context, WidgetRef ref) {
-    ref.read(authProvider.notifier).can(context, (String userId) {
+    ref.read($AuthProvider.notifier).can(context, (String userId) {
       context.pushNamed(route_names.publish);
     });
   }

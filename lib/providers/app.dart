@@ -6,8 +6,8 @@ import 'theme.dart';
 
 final _bootstrapProvider = FutureProvider<void>(
   (Ref ref) => Future.any<void>([
-    ref.read(authProvider.notifier).load(),
-    ref.read(themeProvider.notifier).load(),
+    ref.read($AuthProvider.notifier).load(),
+    ref.read($ThemeProvider.notifier).load(),
   ]),
 );
 
@@ -33,6 +33,6 @@ class AppNotifier extends StateNotifier<Key> {
   }
 }
 
-final appProvider = StateNotifierProvider<AppNotifier, Key>(
+final $AppProvider = StateNotifierProvider<AppNotifier, Key>(
   (Ref ref) => AppNotifier(ref),
 );

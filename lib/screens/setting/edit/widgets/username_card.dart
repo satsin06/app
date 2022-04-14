@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:graphql/client.dart';
 
-import '../../../../models/user.dart';
+import '../../../../api/api.dart';
+import '../../../../providers/api.dart';
 import '../../../../providers/auth.dart';
-import '../../../../providers/graphql.dart';
 import '../../../../providers/user.dart';
 import '../../../../widgets/card_wrapper.dart';
 import 'label_row_wrapper.dart';
@@ -14,8 +13,8 @@ class UsernameCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.read(authProvider)!;
-    final privider = userProvider(userId);
+    final String userId = ref.read($AuthProvider)!;
+    final privider = $UserProvider(userId);
     final String? username = ref.watch(privider).username;
 
     Widget? child;
@@ -55,8 +54,8 @@ class _ChangeUsernameDialog extends ConsumerWidget {
 
   final AutoDisposeChangeNotifierProvider<TextEditingController>
       controllerProvider = ChangeNotifierProvider.autoDispose((Ref ref) {
-    final String userId = ref.read(authProvider)!;
-    final User user = ref.read(userProvider(userId));
+    final String userId = ref.read($AuthProvider)!;
+    final User user = ref.read($UserProvider(userId));
 
     return TextEditingController(text: user.username);
   });
@@ -117,39 +116,21 @@ class _ChangeUsernameDialog extends ConsumerWidget {
       return;
     }
 
-    final String userId = ref.read(authProvider)!;
-    final User user = ref.read(userProvider(userId));
+    final String userId = ref.read($AuthProvider)!;
+    final User user = ref.read($UserProvider(userId));
     if (username == user.username) {
       return Navigator.of(context).pop();
     }
-
-    final MutationOptions<String> options = MutationOptions<String>(
-      document: gql(r'''
-        mutation UpdateUsername($username: String!) {
-          updateUsername(username: $username) {
-            username
-          }
-        }
-      '''),
-      variables: <String, dynamic>{'username': username},
-      operationName: 'UpdateUsername',
-      fetchPolicy: FetchPolicy.noCache,
-      parserFn: (Map<String, dynamic> data) =>
-          data['updateUsername']['username'],
-    );
-    final GraphQLClient client = ref.read(graphqlClientProvider);
 
     try {
       /// Set sending state to true
       ref.read(sendingProvider.state).state = true;
 
-      // Send mutation
-      final QueryResult<String> result = await client.mutate(options);
-      thenGraphQLResultException(result);
+      final User result =
+          await ref.read($APIProvider).user.updateUsername(username);
 
       /// Change username
-      ref.read(userProvider(userId).state).state =
-          user.copyWith(username: result.parsedData);
+      ref.read($UserProvider(userId).notifier).update((state) => result);
 
       /// Close dialog
       Navigator.of(context).pop();

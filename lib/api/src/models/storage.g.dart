@@ -1,23 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'upload_storage_metadata.dart';
+part of 'storage.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
+Storage _$StorageFromJson(Map<String, dynamic> json) => Storage(
+      id: json['id'] as String,
+      location: json['location'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      url: json['url'] as String,
+      isUploaded: json['isUploaded'] as bool? ?? false,
+    );
 
 UploadStorageMetadata _$UploadStorageMetadataFromJson(
         Map<String, dynamic> json) =>
     UploadStorageMetadata(
       id: json['id'] as String,
       url: json['url'] as String,
-      headersString: json['headers'] as String,
+      headers: json['headers'] as String,
     );
-
-Map<String, dynamic> _$UploadStorageMetadataToJson(
-        UploadStorageMetadata instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'headers': instance.headersString,
-      'url': instance.url,
-    };

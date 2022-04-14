@@ -2,44 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:graphql/client.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../providers/auth.dart';
-import '../../../../providers/graphql.dart';
+import '../../../../api/api.dart';
+import '../../../../providers/api.dart';
 import '../../../../providers/image_picker.dart';
-import '../../../../providers/upload_storage.dart';
 import '../../../../providers/user.dart';
 
 final _uploadingProvider = StateProvider.autoDispose((_) => false);
 final _errorMessageProvider = StateProvider.autoDispose<String?>((_) => null);
-
-final _updateUserAvatarDocumentNode = gql(r'''
-mutation UpdateUserAvatar($storageId: String!) {
-  updateUserAvatar(storageId: $storageId) {
-    avatarStorageId
-  }
-}
-''');
-MutationOptions<String> _createUpdateUserAvatarOption(String id) {
-  return MutationOptions(
-    document: _updateUserAvatarDocumentNode,
-    fetchPolicy: FetchPolicy.noCache,
-    variables: <String, String>{'storageId': id},
-    operationName: 'UpdateUserAvatar',
-    parserFn: (data) => data['updateUserAvatar']['avatarStorageId'],
-  );
-}
-
-Future<String> _updateUserAvatar(WidgetRef ref, String id) async {
-  final client = ref.read(graphqlClientProvider);
-  final options = _createUpdateUserAvatarOption(id);
-
-  final result = await client.mutate(options);
-  thenGraphQLResultException(result);
-
-  return result.parsedData!;
-}
 
 class ChangeUserAvatarButton extends ConsumerWidget {
   const ChangeUserAvatarButton({Key? key}) : super(key: key);
@@ -112,16 +83,12 @@ class _ChangeButton extends ConsumerWidget {
       // Set the uploading flag to true,
       // and upload the image.
       ref.read(_uploadingProvider.state).state = true;
-      final metadata = await uploadFile(ref).call(File(file.path));
-      final avatarStorageId = await _updateUserAvatar(ref, metadata.id);
 
-      // Update the user's avatar storage ID.
-      final String userId = ref.read(authProvider)!;
-      final profileProvider = userProfileProvider(userId);
-      final profile = ref.read(profileProvider);
-      ref.read(profileProvider.state).state = profile.copyWith(
-        avatarStorageId: avatarStorageId,
-      );
+      /// Upload avatar and get user.
+      final User user =
+          await ref.read($APIProvider).user.updateAvatar(File(file.path));
+
+      ref.read($UserProvider(user.id).notifier).update((state) => user);
 
       // clear error message
       ref.read(_errorMessageProvider.state).state = null;

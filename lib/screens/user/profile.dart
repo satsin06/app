@@ -63,6 +63,7 @@ class _ProfileScreenBackguardWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.loose,
       children: [
         _backguardBuilder(context),
         _safeAreaChildBuilder(context),

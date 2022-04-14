@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../models/user_profile.dart';
+import '../../../../api/api.dart';
 import '../../../../providers/auth.dart';
 import '../../../../providers/user.dart';
 import '../providers/update_profile.dart';
@@ -11,9 +11,8 @@ class BioTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.read(authProvider)!;
-    final privider =
-        userProfileProvider(userId).select((profile) => profile.bio);
+    final String userId = ref.read($AuthProvider)!;
+    final privider = $UserProvider(userId).select((profile) => profile.bio);
     final String? bio = ref.watch(privider);
 
     Widget child;
@@ -57,10 +56,10 @@ class _EditBioDialog extends ConsumerWidget {
 
   final AutoDisposeChangeNotifierProvider<TextEditingController>
       controllerProvider = ChangeNotifierProvider.autoDispose((Ref ref) {
-    final String userId = ref.read(authProvider)!;
-    final UserProfile profile = ref.read(userProfileProvider(userId));
+    final String userId = ref.read($AuthProvider)!;
+    final User user = ref.read($UserProvider(userId));
 
-    return TextEditingController(text: profile.bio);
+    return TextEditingController(text: user.bio);
   });
 
   @override
@@ -100,7 +99,7 @@ class _EditBioDialog extends ConsumerWidget {
     final String bio = ref.read(controllerProvider).text.trim();
     if (bio.isEmpty) return;
 
-    final Future<UserProfile> Function(
+    final Future<User> Function(
         {String? bio,
         int? birthday,
         UserGender? gender}) updater = updateAuthProfile(ref);

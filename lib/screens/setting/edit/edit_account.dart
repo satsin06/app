@@ -17,7 +17,7 @@ class EditAccountScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.read(authProvider)!;
+    final String userId = ref.read($AuthProvider)!;
 
     return UserRefreshLoad(
       userId: userId,
@@ -72,9 +72,9 @@ class _UserAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.watch(authProvider)!;
+    final String userId = ref.watch($AuthProvider)!;
 
-    return UserAvatar(userId, radius: 36);
+    return UserAvatar(userId: userId, radius: 36);
   }
 }
 

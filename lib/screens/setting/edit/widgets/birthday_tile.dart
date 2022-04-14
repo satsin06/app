@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../models/user_profile.dart';
+import '../../../../api/api.dart';
 import '../../../../providers/auth.dart';
 import '../../../../providers/user.dart';
 import '../providers/update_profile.dart';
@@ -11,9 +11,9 @@ class BirthdayTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.watch(authProvider)!;
-    final int? birthday = ref
-        .watch(userProfileProvider(userId).select((value) => value.birthday));
+    final String userId = ref.watch($AuthProvider)!;
+    final int? birthday =
+        ref.watch($UserProvider(userId).select((value) => value.birthday));
 
     return ListTile(
       dense: true,
@@ -74,7 +74,7 @@ class BirthdayTile extends ConsumerWidget {
     );
     if (selected == null) return;
 
-    final Future<UserProfile> Function(
+    final Future<User> Function(
         {String? bio,
         int? birthday,
         UserGender? gender}) updater = updateAuthProfile(ref);

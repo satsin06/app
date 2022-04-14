@@ -12,7 +12,7 @@ class ThemeNotifier extends StateNotifier<Theme> {
   /// Load theme from shared preferences
   Future<void> load() async {
     /// Get shared preferences instance
-    final sharedPreferences = await ref.read(sharedPreferencesProvider.future);
+    final sharedPreferences = await ref.read($SharedPreferencesProvider.future);
 
     /// Get theme from shared preferences
     final String? themeString = sharedPreferences.getString('theme');
@@ -21,6 +21,6 @@ class ThemeNotifier extends StateNotifier<Theme> {
   }
 }
 
-final themeProvider = StateNotifierProvider<ThemeNotifier, Theme>(
+final $ThemeProvider = StateNotifierProvider<ThemeNotifier, Theme>(
   (Ref ref) => ThemeNotifier(ref),
 );

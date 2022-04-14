@@ -43,7 +43,7 @@ class LoginAccountInputWidget extends ConsumerWidget {
         LengthLimitingTextInputFormatter(isOtp ? 18 : 32),
         isOtp
             ? FilteringTextInputFormatter.allow(RegExp(r'[0-9\-\+]'))
-            : FilteringTextInputFormatter.allow(RegExp(r'[a-z0-9@._]')),
+            : FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._]')),
       ],
     );
   }

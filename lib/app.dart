@@ -15,7 +15,7 @@ class Application extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final AppNotifier notifier = ref.watch(appProvider.notifier);
+    final AppNotifier notifier = ref.watch($AppProvider.notifier);
 
     return notifier.bootstrap(
       builder: _MainApp.builder,
@@ -30,8 +30,8 @@ class _MainApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Key key = ref.watch(appProvider);
-    final Theme theme = ref.watch(themeProvider);
+    final Key key = ref.watch($AppProvider);
+    final Theme theme = ref.watch($ThemeProvider);
     return MaterialApp.router(
       key: key,
       themeMode: theme.mode,
@@ -51,7 +51,7 @@ class _DefaultApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ref.watch(themeProvider);
+    final theme = ref.watch($ThemeProvider);
 
     return MaterialApp(
       themeMode: theme.mode,

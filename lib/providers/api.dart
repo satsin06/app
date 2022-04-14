@@ -6,7 +6,7 @@ import 'authorization_manager.dart';
 
 AuthenticationTokenReader _createAuthorizationTokenReader(Ref ref) {
   return () async {
-    final manager = await ref.read(authorizationManagerProvider.future);
+    final manager = ref.read($AuthorizationManagerProvider);
     final access = await manager.getAccessToken();
 
     return access?.token;

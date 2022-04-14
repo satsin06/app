@@ -169,8 +169,8 @@ class _UserBioWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = userProfileProvider(userId).select((value) => value.bio);
-    final bio = ref.watch(provider);
+    final String? bio =
+        ref.watch($UserProvider(userId).select((value) => value.bio));
     final String bioText =
         bio != null && bio.isNotEmpty ? bio : '这个人很懒，什么都没有留下~';
 
@@ -194,8 +194,8 @@ class _UsernameWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = userProvider(userId).select((value) => value.username);
-    final username = ref.watch(provider);
+    final String? username =
+        ref.watch($UserProvider(userId).select((value) => value.username));
 
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
@@ -227,7 +227,7 @@ class _UserAvatar extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(2.0),
-          child: UserAvatar(userId, radius: 36),
+          child: UserAvatar(userId: userId, radius: 36),
         ),
       ),
     );

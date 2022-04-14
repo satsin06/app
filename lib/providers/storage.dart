@@ -1,27 +1,39 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:graphql/client.dart';
+import 'package:socfony/providers/api.dart';
 
-import 'graphql.dart';
+import '../api/api.dart';
 
-final queryStorageDownloadUrl =
-    FutureProvider.autoDispose.family<String, String>(
-  (Ref ref, String id) async {
-    final client = ref.read(graphqlClientProvider);
-    final QueryOptions<String> queryOptions = QueryOptions<String>(
-      document: gql(r'''
-        query Storage($storageId: String!, $query: String, $headers: String) {
-          storage(id: $storageId) {
-            url(query: $query, headers: $headers)
-          }
-        }
-      '''),
-      variables: {'storageId': id},
-      parserFn: (data) => data['storage']['url'],
+class StorageOptions {
+  final String id;
+  final String? headers;
+  final String? query;
+
+  const StorageOptions(this.id, {this.headers, this.query});
+
+  @override
+  int get hashCode {
+    super.hashCode;
+    int idHashCode = id.hashCode;
+
+    if (headers != null) idHashCode ^= headers.hashCode;
+    if (query != null) idHashCode ^= query.hashCode;
+
+    return idHashCode;
+  }
+
+  @override
+  bool operator ==(Object other) => hashCode == other.hashCode;
+}
+
+final $StorageProvider =
+    FutureProvider.autoDispose.family<Storage, StorageOptions>(
+  (Ref ref, StorageOptions options) async {
+    final StorageService service = ref.read($APIProvider).storage;
+
+    return await service.query(
+      options.id,
+      headers: options.headers,
+      query: options.query,
     );
-
-    final result = await client.query(queryOptions);
-    thenGraphQLResultException(result);
-
-    return result.parsedData!;
   },
 );

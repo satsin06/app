@@ -13,7 +13,7 @@ class ProfileHeaderButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? auth = ref.read(authProvider);
+    final String? auth = ref.read($AuthProvider);
 
     if (auth == userId) {
       return IconButton(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../models/user_profile.dart';
+import '../../../../api/api.dart';
 import '../../../../providers/auth.dart';
 import '../../../../providers/user.dart';
 import '../providers/update_profile.dart';
@@ -15,9 +15,9 @@ class GenderTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String userId = ref.read(authProvider)!;
+    final String userId = ref.read($AuthProvider)!;
     final UserGender gender =
-        ref.watch(userProfileProvider(userId).select((value) => value.gender));
+        ref.watch($UserProvider(userId).select((value) => value.gender));
 
     return ListTile(
       dense: true,
@@ -33,7 +33,7 @@ class GenderTile extends ConsumerWidget {
   void onChangeAuthGender(WidgetRef ref, UserGender? gender) {
     if (gender == null) return;
 
-    final Future<UserProfile> Function(
+    final Future<User> Function(
         {String? bio,
         int? birthday,
         UserGender? gender}) updater = updateAuthProfile(ref);
@@ -53,7 +53,7 @@ class _GenderDisplay extends StatelessWidget {
   final UserGender gender;
 
   Map<UserGender, IconData> get genderIcons => {
-        UserGender.main: Icons.male,
+        UserGender.man: Icons.male,
         UserGender.woman: Icons.female,
       };
 
@@ -71,7 +71,7 @@ class _GenderDisplay extends StatelessWidget {
   Widget buildGenderText(BuildContext context) {
     String text;
     switch (gender) {
-      case UserGender.main:
+      case UserGender.man:
         text = '男性';
         break;
       case UserGender.woman:

@@ -2,39 +2,11 @@ import 'package:authorization_manager/authorization_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:graphql/client.dart';
 
+import '../api/api.dart';
+import 'api.dart';
 import 'authorization_manager.dart';
-import 'graphql.dart';
 import '../router/route_names.dart' as route_names show login;
-
-const String _loginDocument = r'''
-mutation Login($account: String!, $password: String!, $usePhoneOtp: Boolean) {
-  login(account: $account, password: $password, usePhoneOTP: $usePhoneOtp) {
-    expiredAt
-    refreshExpiredAt
-    token
-    userId
-  }
-}
-''';
-
-MutationOptions<List<Authorization>> _createLoginOptions({
-  required String account,
-  required String password,
-  bool? usePhoneOtp = false,
-}) {
-  return MutationOptions<List<Authorization>>(
-    document: gql(_loginDocument),
-    fetchPolicy: FetchPolicy.noCache,
-    parserFn: (data) => authorizationsParser(data['login']),
-    variables: <String, dynamic>{
-      'account': account,
-      'password': password,
-      'usePhoneOtp': usePhoneOtp,
-    },
-  );
-}
 
 class AuthNotifier extends StateNotifier<String?> {
   AuthNotifier({
@@ -51,32 +23,46 @@ class AuthNotifier extends StateNotifier<String?> {
     required String password,
     bool? usePhoneOtp,
   }) async {
-    final manager = await ref.read(authorizationManagerProvider.future);
-    final client = ref.read(graphqlClientProvider);
-    final options = _createLoginOptions(
+    final AccessTokenService service = ref.read($APIProvider).accessToken;
+    final AccessToken accessToken = await service.create(
         account: account, password: password, usePhoneOtp: usePhoneOtp);
 
-    final result = await client.mutate(options);
-    thenGraphQLResultException(result);
+    // Write access token to authorization manager.
+    final manager = ref.read($AuthorizationManagerProvider);
+    await manager.store(Authorization(
+      type: AuthorizationType.access,
+      token: accessToken.token,
+      payload: accessToken.userId,
+      expiredAt: accessToken.expiredAt,
+    ));
+    await manager.store(Authorization(
+      type: AuthorizationType.refresh,
+      token: accessToken.token,
+      payload: accessToken.userId,
+      expiredAt: accessToken.refreshExpiredAt,
+    ));
 
-    for (Authorization item in result.parsedData ?? []) {
-      manager.store(item);
-    }
-
-    return userId = result.parsedData!
-        .firstWhere((element) => element.type == AuthorizationType.access)
-        .payload!;
+    return state = accessToken.userId;
   }
 
   Future<void> logout() async {
-    final manager = await ref.read(authorizationManagerProvider.future);
-
+    // Clear authorization manager.
+    final manager = ref.read($AuthorizationManagerProvider);
     await manager.clear();
+
+    // Clear user id.
     state = null;
+
+    /// Run revoke token query.
+    final AccessTokenService service = ref.read($APIProvider).accessToken;
+    service.revoke();
   }
 
   Future<void> load() async {
-    final manager = await ref.read(authorizationManagerProvider.future);
+    final AuthorizationManager manager =
+        ref.read($AuthorizationManagerProvider);
+    await manager.init();
+
     final accessToken = await manager.getAccessToken();
     if (accessToken != null) {
       state = accessToken.payload!;
@@ -96,15 +82,8 @@ class AuthNotifier extends StateNotifier<String?> {
       },
     );
   }
-
-  Future<String?> authorizationTokenReader() async {
-    final manager = await ref.read(authorizationManagerProvider.future);
-    final accessToken = await manager.getAccessToken();
-
-    return accessToken?.token;
-  }
 }
 
-final authProvider = StateNotifierProvider<AuthNotifier, String?>(
+final $AuthProvider = StateNotifierProvider<AuthNotifier, String?>(
   (ref) => AuthNotifier(ref: ref),
 );

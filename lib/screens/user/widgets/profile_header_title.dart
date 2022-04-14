@@ -13,7 +13,7 @@ class ProfileHeaderTitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = userProvider(userId).select((value) => value.username);
+    final provider = $UserProvider(userId).select((value) => value.username);
     final username = ref.watch(provider);
 
     return Text(username ?? 'User Profile');

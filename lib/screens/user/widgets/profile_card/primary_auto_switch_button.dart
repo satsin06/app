@@ -12,7 +12,7 @@ class PrimaryAuthSwitchButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? auth = ref.watch(authProvider);
+    final String? auth = ref.watch($AuthProvider);
 
     return ElevatedButton(
       style: ButtonStyle(

@@ -185,7 +185,7 @@ class _LogoutButton extends ConsumerWidget {
   VoidCallback _createLogoutHandler(BuildContext context, WidgetRef ref) {
     return () {
       context.goNamed(route_names.homeTimeline);
-      ref.read(authProvider.notifier).logout();
+      ref.read($AuthProvider.notifier).logout();
     };
   }
 }

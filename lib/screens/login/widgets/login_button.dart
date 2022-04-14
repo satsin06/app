@@ -70,7 +70,7 @@ class LoginButton extends ConsumerWidget {
     ref.read(loginSendingProvider.state).state = true;
 
     // Get auth notifier.
-    final AuthNotifier authNotifier = ref.read(authProvider.notifier);
+    final AuthNotifier authNotifier = ref.read($AuthProvider.notifier);
 
     try {
       final account =
