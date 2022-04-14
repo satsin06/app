@@ -438,14 +438,17 @@ class _NewFieldValueTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextField(
-      obscureText: field == UserSecurityFields.password,
-      keyboardType: TextInputType.visiblePassword,
-      controller: ref.watch($NewFieldValueControllerProvider),
-      decoration: InputDecoration(
-        hintText: hintTextMap[field],
-        border: const OutlineInputBorder(borderSide: BorderSide.none),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: TextField(
+        obscureText: field == UserSecurityFields.password,
+        keyboardType: TextInputType.visiblePassword,
+        controller: ref.watch($NewFieldValueControllerProvider),
+        decoration: InputDecoration(
+          hintText: hintTextMap[field],
+          border: const OutlineInputBorder(borderSide: BorderSide.none),
+          contentPadding: EdgeInsets.zero,
+        ),
       ),
     );
   }
@@ -458,15 +461,18 @@ class _OneTimePasswordTextField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return TextField(
-      obscureText: false,
-      keyboardType: TextInputType.text,
-      controller: ref.watch($OneTimePasswordControllerProvider),
-      decoration: InputDecoration(
-        hintText: '请输入验证码',
-        border: const OutlineInputBorder(borderSide: BorderSide.none),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-        suffixIcon: _SendOnePasswordButton(field),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: TextField(
+        obscureText: false,
+        keyboardType: TextInputType.text,
+        controller: ref.watch($OneTimePasswordControllerProvider),
+        decoration: InputDecoration(
+          hintText: '请输入验证码',
+          border: const OutlineInputBorder(borderSide: BorderSide.none),
+          contentPadding: EdgeInsets.zero,
+          suffixIcon: _SendOnePasswordButton(field),
+        ),
       ),
     );
   }
