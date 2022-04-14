@@ -96,6 +96,8 @@ ThemeData _themeDateGenerator(Brightness brightness, Color primaryColor) {
   );
 }
 
+const Color kDefaultPrimaryColor = Color(0xff5e6ce7);
+
 @JsonSerializable()
 class Theme {
   final ThemeMode mode;
@@ -105,7 +107,7 @@ class Theme {
 
   const Theme({
     this.mode = ThemeMode.system,
-    this.primaryColor = const Color(0xff5e6ce7),
+    this.primaryColor = kDefaultPrimaryColor,
   });
 
   factory Theme.fromJson(Map<String, dynamic> json) => _$ThemeFromJson(json);

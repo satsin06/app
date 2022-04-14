@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../providers/auth.dart';
+import '../../widgets/card_wrapper.dart';
 import '../../widgets/dynamic_app_bar.dart';
 import '../../router/route_names.dart' as route_names;
 
@@ -16,135 +17,77 @@ class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: const DynamicAppBar(
         title: _titleBuilder,
       ),
       body: ListView(
         children: [
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 8,
-            ),
-            child: Text(
-              '账户',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
+          const CardExternalTitle('账户'),
+          CardWrapper(
             child: Column(
-              children: ListTile.divideTiles(
-                context: context,
-                tiles: [
-                  ListTile(
-                    leading: const Icon(Icons.person),
-                    title: const Text('编辑资料'),
-                    onTap: () =>
-                        context.pushNamed(route_names.settingEditAccount),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.verified_user),
-                    title: const Text('账户安全'),
-                    onTap: () => context.pushNamed(route_names.settingSecurity),
-                  ),
-                ],
-              ).toList(),
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.person),
+                  title: const Text('编辑资料'),
+                  onTap: () =>
+                      context.pushNamed(route_names.settingEditAccount),
+                ),
+                const Divider(height: 0, indent: 24),
+                ListTile(
+                  leading: const Icon(Icons.verified_user),
+                  title: const Text('账户安全'),
+                  onTap: () => context.pushNamed(route_names.settingSecurity),
+                ),
+              ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 8,
-            ).copyWith(top: 24),
-            child: Text(
-              '通用',
-              style: Theme.of(context).textTheme.bodyMedium,
+
+          const CardExternalTitle('账户'),
+          CardWrapper(
+            child: ListTile(
+              leading: const Icon(Icons.color_lens),
+              title: const Text('显示与色彩'),
+              onTap: () => context.pushNamed(route_names.settingTheme),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
+
+          const CardExternalTitle('关于'),
+          CardWrapper(
             child: Column(
-              children: ListTile.divideTiles(
-                context: context,
-                tiles: [
-                  ListTile(
-                    leading: const Icon(Icons.color_lens),
-                    title: const Text('主题颜色'),
-                    onTap: () {},
-                  ),
-                ],
-              ).toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 8,
-            ).copyWith(top: 24),
-            child: Text(
-              '关于',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: ListTile.divideTiles(
-                context: context,
-                tiles: [
-                  // 用户协议
-                  ListTile(
-                    leading: const Icon(Icons.description),
-                    title: const Text('用户协议'),
-                    onTap: () {},
-                  ),
-                  // 隐私政策
-                  ListTile(
-                    leading: const Icon(Icons.lock),
-                    title: const Text('隐私政策'),
-                    onTap: () {},
-                  ),
-                  // 帮助与反馈
-                  ListTile(
-                    leading: const Icon(Icons.help),
-                    title: const Text('帮助与反馈'),
-                    onTap: () {},
-                  ),
-                  // 关于
-                  AboutListTile(
-                    icon: const Icon(Icons.info),
-                    child: const Text('关于 Socfony'),
-                    applicationIcon: ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.asset(
-                        'assets/socfony.png',
-                        width: 120,
-                        height: 120,
-                      ),
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.description),
+                  title: const Text('用户协议'),
+                  onTap: () => context.pushNamed(route_names.settingSecurity),
+                ),
+                const Divider(height: 0, indent: 24),
+                ListTile(
+                  leading: const Icon(Icons.lock),
+                  title: const Text('隐私政策'),
+                  onTap: () => context.pushNamed(route_names.settingSecurity),
+                ),
+                const Divider(height: 0, indent: 24),
+                AboutListTile(
+                  icon: const Icon(Icons.info),
+                  child: const Text('关于 Socfony'),
+                  applicationIcon: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset(
+                      'assets/socfony.png',
+                      width: 120,
+                      height: 120,
                     ),
-                    applicationName: 'Socfony',
-                    applicationVersion: '1.0.0',
-                    applicationLegalese:
-                        r'©️ 2022, Odroe Inc. All rights reserved.',
                   ),
-                ],
-              ).toList(),
+                  applicationName: 'Socfony',
+                  applicationVersion: '1.0.0',
+                  applicationLegalese:
+                      r'©️ 2022, Odroe Inc. All rights reserved.',
+                ),
+              ],
             ),
           ),
+
           // 退出登录
           const SizedBox(height: 36),
           const _LogoutButton()

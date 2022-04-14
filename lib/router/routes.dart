@@ -6,6 +6,7 @@ import '../screens/setting/edit/edit_account.dart';
 import '../screens/setting/security/account_security.dart';
 import '../screens/setting/security/account_security_field_update.dart';
 import '../screens/setting/setting.dart';
+import '../screens/setting/theme.dart';
 import '../screens/user/profile.dart';
 import 'named_route.dart';
 import 'route_names.dart' as route_names;
@@ -98,6 +99,13 @@ final List<NamedRoute> routes = <NamedRoute>[
             ),
           ),
         ],
+      ),
+
+      /// Setting -> theme
+      NamedRoute(
+        route_names.settingTheme,
+        path: 'theme',
+        builder: (context, state) => ThemeSettingScreen(key: state.pageKey),
       ),
     ],
   ),
