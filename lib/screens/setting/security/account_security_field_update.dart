@@ -390,13 +390,7 @@ class _CardTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      child: Text(
-        titleMap[field]!,
-        style: Theme.of(context).textTheme.titleSmall,
-      ),
-    );
+    return CardExternalTitle(titleMap[field]!);
   }
 }
 
@@ -417,7 +411,7 @@ class _CardContent extends StatelessWidget {
       child: Column(
         children: [
           _NewFieldValueTextField(field),
-          const Divider(height: 0),
+          const Divider(height: 0, indent: 24),
           _OneTimePasswordTextField(field),
         ],
       ),

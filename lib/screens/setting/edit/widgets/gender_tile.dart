@@ -25,6 +25,7 @@ class GenderTile extends ConsumerWidget {
       trailing: DropdownButton<UserGender>(
         items: items,
         value: gender,
+        underline: const SizedBox.shrink(),
         onChanged: (UserGender? gender) => onChangeAuthGender(ref, gender),
       ),
     );

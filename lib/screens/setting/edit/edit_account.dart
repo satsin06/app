@@ -32,6 +32,7 @@ class _ScreenScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: DynamicAppBar(
         title: (_, __) => const Text('账户资料'),
       ),
@@ -46,22 +47,13 @@ class _ScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        const SizedBox(height: 16),
-        const _UserAvatar(),
-        const ChangeUserAvatarButton(),
-        const UsernameCard(),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 8,
-          ).copyWith(top: 24),
-          child: Text(
-            '资料',
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-        const _UserDataCard(),
+      children: const [
+        SizedBox(height: 16),
+        _UserAvatar(),
+        ChangeUserAvatarButton(),
+        UsernameCard(),
+        CardExternalTitle('资料'),
+        _UserDataCard(),
       ],
     );
   }
@@ -101,7 +93,7 @@ class _CardWrapper extends StatelessWidget {
     for (var i = 0; i < tiles.length; i++) {
       widgets.add(tiles.elementAt(i));
       if (i != tiles.length - 1) {
-        widgets.add(const Divider(indent: 60));
+        widgets.add(const Divider(indent: 16, height: 0));
       }
     }
 

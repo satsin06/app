@@ -23,13 +23,13 @@ class AccountSecurityVerificationCard extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _VerificationCardTitle(),
+        const CardExternalTitle('验证'),
         AccountSecurityHealthFetchCard(
           child: CardWrapper(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
               children: const [
                 _SelectVerificationField(),
+                Divider(height: 0, indent: 24),
                 _SwitchVerificationChildren(),
               ],
             ),
@@ -52,10 +52,13 @@ class _SwitchVerificationChildren extends ConsumerWidget {
         field == UserSecurityFields.password ? '请输入密码' : '请输入验证码';
     Widget? sendOneTimePasswordButton;
     if (field != UserSecurityFields.password) {
-      sendOneTimePasswordButton = SendOntTimePasswordBinder.forAuth(
-        phone: field == UserSecurityFields.phone,
-        email: field == UserSecurityFields.email,
-        errorNotifier: _createErrorNotifier(ref),
+      sendOneTimePasswordButton = Padding(
+        padding: const EdgeInsets.only(right: 24),
+        child: SendOntTimePasswordBinder.forAuth(
+          phone: field == UserSecurityFields.phone,
+          email: field == UserSecurityFields.email,
+          errorNotifier: _createErrorNotifier(ref),
+        ),
       );
     }
 
@@ -68,7 +71,7 @@ class _SwitchVerificationChildren extends ConsumerWidget {
       decoration: InputDecoration(
         hintText: hintText,
         border: const OutlineInputBorder(borderSide: BorderSide.none),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 0),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 24),
         suffixIcon: sendOneTimePasswordButton,
       ),
       inputFormatters: [
@@ -108,39 +111,27 @@ class _SelectVerificationField extends ConsumerWidget {
     final healthsWithoutFalse = healths.where((element) => element.status);
     final field = ref.watch($VerificationFieldProvider);
 
-    return DropdownButton<UserSecurityFields>(
-      value: field,
-      isExpanded: true,
-      underline: const SizedBox.shrink(),
-      hint: const Text('请选择验证方式'),
-      items: healthsWithoutFalse
-          .map<DropdownMenuItem<UserSecurityFields>>(
-            (element) => DropdownMenuItem<UserSecurityFields>(
-              value: element.field,
-              child: Text(element.message ?? messageMap[element.field]),
-            ),
-          )
-          .toList(),
-      onChanged: (field) {
-        ref.read($VerificationFieldProvider.notifier).update((state) => field);
-        ref.read($VerificationValueControllerProvider).clear();
-      },
-    );
-  }
-}
-
-class _VerificationCardTitle extends StatelessWidget {
-  const _VerificationCardTitle({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      child: Text(
-        '验证',
-        style: Theme.of(context).textTheme.titleSmall,
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: DropdownButton<UserSecurityFields>(
+        value: field,
+        isExpanded: true,
+        underline: const SizedBox.shrink(),
+        hint: const Text('请选择验证方式'),
+        items: healthsWithoutFalse
+            .map<DropdownMenuItem<UserSecurityFields>>(
+              (element) => DropdownMenuItem<UserSecurityFields>(
+                value: element.field,
+                child: Text(element.message ?? messageMap[element.field]),
+              ),
+            )
+            .toList(),
+        onChanged: (field) {
+          ref
+              .read($VerificationFieldProvider.notifier)
+              .update((state) => field);
+          ref.read($VerificationValueControllerProvider).clear();
+        },
       ),
     );
   }
