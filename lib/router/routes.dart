@@ -45,7 +45,7 @@ final List<NamedRoute> routes = <NamedRoute>[
   // User Profile
   NamedRoute(
     route_names.userProfile,
-    path: r'/users/:id(\w{64})',
+    path: r'/users/:id',
     builder: (context, state) => UserProfileScreen(
       key: state.pageKey,
       userId: state.params['id']!,
