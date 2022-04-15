@@ -10,23 +10,39 @@ class UserService {
 
   /// Query a user
   Future<User> findUnique(UserWhereUniqueInput where) async {
-    final String query = r'''
+    const String query = r'''
       query UserFindUnique($where: UserWhereUniqueInput!) {
         user(where: $where) {
-          ...UserFields
+          id
+          username
         }
       }
-    ''' +
-        _userFieldsFragment;
+    ''';
     final Map<String, dynamic> data = await api.request(
       query: query,
       variables: {'where': where},
       operationName: 'UserFindUnique',
     );
-    final Map<String, dynamic> user = data['user'] as Map<String, dynamic>;
-    user.addAll(user['profile']);
 
-    return User.fromJson(user);
+    const String profileQuery = r'''
+      query UserProfile($id: ID!) {
+        userProfile(id: $id) {
+          avatarStorageId
+          bio
+          birthday
+          gender
+        }
+      }
+    ''';
+    final profile = await api.request(
+      query: profileQuery,
+      variables: {'id': data['user']['id']},
+      operationName: 'UserProfile',
+    );
+
+    return User.fromJson(
+      (data['user'] as Map<String, dynamic>)..addAll(profile['userProfile']),
+    );
   }
 
   /// Update user
@@ -38,14 +54,7 @@ class UserService {
     const String query = r'''
       mutation UpdateUser ($data: UserProfileUncheckedUpdateInput!) {
         updateUserProfile(data: $data) {
-          avatarStorageId
-          bio
-          birthday
-          gender
-          user {
-            username
-            id
-          }
+          userId
         }
       }
     ''';
@@ -58,10 +67,10 @@ class UserService {
     };
     final Map<String, dynamic> data = await api.request(
         query: query, variables: variables, operationName: 'UpdateUser');
-    final Map<String, dynamic> user = data['updateUserProfile'];
-    user.addAll(user['user']);
 
-    return User.fromJson(user);
+    return findUnique(
+      UserWhereUniqueInput.id(data['updateUserProfile']['userId']),
+    );
   }
 
   /// Update avatar
@@ -71,14 +80,7 @@ class UserService {
     const String query = r'''
       mutation UpdateUserAvatar($storageId: String!) {
         updateUserAvatar(storageId: $storageId) {
-          avatarStorageId
-          bio
-          birthday
-          gender
-          user {
-            id
-            username
-          }
+          userId
         }
       }
     ''';
@@ -86,10 +88,10 @@ class UserService {
         query: query,
         variables: {'storageId': storage.id},
         operationName: 'UpdateUserAvatar');
-    final Map<String, dynamic> user = data['updateUserAvatar'];
-    user.addAll(user['user']);
 
-    return User.fromJson(user);
+    return findUnique(
+      UserWhereUniqueInput.id(data['updateUserAvatar']['userId']),
+    );
   }
 
   /// Update username
@@ -98,13 +100,6 @@ class UserService {
       mutation UpdateUsername($username: String!) {
         updateUsername(username: $username) {
           id
-          username
-          profile {
-            gender
-            birthday
-            bio
-            avatarStorageId
-          }
         }
       }
     ''';
@@ -112,25 +107,9 @@ class UserService {
         query: query,
         variables: {'username': username},
         operationName: 'UpdateUsername');
-    final Map<String, dynamic> user =
-        data['updateUsername'] as Map<String, dynamic>;
-    user.addAll(user['profile']);
 
-    return User.fromJson(user);
+    return findUnique(
+      UserWhereUniqueInput.id(data['updateUsername']['id']),
+    );
   }
-}
-
-extension _UserFieldsFragment on UserService {
-  String get _userFieldsFragment => r'''
-    fragment UserFields on User {
-      id
-      username
-      profile {
-        avatarStorageId
-        bio
-        birthday
-        gender
-      }
-    }
-    ''';
 }
