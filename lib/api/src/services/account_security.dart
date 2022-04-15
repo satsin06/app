@@ -136,9 +136,7 @@ mutation UpdateUserSecurity($field: UserSecurityFields!, $value: String!, $verif
         'verifyField': $UserSecurityFieldsEnumMap[verificationField],
         'verifyValue': verificationField == UserSecurityFields.password
             ? Password.hash(verificationValue)
-            : verificationField == UserSecurityFields.phone
-                ? parsedPhoneNumber
-                : verificationValue,
+            : verificationValue,
         'otp': otp,
       },
       operationName: 'UpdateUserSecurity',
