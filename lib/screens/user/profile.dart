@@ -22,7 +22,7 @@ class UserProfileScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _appBarBuilder(context),
-      body: _bodyBuilder(context),
+      body: _bodyBuilder(),
     );
   }
 
@@ -37,18 +37,27 @@ class UserProfileScreen extends StatelessWidget {
     return <Widget>[ProfileHeaderButton(userId)];
   }
 
-  Widget _bodyBuilder(BuildContext context) {
-    return _ProfileScreenBackguardWrapper(
-      child: CustomScrollView(
-        slivers: _bodySliversBuilder(context),
-      ),
+  Widget _bodyBuilder() {
+    return Builder(
+      builder: (context) {
+        return _ProfileScreenBackguardWrapper(
+          child: CustomScrollView(
+            slivers: _bodySliversBuilder(context),
+          ),
+        );
+      },
     );
   }
 
   List<Widget> _bodySliversBuilder(BuildContext context) {
+    final media = MediaQuery.of(context);
+
     return <Widget>[
-      SliverToBoxAdapter(
-        child: ProfileUserCard(userId),
+      SliverPadding(
+        padding: EdgeInsets.only(top: media.padding.top),
+        sliver: SliverToBoxAdapter(
+          child: ProfileUserCard(userId),
+        ),
       ),
     ];
   }
@@ -66,18 +75,8 @@ class _ProfileScreenBackguardWrapper extends StatelessWidget {
       fit: StackFit.loose,
       children: [
         _backguardBuilder(context),
-        _safeAreaChildBuilder(context),
+        child ?? const SizedBox.shrink(),
       ],
-    );
-  }
-
-  Widget _safeAreaChildBuilder(BuildContext context) {
-    return SafeArea(
-      top: true,
-      left: false,
-      right: false,
-      bottom: false,
-      child: child ?? const SizedBox.shrink(),
     );
   }
 
