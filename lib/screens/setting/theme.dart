@@ -127,16 +127,19 @@ class _ThemePrimaryColorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CardWrapper(
-      padding: const EdgeInsets.all(16),
-      child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        crossAxisCount: 4,
-        mainAxisSpacing: 0,
-        children: [
-          const _ThemePrimaryColorTile(kDefaultPrimaryColor),
-          for (Color color in Colors.primaries) _ThemePrimaryColorTile(color),
-        ],
+      padding: const EdgeInsets.all(0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          crossAxisCount: 4,
+          mainAxisSpacing: 0,
+          children: [
+            const _ThemePrimaryColorTile(kDefaultPrimaryColor),
+            for (Color color in Colors.primaries) _ThemePrimaryColorTile(color),
+          ],
+        ),
       ),
     );
   }
