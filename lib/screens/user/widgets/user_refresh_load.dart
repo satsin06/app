@@ -39,20 +39,22 @@ class UserRefreshLoad extends ConsumerWidget {
 
   Widget _futureWidgetBuilder(
       BuildContext context, AsyncSnapshot<User> snapshot) {
+    /// If data is InitProviderCreatedUser, it means that the user is not
+    /// found.
+    if (snapshot.data is InitProviderCreatedUser &&
+        snapshot.connectionState == ConnectionState.waiting) {
+      return const Scaffold(
+        appBar: DynamicAppBar(),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     /// If the user is not found, show a ghost screen.
     if (snapshot.hasError) return const GhostScreen();
 
-    /// If the user found, return builder result
-    if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
-      return builder(context);
-    }
-
-    /// Show a loading screen
-    return const Scaffold(
-      appBar: DynamicAppBar(),
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    /// Build next widget.
+    return builder(context);
   }
 }

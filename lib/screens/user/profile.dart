@@ -22,7 +22,7 @@ class UserProfileScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _appBarBuilder(context),
-      body: _bodyBuilder(),
+      body: _bodyBuilder(context),
     );
   }
 
@@ -37,15 +37,11 @@ class UserProfileScreen extends StatelessWidget {
     return <Widget>[ProfileHeaderButton(userId)];
   }
 
-  Widget _bodyBuilder() {
-    return Builder(
-      builder: (context) {
-        return _ProfileScreenBackguardWrapper(
-          child: CustomScrollView(
-            slivers: _bodySliversBuilder(context),
-          ),
-        );
-      },
+  Widget _bodyBuilder(BuildContext context) {
+    return _ProfileScreenBackguardWrapper(
+      child: CustomScrollView(
+        slivers: _bodySliversBuilder(context),
+      ),
     );
   }
 
@@ -54,7 +50,7 @@ class UserProfileScreen extends StatelessWidget {
 
     return <Widget>[
       SliverPadding(
-        padding: EdgeInsets.only(top: media.padding.top),
+        padding: EdgeInsets.only(top: media.padding.top + 56),
         sliver: SliverToBoxAdapter(
           child: ProfileUserCard(userId),
         ),
