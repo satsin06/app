@@ -54,37 +54,20 @@ class SettingScreen extends StatelessWidget {
 
           const CardExternalTitle('关于'),
           CardWrapper(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.description),
-                  title: const Text('用户协议'),
-                  onTap: () => context.pushNamed(route_names.settingSecurity),
+            child: AboutListTile(
+              icon: const Icon(Icons.info),
+              child: const Text('关于 Socfony'),
+              applicationIcon: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/socfony.png',
+                  width: 120,
+                  height: 120,
                 ),
-                const Divider(height: 0, indent: 24),
-                ListTile(
-                  leading: const Icon(Icons.lock),
-                  title: const Text('隐私政策'),
-                  onTap: () => context.pushNamed(route_names.settingSecurity),
-                ),
-                const Divider(height: 0, indent: 24),
-                AboutListTile(
-                  icon: const Icon(Icons.info),
-                  child: const Text('关于 Socfony'),
-                  applicationIcon: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.asset(
-                      'assets/socfony.png',
-                      width: 120,
-                      height: 120,
-                    ),
-                  ),
-                  applicationName: 'Socfony',
-                  applicationVersion: '1.0.0',
-                  applicationLegalese:
-                      r'©️ 2022, Odroe Inc. All rights reserved.',
-                ),
-              ],
+              ),
+              applicationName: 'Socfony',
+              applicationVersion: '1.0.0',
+              applicationLegalese: r'©️ 2022, Odroe Inc. All rights reserved.',
             ),
           ),
 

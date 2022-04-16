@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/auth.dart';
 import '../login.dart';
-import '../providers/login_agreement_provider.dart';
 import '../providers/login_message_provider.dart';
 import '../providers/login_mode_provider.dart';
 import '../providers/login_sending_provider.dart';
@@ -99,18 +98,7 @@ class LoginButton extends ConsumerWidget {
   }
 
   bool _validate(WidgetRef ref) {
-    return _validateAccount(ref) &&
-        _validatePassword(ref) &&
-        _validateAgreement(ref);
-  }
-
-  bool _validateAgreement(WidgetRef ref) {
-    final bool hasAgreement = ref.watch(loginAgreementProvider);
-    if (!hasAgreement) {
-      ref.read(loginPasswordMessageProvider.state).state = '请同意用户协议';
-    }
-
-    return hasAgreement;
+    return _validateAccount(ref) && _validatePassword(ref);
   }
 
   bool _validatePassword(WidgetRef ref) {

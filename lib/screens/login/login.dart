@@ -7,7 +7,6 @@ import 'providers/login_mode_provider.dart';
 import 'providers/login_text_editing_controller_provider.dart';
 import 'widgets/forget_password.dart';
 import 'widgets/login_account_input.dart';
-import 'widgets/login_agreement.dart';
 import 'widgets/login_button.dart';
 import 'widgets/login_logo.dart';
 import 'widgets/login_password_input.dart';
@@ -101,7 +100,6 @@ class _StatedListView extends StatelessWidget {
         const SizedBox(height: 40),
         LoginButton(callback),
         const _ForgetOrSizedWidget(),
-        const LoginAgreementWidget(),
       ],
     );
   }
