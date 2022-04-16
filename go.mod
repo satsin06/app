@@ -2,4 +2,4 @@ module socfony
 
 go 1.18
 
-require github.com/flutter/flutter v1.16.3 // indirect
+require github.com/flutter/flutter 2.10.4
