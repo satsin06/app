@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../api/api.dart';
 import '../../../../providers/api.dart';
-import '../../../../providers/image_picker.dart';
 import '../../../../providers/user.dart';
 
 final _uploadingProvider = StateProvider.autoDispose((_) => false);
@@ -76,7 +75,13 @@ class _ChangeButton extends ConsumerWidget {
 
   void _changeAvatarHandler(BuildContext context, WidgetRef ref) async {
     // Pick an image from the gallery.
-    final XFile? file = await pickImageInGallery();
+    final XFile? file = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 100,
+      maxHeight: 9999,
+      maxWidth: 9999,
+    );
+
     if (file == null) return;
 
     try {

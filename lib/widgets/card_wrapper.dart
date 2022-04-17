@@ -16,19 +16,24 @@ class CardWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    final CardTheme cardTheme = CardTheme.of(context);
     final Widget widget = padding is EdgeInsetsGeometry
         ? Padding(padding: padding!, child: child)
         : child;
 
-    final Widget card = Card(
-      margin: margin,
-      child: widget,
-      shape: RoundedRectangleBorder(
+    return Padding(
+      padding: margin,
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
+        child: DecoratedBox(
+          child: widget,
+          decoration: BoxDecoration(
+            color: cardTheme.color ?? theme.cardColor,
+          ),
+        ),
       ),
     );
-
-    return card;
   }
 }
 
