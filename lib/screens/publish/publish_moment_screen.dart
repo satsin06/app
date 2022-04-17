@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:socfony/widgets/card_wrapper.dart';
 
+import '../../api/api.dart';
+import '../../providers/api.dart';
+import '../../widgets/card_wrapper.dart';
 import '../../widgets/dynamic_app_bar.dart';
 
 final $TitleTextEditingControllerProvider =
@@ -100,10 +102,41 @@ class _PublishButton extends ConsumerWidget {
 
   void _onPushlishHandler(BuildContext context, WidgetRef ref) async {
     if (ref.read($SendingProvider)) return;
-    // final PublishController controller = PublishController.of(context);
-    // final result = await createMoment(controller);
 
-    // print(result);
+    final MomentService service = ref.read($APIProvider).moment;
+
+    /// Set the sending state to true.
+    ref.read($SendingProvider.notifier).update((_) => true);
+
+    try {
+      await service.create(
+        title: ref.read($TitleTextEditingControllerProvider).text.trim(),
+        content: ref.read($ContentTextEditingControllerProvider).text.trim(),
+        storages: ref.read($ImagesProvider),
+      );
+
+      /// Show a success snackbar.
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('发布成功'),
+          duration: Duration(seconds: 1),
+        ),
+      );
+
+      /// Navigate back to the home page.
+      Navigator.of(context).pop();
+    } catch (e) {
+      /// Show a failure snackbar.
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e is FormatException ? e.message : e.toString()),
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    } finally {
+      /// Set the sending state to false.
+      ref.read($SendingProvider.notifier).update((_) => false);
+    }
   }
 
   @override
@@ -249,6 +282,7 @@ class _PickedImagesCard extends ConsumerWidget {
               ),
             ),
             onTap: () {
+              if (ref.read($SendingProvider)) return;
               ref
                   .read($ImagesProvider.notifier)
                   .update((state) => state.where((e) => e != image).toList());

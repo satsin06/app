@@ -17,6 +17,37 @@ class API {
     http.Client? client,
   }) : client = client ?? http.Client();
 
+  /// One-time password.
+  services.OneTimePasswordService? _oneTimePasswordService;
+  services.OneTimePasswordService get oneTimePassword =>
+      _oneTimePasswordService ??= services.OneTimePasswordService(this);
+
+  /// Account security.
+  services.AccountSecurityService? _accountSecurityService;
+  services.AccountSecurityService get accountSecurity =>
+      _accountSecurityService ??= services.AccountSecurityService(this);
+
+  /// Access token.
+  services.AccessTokenService? _accessTokenService;
+  services.AccessTokenService get accessToken =>
+      _accessTokenService ??= services.AccessTokenService(this);
+
+  /// User
+  services.UserService? _userService;
+  services.UserService get user => _userService ??= services.UserService(this);
+
+  /// Storage
+  services.StorageService? _storageService;
+  services.StorageService get storage =>
+      _storageService ??= services.StorageService(this);
+
+  /// Moment
+  services.MomentService? _momentService;
+  services.MomentService get moment =>
+      _momentService ??= services.MomentService(this);
+}
+
+extension RequestHelper on API {
   Future<Map<String, dynamic>> request({
     required String query,
     String? operationName,
@@ -55,28 +86,4 @@ class API {
 
     return data!;
   }
-
-  /// One-time password.
-  services.OneTimePasswordService? _oneTimePasswordService;
-  services.OneTimePasswordService get oneTimePassword =>
-      _oneTimePasswordService ??= services.OneTimePasswordService(this);
-
-  /// Account security.
-  services.AccountSecurityService? _accountSecurityService;
-  services.AccountSecurityService get accountSecurity =>
-      _accountSecurityService ??= services.AccountSecurityService(this);
-
-  /// Access token.
-  services.AccessTokenService? _accessTokenService;
-  services.AccessTokenService get accessToken =>
-      _accessTokenService ??= services.AccessTokenService(this);
-
-  /// User
-  services.UserService? _userService;
-  services.UserService get user => _userService ??= services.UserService(this);
-
-  /// Storage
-  services.StorageService? _storageService;
-  services.StorageService get storage =>
-      _storageService ??= services.StorageService(this);
 }

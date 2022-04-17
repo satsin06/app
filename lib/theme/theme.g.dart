@@ -10,7 +10,7 @@ Theme _$ThemeFromJson(Map<String, dynamic> json) => Theme(
       mode: $enumDecodeNullable(_$ThemeModeEnumMap, json['mode']) ??
           ThemeMode.system,
       primaryColor: json['primaryColor'] == null
-          ? const Color(0xff5e6ce7)
+          ? kDefaultPrimaryColor
           : const _ColorConverter().fromJson(json['primaryColor'] as int),
     );
 
