@@ -15,6 +15,7 @@ class DynamicAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.title,
     this.leading,
     this.leadingWidth,
+    this.centerTitle,
   }) : super(key: key);
 
   final bool automaticallyImplyLeading;
@@ -25,6 +26,7 @@ class DynamicAppBar extends StatefulWidget implements PreferredSizeWidget {
   final _Type<Widget?>? title;
   final double? leadingWidth;
   final _Type<Widget>? leading;
+  final bool? centerTitle;
 
   @override
   State<DynamicAppBar> createState() => _DynamicAppBarState();
@@ -91,6 +93,7 @@ class _DynamicAppBarState extends State<DynamicAppBar> {
       title: widget.title?.call(context, _opacity),
       leadingWidth: widget.leadingWidth,
       leading: widget.leading?.call(context, _opacity),
+      centerTitle: widget.centerTitle,
     );
   }
 

@@ -60,8 +60,6 @@ mutation CreateMoment($createMomentInput: CreateMomentInput!) {
       operationName: 'CreateMoment',
     );
 
-    print(result);
-
     return Moment.fromJson(result['createMoment']);
   }
 }

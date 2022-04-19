@@ -46,6 +46,7 @@ ThemeData _themeDateGenerator(Brightness brightness, Color primaryColor) {
       _colorSchemeGenerator(brightness, primaryColor);
 
   return ThemeData(
+    useMaterial3: true,
     fontFamily: "MiSans",
     brightness: brightness,
     colorScheme: colorScheme,
@@ -90,7 +91,7 @@ ThemeData _themeDateGenerator(Brightness brightness, Color primaryColor) {
       shadowColor: colorScheme.onSurface,
       elevation: 0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(16),
       ),
     ),
   );
